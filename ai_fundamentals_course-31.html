@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人工智慧基礎概論 · iPAS AI應用規劃師</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #f0efe9;
+  --border: #e2e0d8;
+  --border2: #cccac0;
+  --text: #1a1917;
+  --text2: #5a5850;
+  --text3: #8a8778;
+  --accent: #2952cc;
+  --accent-bg: #eef1fb;
+  --accent2: #1a3a99;
+  --green: #1a7a4a;
+  --green-bg: #eaf5ee;
+  --amber: #8a5a00;
+  --amber-bg: #fdf3e0;
+  --red: #aa2222;
+  --red-bg: #fdecea;
+  --purple: #5a2aa0;
+  --purple-bg: #f3edfb;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Noto Sans TC', sans-serif;
+  --radius: 8px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;min-height:100vh}
+
+/* LAYOUT */
+.page{display:flex;min-height:100vh}
+.sidebar{width:240px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform .3s}
+.main{margin-left:240px;flex:1;padding:2rem 2.5rem;max-width:860px}
+
+/* SIDEBAR */
+.sidebar-brand{padding:1.25rem 1.25rem .875rem;border-bottom:1px solid var(--border)}
+.brand-tag{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.04em;margin-bottom:4px}
+.brand-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.3}
+.sidebar-nav{padding:.75rem 0}
+.nav-section{padding:.5rem 1.25rem .25rem;font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:8px;padding:.5rem 1.25rem;font-size:13px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:all .15s;text-decoration:none;line-height:1.3}
+.nav-item:hover{color:var(--text);background:var(--surface2);border-left-color:var(--border2)}
+.nav-item.active{color:var(--accent);background:var(--accent-bg);border-left-color:var(--accent);font-weight:500}
+.nav-item .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.nav-item .num{font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto}
+
+/* MOBILE NAV */
+.mobile-header{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:var(--surface);border-bottom:1px solid var(--border);padding:.75rem 1rem;align-items:center;gap:.75rem}
+.hamburger{background:none;border:1px solid var(--border);border-radius:6px;padding:6px 8px;cursor:pointer;color:var(--text);font-size:16px;line-height:1;flex-shrink:0}
+.mobile-brand{font-size:13px;font-weight:700;color:var(--text)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:90}
+.overlay.show{display:block}
+
+/* SECTION */
+.section{display:none;animation:fadeIn .2s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.05em;margin-bottom:.5rem}
+.hero-title{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:.5rem}
+.hero-sub{font-size:14px;color:var(--text2);line-height:1.6}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--shadow)}
+.card-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:.875rem;display:flex;align-items:center;gap:8px}
+.card-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.icon-blue{background:var(--accent-bg);color:var(--accent)}
+.icon-green{background:var(--green-bg);color:var(--green)}
+.icon-amber{background:var(--amber-bg);color:var(--amber)}
+.icon-purple{background:var(--purple-bg);color:var(--purple)}
+.icon-red{background:var(--red-bg);color:var(--red)}
+
+/* GRIDS */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin:.875rem 0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.625rem;margin:.75rem 0}
+.mini-card{background:var(--surface2);border-radius:var(--radius);padding:.875rem;border:1px solid var(--border)}
+.mini-card h5{font-size:13px;font-weight:700;color:var(--text);margin-bottom:.25rem}
+.mini-card p{font-size:12px;color:var(--text2);line-height:1.55}
+
+/* AI TYPE CARDS */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin:.75rem 0}
+.type-card{padding:.875rem;border-radius:var(--radius);border:1px solid}
+.type-card h5{font-size:13px;font-weight:700;margin-bottom:.3rem}
+.type-card p{font-size:12px;line-height:1.5}
+.tc-blue{background:var(--accent-bg);border-color:#c0ccf0;color:var(--accent)}
+.tc-amber{background:var(--amber-bg);border-color:#e8d0a0;color:var(--amber)}
+.tc-green{background:var(--green-bg);border-color:#a8d8b8;color:var(--green)}
+
+/* ACCORDION */
+.acc{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:.4rem}
+.acc-hdr{padding:.7rem 1rem;font-size:13px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--surface);color:var(--text);user-select:none;gap:.5rem}
+.acc-hdr:hover{background:var(--surface2)}
+.acc-arrow{font-size:12px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.acc-body{display:none;padding:.75rem 1rem;font-size:13px;color:var(--text2);line-height:1.65;border-top:1px solid var(--border);background:var(--surface2)}
+.acc-body.open{display:block}
+.acc-body ul{padding-left:1.1rem}
+.acc-body li{margin-bottom:4px}
+.acc-body p{margin-bottom:.35rem}
+.acc-body strong{color:var(--text);font-weight:500}
+
+/* LAYER STEPS */
+.layer{display:flex;flex-direction:column;gap:.4rem;margin:.75rem 0}
+.layer-item{padding:.7rem 1rem;border-radius:var(--radius);font-size:13px;display:flex;align-items:flex-start;gap:.625rem;line-height:1.5}
+.li-blue{background:var(--accent-bg);border-left:3px solid var(--accent)}
+.li-green{background:var(--green-bg);border-left:3px solid var(--green)}
+.li-amber{background:var(--amber-bg);border-left:3px solid var(--amber)}
+.layer-item strong{font-weight:700;color:var(--text)}
+
+/* FLOW */
+.flow{margin:.875rem 0}
+.flow-step{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.375rem}
+.flow-num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.flow-content h5{font-size:13px;font-weight:700;color:var(--text);margin-bottom:1px}
+.flow-content p{font-size:12px;color:var(--text2)}
+.flow-connector{height:16px;width:1px;background:var(--border2);margin:0 0 .375rem 12px}
+
+/* DATA TYPES */
+.dtype{padding:.75rem 1rem;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:.4rem}
+.dtype h5{font-size:13px;font-weight:700;color:var(--text);margin-bottom:.2rem;display:flex;align-items:center;gap:6px}
+.dtype p{font-size:12px;color:var(--text2);line-height:1.5}
+.dtype .badge{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:4px}
+.dt-blue{border-left:3px solid var(--accent);background:var(--accent-bg)}
+.dt-amber{border-left:3px solid #cc8800;background:var(--amber-bg)}
+.dt-green{border-left:3px solid var(--green);background:var(--green-bg)}
+.badge-blue{background:var(--accent-bg);color:var(--accent)}
+.badge-amber{background:var(--amber-bg);color:var(--amber)}
+.badge-green{background:var(--green-bg);color:var(--green)}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;margin:.75rem 0}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem}
+.stat-card h5{font-size:13px;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.stat-card p{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:.2rem}
+.stat-pro{font-size:11px;color:var(--green)}
+.stat-con{font-size:11px;color:var(--red)}
+
+/* ANALYSIS TABS */
+.atabs{display:flex;gap:.375rem;flex-wrap:wrap;margin-bottom:.875rem;padding:.25rem;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)}
+.atab{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .15s;font-family:var(--sans)}
+.atab.active{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.atab-content{display:none}.atab-content.active{display:block}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:.875rem 0}
+
+/* GOVERNANCE PILLARS */
+.pillar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;margin:.75rem 0}
+.pillar{text-align:center;padding:.875rem .5rem;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius)}
+.pillar .icon{font-size:20px;margin-bottom:.35rem}
+.pillar h5{font-size:12px;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.pillar p{font-size:11px;color:var(--text2);line-height:1.45}
+
+/* QUIZ */
+.quiz-wrap{margin-bottom:1.5rem}
+.q-progress{height:3px;background:var(--border);border-radius:2px;margin-bottom:1.25rem;overflow:hidden}
+.q-bar{height:100%;background:var(--accent);border-radius:2px;transition:width .35s}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.375rem}
+.q-num{font-family:var(--mono);font-size:11px;color:var(--text3)}
+.q-tag{font-family:var(--mono);font-size:10px;background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:4px}
+.q-text{font-size:15px;font-weight:500;color:var(--text);margin-bottom:1rem;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:.4rem}
+.opt{padding:.65rem .875rem;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;cursor:pointer;text-align:left;background:var(--surface);color:var(--text2);transition:all .15s;font-family:var(--sans);display:flex;align-items:flex-start;gap:.625rem;line-height:1.5}
+.opt-lbl{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text3);flex-shrink:0;margin-top:1px}
+.opt:hover:not(:disabled){background:var(--surface2);border-color:var(--border2)}
+.opt.correct{background:var(--green-bg);border-color:#a0d0b0;color:var(--green)}
+.opt.correct .opt-lbl{color:var(--green)}
+.opt.wrong{background:var(--red-bg);border-color:#f0b0b0;color:var(--red)}
+.opt.wrong .opt-lbl{color:var(--red)}
+.opt:disabled{cursor:default}
+.explain-box{margin-top:.875rem;padding:.875rem 1rem;background:var(--surface2);border-radius:var(--radius);font-size:13px;color:var(--text2);line-height:1.65;border-left:3px solid var(--accent)}
+.explain-box strong{color:var(--text);font-weight:700}
+.quiz-actions{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
+.q-counter{font-size:13px;color:var(--text2)}
+
+/* BUTTONS */
+.btn{padding:8px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);border:1px solid var(--border);background:var(--surface);color:var(--text2);transition:all .15s}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent2)}
+.btn-primary:hover{background:var(--accent2)}
+.btn-block{width:100%;display:block;text-align:center;margin-bottom:.5rem}
+
+/* SCORE */
+.score-wrap{text-align:center;padding:2.5rem 1.5rem;background:var(--surface2);border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:1rem}
+.score-big{font-family:var(--mono);font-size:56px;font-weight:700;color:var(--text);line-height:1}
+.score-denom{font-size:20px;font-weight:400;color:var(--text3)}
+.score-msg{font-size:14px;color:var(--text2);margin-top:.5rem}
+
+/* TEXT UTILS */
+.p14{font-size:14px;color:var(--text2);line-height:1.7}
+.p13{font-size:13px;color:var(--text2);line-height:1.65}
+.p12{font-size:12px;color:var(--text2);line-height:1.55}
+.bold{font-weight:700;color:var(--text)}
+.tag-inline{font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:4px;display:inline-block;margin:1px}
+.ti-blue{background:var(--accent-bg);color:var(--accent)}
+.ti-green{background:var(--green-bg);color:var(--green)}
+.ti-amber{background:var(--amber-bg);color:var(--amber)}
+.ti-red{background:var(--red-bg);color:var(--red)}
+.ti-purple{background:var(--purple-bg);color:var(--purple)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .mobile-header{display:flex}
+  .main{margin-left:0;padding:1rem;padding-top:64px}
+  .hero-title{font-size:20px}
+  .grid2,.grid3,.type-grid,.stat-grid,.pillar-grid{grid-template-columns:1fr}
+  .score-big{font-size:42px}
+}
+@media(min-width:769px){
+  .hamburger,.mobile-brand{display:none}
+  .mobile-header{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <button class="hamburger" onclick="toggleSidebar()" aria-label="選單">☰</button>
+  <span class="mobile-brand">人工智慧基礎概論</span>
+</header>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-tag">iPAS · 初級 · 科目一</div>
+    <div class="brand-title">人工智慧<br>基礎概論</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section">課程章節</div>
+    <a class="nav-item active" onclick="showSection('s1',this)"><span class="dot"></span>AI 概念與分類<span class="num">3.1</span></a>
+    <a class="nav-item" onclick="showSection('s2',this)"><span class="dot"></span>AI 架構<span class="num">3.1</span></a>
+    <a class="nav-item" onclick="showSection('s_data',this)"><span class="dot"></span>資料處理與分析<span class="num">3.2</span></a>
+    <a class="nav-item" onclick="showSection('s3',this)"><span class="dot"></span>機器學習基礎<span class="num">3.3</span></a>
+    <a class="nav-item" onclick="showSection('s4',this)"><span class="dot"></span>深度學習模型<span class="num">3.3</span></a>
+    <a class="nav-item" onclick="showSection('s5',this)"><span class="dot"></span>生成式 AI<span class="num">3.4</span></a>
+    <a class="nav-item" onclick="showSection('s6',this)"><span class="dot"></span>AI 治理<span class="num">3.1</span></a>
+    <div class="nav-section" style="margin-top:.5rem">練習</div>
+    <a class="nav-item" onclick="showSection('quiz',this)"><span class="dot"></span>模擬考題（10 題）</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- S1: AI概念 -->
+<section id="s1" class="section active">
+  <div class="hero">
+    <div class="hero-tag">3.1 · 人工智慧概念</div>
+    <h1 class="hero-title">AI 的定義與分類</h1>
+    <p class="hero-sub">了解人工智慧的本質、功能分類，以及在各行業的應用與企業導入目標。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">🧠</div>什麼是人工智慧？</div>
+    <p class="p14">人工智慧（Artificial Intelligence, AI）是一種旨在模擬人類智慧的技術，使機器能執行原本需要人類智慧才能完成的任務，如學習、推理、解決問題、感知環境等。</p>
+    <div class="divider"></div>
+    <p class="p13 bold" style="margin-bottom:.5rem">近年快速發展的三大驅動力</p>
+    <div class="grid3">
+      <div class="mini-card"><h5>⚡ 計算能力提升</h5><p>硬體技術進步、GPU 大規模普及</p></div>
+      <div class="mini-card"><h5>📦 資料爆發</h5><p>開放資料普及，數據多樣性與規模增長</p></div>
+      <div class="mini-card"><h5>📈 演算法精進</h5><p>機器學習與深度學習技術不斷突破</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-purple">🗂</div>AI 依功能分類</div>
+    <div class="type-grid">
+      <div class="type-card tc-blue"><h5>分析型 AI</h5><p>洞悉數據模式，分析處理大量數據，提供有價值的見解。</p></div>
+      <div class="type-card tc-amber"><h5>預測型 AI</h5><p>基於歷史資料預測未來趨勢和行為，應用於市場預測、風險評估。</p></div>
+      <div class="type-card tc-green"><h5>生成型 AI</h5><p>根據提示詞（prompt）生成文字、語音、圖像和影片，自 2022 年快速發展。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">🏢</div>AI 主要應用領域</div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">醫療保健 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>疾病診斷：分析 X 光、MRI 輔助精準診斷</li><li>藥物研發：AI 分子結構模擬，縮短研發時間</li><li>個人化醫療：依基因、生活習慣提供客製化治療方案</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">金融 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>風險評估：分析信用記錄，提升貸款審核準確性</li><li>欺詐檢測：實時監控交易，偵測異常模式</li><li>自動交易：高頻交易演算法</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">製造業 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>自動化生產：機器人執行重複性任務</li><li>品質控制：影像辨識檢測產品缺陷</li><li>預測性維護：分析設備數據預防故障</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">交通 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>自動駕駛：結合感測器與導航系統</li><li>交通流量預測：動態交通管理與路線建議</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">娛樂 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>遊戲開發：AI 生成自適應角色及情節</li><li>虛擬現實：AI 結合 VR 創造沉浸式環境</li><li>內容推薦：個人化音樂、影視推薦</li></ul></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-amber">🎯</div>企業導入 AI 的主要目標</div>
+    <div class="grid2">
+      <div class="mini-card"><h5>提高效率</h5><p>自動化重複性工作，節省人力成本</p></div>
+      <div class="mini-card"><h5>增強決策能力</h5><p>數據驅動的決策支援系統</p></div>
+      <div class="mini-card"><h5>個人化服務</h5><p>客製化用戶體驗與推薦</p></div>
+      <div class="mini-card"><h5>促進創新</h5><p>開創新商業模式與競爭優勢</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- S2: AI架構 -->
+<section id="s2" class="section">
+  <div class="hero">
+    <div class="hero-tag">3.1 · 人工智慧概念</div>
+    <h1 class="hero-title">AI 的架構與組成</h1>
+    <p class="hero-sub">人工智慧的實現依賴多層次架構，從技術底層到實際落地應用。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">📚</div>多層次架構概覽</div>
+    <div class="layer">
+      <div class="layer-item li-blue"><div><strong>技術底層</strong>：提供計算能力、數據支撐與核心演算法，是 AI 運作的基礎</div></div>
+      <div class="layer-item li-green"><div><strong>開發應用</strong>：模型設計、訓練、測試及部署，將基礎技術轉化為實際功能</div></div>
+      <div class="layer-item li-amber"><div><strong>實際運用</strong>：落地為各行業創造價值，是 AI 技術應用的最終目標</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-purple">⚙️</div>技術底層五大要素</div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">A. 資料處理與分析（Data Processing and Analysis） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>AI 的核心在於數據，資料處理包括清理、整合、儲存及分析。</p><p>關鍵技術：ETL 流程（Extract, Transform, Load）、Hadoop、Spark 等大數據處理平台。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">B. 演算法（Algorithm） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>AI 的邏輯基石，用於解決問題及提供決策支援。</p><p>常見：迴歸分析、分類演算法、決策樹、基因演算法等。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">C. 機器學習（Machine Learning） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>透過資料訓練模型來預測或分類。常見技術：監督式學習、非監督式學習與強化學習。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">D. 深度學習（Deep Learning） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>構建於人工神經網路基礎之上，適用於處理非結構化數據（語音辨識、影像處理、NLP）。</p><p>常見開發框架：TensorFlow、PyTorch。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">E. 專家系統（Expert System） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>基於規則與知識庫，模擬人類專家的決策過程，廣泛應用於醫療診斷、財務分析等專業領域。</p></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">🚀</div>實際運用的三大目標</div>
+    <div class="grid3">
+      <div class="mini-card"><h5>設計行業解決方案</h5><p>智慧醫療、智慧物流、智慧製造等具體場景</p></div>
+      <div class="mini-card"><h5>打造產品與服務</h5><p>語音助理、推薦演算法、智慧監控系統</p></div>
+      <div class="mini-card"><h5>優化業務流程</h5><p>提高企業運營效率及競爭力</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- S_DATA: 資料處理與分析 -->
+<section id="s_data" class="section">
+  <div class="hero">
+    <div class="hero-tag">3.2 · 資料處理與分析概念</div>
+    <h1 class="hero-title">資料處理與分析</h1>
+    <p class="hero-sub">從原始數據到有價值的洞察，完整的資料處理流程與分析方法。</p>
+  </div>
+
+  <!-- 流程概覽 -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">🔄</div>資料處理四大流程</div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><h5>數據蒐集（Data Collection）</h5><p>從多元來源取得結構化、半結構化、非結構化數據</p></div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><h5>數據清洗（Data Cleaning）</h5><p>處理遺缺值、重複值、錯誤值、離群值，確保數據品質</p></div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><h5>數據轉換（Data Transformation）</h5><p>正規化、離散化、降維等，轉換成適合分析的格式</p></div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><h5>數據分析（Data Analysis）</h5><p>敘述性、探索性、診斷性、預測性分析</p></div></div>
+    </div>
+  </div>
+
+  <!-- 數據蒐集 -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">🗃</div>數據蒐集：三種結構類型</div>
+    <div class="dtype dt-blue"><h5><span class="badge badge-blue">結構化</span> Structured Data</h5><p>具有清晰且固定結構，以行列形式儲存。常見於關聯式資料庫（MySQL、PostgreSQL）和規範化電子表格。</p></div>
+    <div class="dtype dt-amber"><h5><span class="badge badge-amber">半結構化</span> Semi-structured Data</h5><p>具一定結構標籤但格式靈活，如 XML、JSON、CSV 等。適用於描述複雜的層次化數據。</p></div>
+    <div class="dtype dt-green"><h5><span class="badge badge-green">非結構化</span> Unstructured Data</h5><p>無固定結構，需處理和解析後才能分析。包括圖片、影像、音訊、電子郵件、文章等。</p></div>
+    <div class="divider"></div>
+    <p class="p13 bold" style="margin-bottom:.5rem">常見數據蒐集方法</p>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">問卷與調查 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>透過線上或線下方式，直接從目標受眾中蒐集第一手數據。常用於市場研究、用戶回饋蒐集或行為洞察，能精準捕捉目標群體的意見與需求。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">自有產品數據 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>來自企業所開發或運營的產品或設備，如自有網站、App 應用，或實體裝置如智慧手錶、汽車等，通常與用戶的互動相關。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">外部公開數據（API / 網路爬蟲） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>透過 API 調用取得公開可訪問的數據資源（如政府資料開放平臺 API），或利用網路爬蟲（Web Scraping）自動擷取網站公開數據（如新聞、價格資訊、商品評論等）。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">外部付費數據購買 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>與第三方數據提供商合作，購買專業數據集以補充內部數據，例如市場調查數據或人口統計數據。</p></div></div>
+  </div>
+
+  <!-- 數據清洗 -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">🧹</div>數據清洗（Data Cleaning）</div>
+    <p class="p13" style="margin-bottom:.75rem">目的是解決數據中的問題，確保數據的完整性與可靠性。</p>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">A. 遺缺值（Missing Value）處理 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>某些欄位沒有記錄有效數據。處理方式：</p><ul><li><strong>填補</strong>：使用平均值、中位數、眾數，或插補法（Interpolation）、預測模型</li><li><strong>刪除記錄</strong>：遺缺值占比高或不可修復時直接刪除（需謹慎評估對樣本代表性的影響）</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">B. 重複值（Duplicate Value）處理 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>數據中存在相同內容的記錄，可能因多次導入或錯誤記錄而產生。</p><ul><li>識別：透過主鍵、唯一識別碼或關鍵欄位確認</li><li>刪除：保留一份正確的記錄，刪除其他重複項</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">C. 錯誤值（Error / Invalid Value）處理 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>數據值不符合合理範圍或存在明顯錯誤。</p><ul><li>例如：年齡出現負數（-5 歲）、拼寫錯誤（Taiwan → Taiwwn）</li><li>處理：檢測並修正明顯的錯誤值</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">D. 離群值（Outlier Value）處理 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>數據中遠離大多數其他數據點的異常值，可能是有意義的數據，也可能是雜訊或錯誤。</p><p>需根據業務需求和分析目標採取適當策略，<strong>不能一概刪除</strong>。</p></div></div>
+  </div>
+
+  <!-- 數據轉換 -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-amber">🔀</div>數據轉換（Data Transformation）</div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">格式轉換（Format Transformation） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>將數據從一種格式轉換為另一種格式，如 CSV 轉換為 JSON。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">類型轉換（Type Conversion） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>將數據從一種數據類型轉換為另一種，如字串轉換為數值。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">正規化 ／ 標準化（Normalization / Standardization） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>將數值縮放到特定範圍（如 [0,1] 或 -1 至 1），消除不同變數之間的單位影響，使數據在模型中具有可比性。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">離散化（Discretization） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>將連續型數據轉換為離散的區間或類別。例如：將年齡分為「青年」、「中年」、「老年」。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">數據縮減（Data Reduction）／降維 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>透過特徵選擇、特徵提取或降維技術，如主成分分析（PCA），減少數據的維度或體積，提高分析效率並節省儲存空間。</p></div></div>
+  </div>
+
+  <!-- 數據分析 -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-purple">📊</div>數據分析：四大方法</div>
+    <div class="atabs">
+      <button class="atab active" onclick="showTab('t1',this)">敘述性分析</button>
+      <button class="atab" onclick="showTab('t2',this)">探索性分析</button>
+      <button class="atab" onclick="showTab('t3',this)">診斷性分析</button>
+      <button class="atab" onclick="showTab('t4',this)">預測性分析</button>
+    </div>
+
+    <div id="t1" class="atab-content active">
+      <p class="p13" style="margin-bottom:.75rem">描述數據的基本特徵和分佈情況，使用統計指標與圖表來總結和呈現數據。</p>
+      <p class="p13 bold" style="margin-bottom:.5rem">統計指標</p>
+      <div class="stat-grid">
+        <div class="stat-card"><h5>平均值（Mean）</h5><p>所有值相加除以個數，代表數據的平均水平。</p><p class="stat-pro">✓ 計算簡單易於理解</p><p class="stat-con">✗ 受極端值（離群值）影響大</p></div>
+        <div class="stat-card"><h5>中位數（Median）</h5><p>排序後位於中間的值，偶數個數取中間兩數的平均值。</p><p class="stat-pro">✓ 不受極端值影響</p><p class="stat-con">✗ 對數據分布變動性不敏感</p></div>
+        <div class="stat-card"><h5>標準差（Standard Deviation）</h5><p>衡量數據的分散程度，越大代表越分散。</p><p class="stat-pro">✓ 能量化描述分散程度</p><p class="stat-con">✗ 計算較複雜，受極端值影響</p></div>
+        <div class="stat-card"><h5>百分位數（Percentile）</h5><p>第 p 百分位：有 p% 的數據小於或等於它。</p><p class="stat-pro">✓ 不受極端值影響，描述詳細</p><p class="stat-con">✗ 大數據集計算量較大</p></div>
+      </div>
+      <p class="p13 bold" style="margin:.75rem 0 .5rem">常用圖表</p>
+      <div class="stat-grid">
+        <div class="stat-card"><h5>直方圖（Histogram）</h5><p>連續型數據分成組別，用矩形高度表示個數。</p><p class="stat-pro">✓ 直觀展示數據分布情況</p><p class="stat-con">✗ 組間隔選擇影響外觀</p></div>
+        <div class="stat-card"><h5>散佈圖（Scatter Plot）</h5><p>展示兩個變量之間的關係。</p><p class="stat-pro">✓ 直觀顯示相關性</p><p class="stat-con">✗ 數據點過多時擁擠</p></div>
+        <div class="stat-card"><h5>折線圖（Line Chart）</h5><p>顯示數據隨時間或連續變量的變化趨勢。</p><p class="stat-pro">✓ 清晰展示變化趨勢</p><p class="stat-con">✗ 較不適合類別型數據</p></div>
+      </div>
+      <p class="p12" style="margin-top:.5rem;padding:.5rem .75rem;background:var(--red-bg);border-radius:var(--radius);color:var(--red)">⚠️ 考試重點：<strong>雷達圖（Radar Chart）不適合做資料分布估計</strong>，它主要用於比較個體在多維度上的表現。</p>
+    </div>
+
+    <div id="t2" class="atab-content">
+      <p class="p13" style="margin-bottom:.75rem">無需預設假設，透過多角度探索數據，發現模式、關聯和異常，為後續深入分析或建模提供基礎。</p>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">散佈圖矩陣（Scatter Plot Matrix） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>展示多個變量兩兩之間的相關性，適合高維數據的初步探索。</p><p>應用：分析銷售數據中價格、數量與地區之間的互動關係。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">熱圖（Heatmap） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>透過色彩強度展示數據項目之間的關聯程度，通常用於相關分析。</p><p>應用：了解客戶消費行為特徵之間的關聯（如年齡與消費金額）。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">平行坐標圖（Parallel Coordinates Plot） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>適合分析高維數據，展示多個變量的趨勢和模式。</p><p>應用：比較不同產品類型在多項指標（成本、收益、風險）上的表現。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">箱型圖 ／ 盒鬚圖（Box Plot） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>展示數據分佈情況，突出離群值與中位數等特徵。</p><p>應用：比較不同地區的收入分佈差異。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">相關性分析（Correlation Analysis） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>測量兩個變量之間的相關性，如皮爾森相關係數（Pearson Correlation Coefficient）。</p><p>應用：分析廣告支出與銷售收入之間的相關性，判斷廣告效果。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">聚類分析（Clustering Analysis） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>將數據分為多個組群，組內相似度高、組間差異大。如 K-Means（K 代表群組數量）、層次聚類（Hierarchical Clustering）。</p><p>應用：客戶分群，分為高價值客戶、一般客戶等。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">主成分分析（PCA） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>減少數據維度，同時保留大部分數據內訊息，便於視覺化或進一步分析。</p><p>應用：簡化銷售數據的多維特徵以發現核心指標。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">異常檢測（Anomaly Detection） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>識別數據集中不符合預期的異常點，如離群值或罕見模式。</p><p>應用：檢測金融交易中的欺詐行為。</p></div></div>
+    </div>
+
+    <div id="t3" class="atab-content">
+      <p class="p13" style="margin-bottom:.75rem">旨在探究數據中特定現象或結果的根本原因，通常基於敘述性分析的結果，進一步深入了解數據背後的邏輯與影響因素。</p>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">鑽取 ／ 向下分析（Drill-down Analysis） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>從宏觀數據逐層深入到細節層級，逐步鎖定問題範圍。</p><p>應用：銷售下降時，透過地區、產品類別或時間段分析確定具體問題所在。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">關聯分析（Association Analysis） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>分析數據項目之間的共現關係或模式。方法：Apriori 演算法（分析超市購物車，如「啤酒與尿布的關聯性」）。</p><p>應用：在推薦系統中發掘產品之間的購買關聯。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">因果分析（Causal Analysis） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>透過統計與實驗方法分析變量之間的因果關係，避免混淆相關性與因果性。方法：因果圖（Causal Diagrams）、A/B 測試（隨機試驗）。</p><p>應用：檢驗行銷活動對銷售增長的實際影響。</p></div></div>
+    </div>
+
+    <div id="t4" class="atab-content">
+      <p class="p13" style="margin-bottom:.75rem">使用歷史數據來預測未來可能發生的事件或趨勢，通常基於統計方法與機器學習模型。</p>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">迴歸模型（Regression Models） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>用於數值型結果的預測。方法：線性迴歸、多元迴歸、邏輯迴歸。</p><p>應用：預測房地產價格、銷售額、天氣變化。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">分類模型（Classification Models） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>用於將數據分為不同類別。方法：決策樹、隨機森林、SVM、深度學習（神經網路）。</p><p>應用：信用風險評估、疾病診斷、用戶行為預測。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">時間序列模型（Time Series Models） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>用於分析時間相關數據，捕捉趨勢、季節性與周期性模式。方法：ARIMA、SARIMA、LSTM。</p><p>應用：銷售預測、需求規劃、股票價格預測。</p></div></div>
+      <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">集成學習（Ensemble Methods） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>結合多個模型提高預測準確性。方法：隨機森林（Random Forest）、梯度提升機（GBM）、XGBoost。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S3: 機器學習 -->
+<section id="s3" class="section">
+  <div class="hero">
+    <div class="hero-tag">3.3 · 機器學習概念</div>
+    <h1 class="hero-title">機器學習基礎</h1>
+    <p class="hero-sub">機器學習透過數據訓練模型，使機器具備預測與分類能力。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">📚</div>機器學習三大步驟</div>
+    <div class="grid3">
+      <div class="mini-card"><h5>1. 準備訓練資料</h5><p>資料蒐集、過濾雜訊及前處理</p></div>
+      <div class="mini-card"><h5>2. 訓練模型</h5><p>輸入資料，調整參數使模型符合資料分布</p></div>
+      <div class="mini-card"><h5>3. 測試與評估</h5><p>評估效能，反覆調校；若不佳則選用其他模型</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">🎓</div>三大學習方式</div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">監督式學習（Supervised Learning） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>使用帶<strong>標記（Labeled Data）</strong>的訓練數據。主要應用：</p><ul><li><strong>分類</strong>：將輸入分配至不同類別，如垃圾郵件過濾、影像識別</li><li><strong>迴歸</strong>：學習輸入變數與連續數值的映射，如房價預測、銷售額預測</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">非監督式學習（Unsupervised Learning） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>無需事先標記的數據，演算法自動從未標記數據中發掘潛在模式、結構或分群（Clustering）。</p><p>應用：市場區隔分析、異常偵測、推薦系統、影像壓縮。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">強化學習（Reinforcement Learning, RL） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>基於「回饋機制」，讓代理（Agent）透過與環境互動，學習如何選擇最佳行動策略，以獲得最大累積回報。</p><p>適合需要「試錯學習（Trial-and-Error）」和「長期規劃」的任務：</p><ul><li>遊戲 AI（如圍棋）</li><li>機器人控制</li><li>自動駕駛</li></ul></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-amber">🔢</div>常見演算法</div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">線性迴歸（Linear Regression） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>預測連續數值型的輸出變數（房價、銷售額）。</p><p>優：簡單易懂、計算效率高。缺：只能捕捉線性關係，非線性資料擬合效果差。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">邏輯迴歸（Logistic Regression） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>雖名稱有「迴歸」，實際上是<strong>分類演算法</strong>。使用 Sigmoid 函數將線性迴歸輸出轉換為 0~1 的機率值，設閾值（如 0.5）轉換為類別。</p><p>優：輸出具機率意義。缺：只能解決二元分類問題。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">K-最近鄰（K-Nearest Neighbors, KNN） <span class="acc-arrow">▾</span></div><div class="acc-body"><p>基於實例的學習演算法，找出訓練集中最接近的 K 個樣本（最近鄰）。</p><ul><li>分類問題：取 K 個最近鄰中出現次數最多的類別</li><li>迴歸問題：取 K 個最近鄰的平均值或中位數</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">搜尋演算法（線性 ／ 二分 ／ DFS ／ BFS） <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li><strong>線性搜尋</strong>：逐個比較，適用於無序資料</li><li><strong>二分搜尋</strong>：需排序資料，每次排除一半</li><li><strong>深度優先搜尋（DFS）</strong>：沿路徑儘可能深入再回溯</li><li><strong>廣度優先搜尋（BFS）</strong>：逐層擴散搜尋</li></ul></div></div>
+  </div>
+</section>
+
+<!-- S4: 深度學習 -->
+<section id="s4" class="section">
+  <div class="hero">
+    <div class="hero-tag">3.3 · 機器學習概念</div>
+    <h1 class="hero-title">深度學習模型</h1>
+    <p class="hero-sub">深度學習是機器學習的子領域，透過多層神經網路從數據中自動學習特徵。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">🧬</div>什麼是深度學習？</div>
+    <p class="p14">深度學習（Deep Learning, DL）透過多層次的人工神經網路，從大量文本、語音、影像等數據中自動學習特徵。相較於傳統機器學習，<strong>不需要人工設計特徵</strong>，讓模型自行學習，在處理複雜數據時具有更強大的能力。</p>
+    <div class="divider"></div>
+    <div class="grid2">
+      <div class="mini-card"><h5>自然語言處理（NLP）</h5><p>機器翻譯、文本生成</p></div>
+      <div class="mini-card"><h5>電腦視覺</h5><p>影像辨識、物件偵測</p></div>
+      <div class="mini-card"><h5>語音辨識</h5><p>語音助理、語音轉文字</p></div>
+      <div class="mini-card"><h5>生成式模型</h5><p>Generative AI</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">🖼</div>CNN — 卷積神經網路</div>
+    <p class="p13" style="margin-bottom:.75rem">特別擅長處理<strong>圖像數據</strong>，設計靈感來自動物視覺皮層。</p>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">結構組成 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li><strong>卷積層（Convolutional Layer）</strong>：透過卷積運算提取局部特徵（邊緣、紋理）</li><li><strong>池化層（Pooling Layer）</strong>：降維操作（最大池化、平均池化），減少維度，防止過擬合</li><li><strong>全連接層（Fully Connected Layer）</strong>：將提取的特徵映射到輸出空間，進行分類或迴歸</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">優點 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>適合處理高維數據，參數量相比全連接網路顯著減少</li><li>能夠提取層次化特徵，從低層特徵（邊緣）到高層語義（物體形狀）</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">應用場景 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>影像辨識：人臉辨識、手寫數字分類（MNIST）</li><li>物件偵測：自動駕駛中的障礙物檢測</li><li>圖像分割：醫學影像中的病變檢測</li></ul></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">📈</div>RNN — 循環神經網路</div>
+    <p class="p13" style="margin-bottom:.75rem">專為處理<strong>序列數據</strong>設計，網路中存在循環連接，可記憶序列中之前的資訊。</p>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">工作原理 <span class="acc-arrow">▾</span></div><div class="acc-body"><p>每個節點不僅接收當前輸入，還會記住前一時刻的狀態，能夠捕捉數據的時間依賴關係。適合語音、文本等具時間序列特性的數據。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">改進版本：LSTM ／ GRU <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li><strong>LSTM（長短期記憶網路）</strong>：引入遺忘門、輸入門、輸出門，有效解決梯度消失問題</li><li><strong>GRU（門控循環單元）</strong>：結構比 LSTM 更簡單，在大多數應用中效果相近</li></ul><p style="margin-top:.4rem"><strong>缺點</strong>：訓練容易出現梯度消失 ／ 梯度爆炸；處理長序列時計算效率較低。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">應用場景 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>自然語言處理：機器翻譯、文本生成</li><li>語音辨識：語音轉文字</li><li>時間序列分析：股票價格預測</li></ul></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-purple">⚔️</div>GAN — 生成對抗網路</div>
+    <p class="p13" style="margin-bottom:.75rem">由<strong>生成器（Generator）</strong>和<strong>判別器（Discriminator）</strong>組成，透過對抗學習共同進步。</p>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">工作原理 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li><strong>生成器</strong>：接收隨機雜訊作為輸入，生成模擬的數據樣本</li><li><strong>判別器</strong>：負責區分輸入數據是真實的還是生成的</li><li>生成器目標是「欺騙」判別器；判別器試圖最大化判斷準確性。對抗過程促使生成器逐漸生成更逼真的數據。</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">優點與缺點 <span class="acc-arrow">▾</span></div><div class="acc-body"><p><strong>優點</strong>：能夠生成高品質數據樣本，適用於影像、文本、語音等多領域。</p><p><strong>缺點</strong>：訓練過程不穩定，可能出現模式崩潰（Mode Collapse）；需要大量計算資源。</p></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">應用場景 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>圖像生成：草圖轉換為寫實圖片</li><li>文本生成：虛擬對話內容的創建</li><li>語音合成：生成逼真的語音樣本</li></ul></div></div>
+  </div>
+</section>
+
+<!-- S5: 生成式AI -->
+<section id="s5" class="section">
+  <div class="hero">
+    <div class="hero-tag">3.4 · 鑑別式 AI 與生成式 AI 概念</div>
+    <h1 class="hero-title">生成式 AI</h1>
+    <p class="hero-sub">生成式 AI 能根據提示詞生成新的、原創的內容，是近年最受關注的 AI 技術。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-purple">✨</div>核心原理</div>
+    <p class="p14">生成式 AI（Generative AI）根據輸入的提示詞（prompt），在大量文本訓練後所建立的「文字機率分布」中，尋找最可能接續的文字，逐字生成回應。</p>
+    <div class="divider"></div>
+    <div class="layer-item li-blue" style="margin-top:.5rem"><strong>最核心的能力：</strong>生成新的、原創的內容（文字、圖像、音樂等），這與傳統 AI 主要用於分析或預測已有數據不同。</div>
+    <div class="layer-item li-amber" style="margin-top:.4rem"><strong>參數的意義：</strong>參數越多 → 越能捕捉語言細微差異 → 生成更豐富多樣的回應。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">⚙️</div>訓練過程兩大階段</div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">（1）訓練階段 <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li><strong>數據準備</strong>：蒐集大量高品質數據 → 清洗 → 預處理（轉為數字向量）</li><li><strong>模型選擇</strong>：GAN、VAE（變分自編碼器）、Transformer 等</li><li><strong>模型訓練</strong>：設計損失函數、選優化器（Adam、SGD）、迭代訓練至收斂</li></ul></div></div>
+    <div class="acc"><div class="acc-hdr" onclick="toggleAcc(this)">（2）微調階段（Fine-tuning） <span class="acc-arrow">▾</span></div><div class="acc-body"><ul><li>在預訓練模型基礎上，使用特定領域或任務的數據進行進一步訓練</li><li>調整超參數（學習率、批量大小等）</li><li>數據增強：旋轉、翻轉等變換，增加數據多樣性，提高泛化能力</li></ul></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-amber">⚠️</div>影響生成模型效果的關鍵因素</div>
+    <div class="grid2">
+      <div class="mini-card"><h5>數據品質</h5><p>數量、品質、多樣性對效能有決定性影響</p></div>
+      <div class="mini-card"><h5>模型結構</h5><p>不同結構適合不同任務</p></div>
+      <div class="mini-card"><h5>超參數設置</h5><p>合理設置可加速模型收斂並提高效能</p></div>
+      <div class="mini-card"><h5>計算資源</h5><p>大型模型訓練需要大量計算資源</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- S6: AI治理 -->
+<section id="s6" class="section">
+  <div class="hero">
+    <div class="hero-tag">3.1 · 人工智慧概念</div>
+    <h1 class="hero-title">AI 治理</h1>
+    <p class="hero-sub">確保 AI 安全、公平、透明與負責任地運作的規範與政策機制。（模擬考題重點補充）</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-blue">⚖️</div>什麼是 AI 治理？</div>
+    <p class="p14">AI 治理是針對 AI 系統的開發、部署與使用所制定的規範、政策與監管機制，目的在確保 AI 的安全、公平、透明與負責任地運作。</p>
+    <div class="divider"></div>
+    <div class="pillar-grid">
+      <div class="pillar"><div class="icon">🛡</div><h5>安全性</h5><p>確保 AI 系統不造成傷害</p></div>
+      <div class="pillar"><div class="icon">⚖️</div><h5>公平性</h5><p>避免歧視與偏見</p></div>
+      <div class="pillar"><div class="icon">🔍</div><h5>透明性</h5><p>可解釋的決策過程</p></div>
+      <div class="pillar"><div class="icon">📋</div><h5>責任歸屬</h5><p>明確 AI 決策的責任主體</p></div>
+      <div class="pillar"><div class="icon">🔒</div><h5>隱私保護</h5><p>遵守個人資料保護規範</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">🔍</div>透明性措施（考試重點）</div>
+    <p class="p14">提升 AI 系統透明性的適當措施：<strong>定期或不定期透過發布報告、技術文件或網站，揭露 AI 系統在各決策環節的決策流程</strong>，讓外部了解 AI 的運作方式。</p>
+    <div style="margin-top:.75rem;padding:.75rem 1rem;background:var(--red-bg);border-radius:var(--radius);font-size:13px;color:var(--red)">⚠️ 考試注意：不需對外揭露、僅對內部說明、將資訊保密 — 三者都是不適當的做法。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-purple">🌐</div>國際合作的三大重要性（考試重點）</div>
+    <div class="grid3">
+      <div class="mini-card"><h5>統一 AI 發展標準</h5><p>確保不同國家在技術應用上的一致性和互操作性</p></div>
+      <div class="mini-card"><h5>避免 AI 技術濫用</h5><p>透過跨國監管和政策協調減少倫理與安全風險</p></div>
+      <div class="mini-card"><h5>促進 AI 技術轉移</h5><p>幫助各國共享技術資源，縮小數位鴻溝</p></div>
+    </div>
+    <p class="p13" style="margin-top:.75rem;padding:.625rem .875rem;background:var(--accent-bg);border-radius:var(--radius);color:var(--accent)">💡 考試答案：「以上皆是」— 三項都屬於國際合作的重要性。</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="section">
+  <div class="hero">
+    <div class="hero-tag">練習題</div>
+    <h1 class="hero-title">模擬考題</h1>
+    <p class="hero-sub">共 10 題，含詳細解析，可反覆練習。</p>
+  </div>
+
+  <div id="quiz-main">
+    <div class="q-progress"><div class="q-bar" id="q-bar" style="width:10%"></div></div>
+    <div class="card" id="q-card">
+      <div id="q-inner"></div>
+      <div class="quiz-actions">
+        <span class="q-counter" id="q-counter">第 1 題，共 10 題</span>
+        <button class="btn btn-primary" id="next-btn" onclick="nextQ()" disabled>下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz-result" style="display:none">
+    <div class="score-wrap">
+      <div class="score-big" id="final-score">0<span class="score-denom">/10</span></div>
+      <div class="score-msg">測驗完成！建議回顧答錯的題目，加強對應章節。</div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="resetQuiz()">重新作答</button>
+    <button class="btn btn-block" onclick="showSection('s1',document.querySelectorAll('.nav-item')[0])">返回課程首頁</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+const questions=[
+  {q:"下列何者最適合訓練電腦下圍棋、自動駕駛等動態重複地互動的問題？",tag:"機器學習",opts:["監督式學習（Supervised Learning）","非監督式學習（Unsupervised Learning）","半監督式學習（Semi-supervised Learning）","強化學習（Reinforcement Learning）"],ans:3,explain:"強化學習（RL）讓代理（Agent）透過與環境不斷互動，學習一系列動作以最大化累積獎勵。這種學習方式非常適合動態、複雜環境中的決策，如下圍棋、自動駕駛。"},
+  {q:"關於 AI 的定義，下列敘述何者較為正確？",tag:"AI概念",opts:["AI 僅限於深度學習技術","AI 包括各種技術，例如機器學習、專家系統等","AI 系統只能在學術研究中應用","AI 無法應用於金融領域"],ans:1,explain:"AI 是一個廣泛領域，涵蓋機器學習、深度學習、專家系統、NLP 等多種技術，不限於深度學習，也不侷限於學術研究，且已成功應用於金融、醫療、製造等領域。"},
+  {q:"為了提升 AI 系統的透明性，下列哪種措施是適當的？",tag:"AI治理",opts:["不需對外揭露任何有關 AI 系統的資訊","規劃透過發布報告、技術文件或網站揭露 AI 系統的相關資訊","僅對內部員工進行透明性說明","將所有 AI 系統資訊保密"],ans:1,explain:"透過定期或不定期發布 AI 系統於各決策環節的決策流程，有助於提升 AI 系統的透明性，讓外界了解 AI 的運作方式。"},
+  {q:"下列何者不適合做為資料分布估計？",tag:"資料分析",opts:["直方圖（Histogram）","散布圖（Scatter plot）","雷達圖（Radar chart）","四分位數（Quartile）"],ans:2,explain:"雷達圖主要用於比較不同個體在多個維度上的表現，無法直觀呈現機率密度或資料分布情況。要了解數據在某個維度上的集中程度、分散程度，需使用直方圖等更適合的圖形。"},
+  {q:"K-Means 聚類算法中，K 代表什麼？",tag:"資料分析",opts:["數據集中特徵的數量","數據集中樣本的數量","所需劃分的群組數量","迭代次數"],ans:2,explain:"K 在 K-Means 演算法中代表我們希望將數據分為幾個群組。K 值的選擇會直接影響最終的聚類結果，是一個非常重要的參數。"},
+  {q:"深度學習模型中，下列哪一項通常用來降低過擬合問題？",tag:"深度學習",opts:["增加訓練數據量","增加模型的複雜度","增加學習率","增加正則化項"],ans:3,explain:"正則化（L1/L2 Regularization）在模型中加入額外項來懲罰複雜模型，使模型變得更簡單，降低過擬合風險，提高泛化能力。過擬合是指模型過度學習訓練數據的雜訊，導致測試集表現不佳。"},
+  {q:"生成式人工智慧最核心的能力是什麼？",tag:"生成式AI",opts:["從大量數據中學習","執行複雜的數學計算","生成新的、原創的內容","控制機器人"],ans:2,explain:"生成式 AI 的最大特徵是能夠生成全新的文本、圖像、音樂等內容，這與傳統 AI 主要用於分析或預測已有數據不同。它透過學習大量數據的模式，能產生出具有創造性的輸出。"},
+  {q:"下列哪項技術是生成式 AI 發展的重要基礎？",tag:"生成式AI",opts:["決策樹","神經網路","線性迴歸","貝氏分類"],ans:1,explain:"神經網路（尤其是深度學習模型）是生成式 AI 的基石，能夠學習數據中的複雜模式，並生成與訓練數據相似但又不完全相同的新數據。決策樹、線性迴歸和貝氏分類雖然也是機器學習的重要方法，但並不擅長生成新的內容。"},
+  {q:"關於 AI，下列敘述何者較為正確？",tag:"AI概念",opts:["AI 僅限於深度學習技術","AI 包括各種技術，例如機器學習、專家系統等","AI 系統只能在學術研究中應用","AI 無法應用於金融領域"],ans:1,explain:"AI 是一個廣泛的領域，涵蓋了多種技術，包括但不限於機器學習、深度學習、專家系統、NLP 和電腦視覺等。它不僅限於深度學習，也不侷限於學術研究，且已成功應用於金融、醫療、製造等多個領域。"},
+  {q:"在 AI 治理中，下列何者是國際合作的重要性？",tag:"AI治理",opts:["統一 AI 發展標準","避免 AI 技術的濫用","促進 AI 技術的轉移","以上皆是"],ans:3,explain:"AI 治理的國際合作重要性包含：(1) 統一 AI 發展標準，確保不同國家技術應用的一致性與互操作性；(2) 避免 AI 技術濫用，透過跨國監管減少倫理與安全風險；(3) 促進 AI 技術轉移，幫助各國共享資源縮小數位鴻溝。三者皆是。"}
+];
+
+let cur=0,score=0,answered=false;
+
+function renderQ(){
+  const q=questions[cur];
+  document.getElementById('q-counter').textContent=`第 ${cur+1} 題，共 ${questions.length} 題`;
+  document.getElementById('q-bar').style.width=((cur+1)/questions.length*100)+'%';
+  document.getElementById('next-btn').disabled=true;
+  document.getElementById('next-btn').textContent=cur===questions.length-1?'查看結果 →':'下一題 →';
+  answered=false;
+  let html=`<div class="quiz-wrap"><div class="q-meta"><span class="q-num">題目 ${cur+1} / ${questions.length}</span><span class="q-tag">${q.tag}</span></div><div class="q-text">${q.q}</div><div class="opts">`;
+  q.opts.forEach((o,i)=>{html+=`<button class="opt" id="opt-${i}" onclick="selectOpt(${i})"><span class="opt-lbl">${['A','B','C','D'][i]}</span>${o}</button>`;});
+  html+=`</div><div id="explain-box"></div></div>`;
+  document.getElementById('q-inner').innerHTML=html;
+}
+
+function selectOpt(i){
+  if(answered)return;
+  answered=true;
+  const q=questions[cur];
+  const isRight=i===q.ans;
+  if(isRight)score++;
+  document.querySelectorAll('.opt').forEach((el,idx)=>{
+    el.disabled=true;
+    if(idx===q.ans)el.classList.add('correct');
+    else if(idx===i&&!isRight)el.classList.add('wrong');
+  });
+  const label=isRight?'✓ 正確！':'✗ 答錯了，正確答案是 '+['A','B','C','D'][q.ans]+' 。';
+  document.getElementById('explain-box').innerHTML=`<div class="explain-box"><strong>${label}</strong><br><br>${q.explain}</div>`;
+  document.getElementById('next-btn').disabled=false;
+}
+
+function nextQ(){
+  if(cur===questions.length-1){
+    document.getElementById('quiz-main').style.display='none';
+    document.getElementById('quiz-result').style.display='block';
+    const n=score;
+    document.getElementById('final-score').innerHTML=n+'<span class="score-denom">/'+questions.length+'</span>';
+    return;
+  }
+  cur++;renderQ();
+}
+
+function resetQuiz(){
+  cur=0;score=0;answered=false;
+  document.getElementById('quiz-main').style.display='block';
+  document.getElementById('quiz-result').style.display='none';
+  renderQ();
+}
+
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  if(id==='quiz'){cur=0;score=0;answered=false;document.getElementById('quiz-main').style.display='block';document.getElementById('quiz-result').style.display='none';renderQ();}
+  closeSidebar();
+  window.scrollTo(0,0);
+}
+
+function toggleAcc(el){
+  const body=el.nextElementSibling;
+  body.classList.toggle('open');
+  el.querySelector('.acc-arrow').style.transform=body.classList.contains('open')?'rotate(180deg)':'';
+}
+
+function showTab(id,btn){
+  document.querySelectorAll('.atab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+renderQ();
+</script>
+</body>
+</html>
