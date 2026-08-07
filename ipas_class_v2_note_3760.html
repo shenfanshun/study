@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>AI應用規劃師(初級) 科目二 3.3：生成式AI導入評估規劃 — 考前筆記</title>
+<style>
+  :root{
+    --navy:#1a2b4c; --blue:#2f5fa8; --lightblue:#eaf1fb; --accent:#c0392b;
+    --gray:#5a6472; --bg:#f7f8fb; --card:#ffffff; --border:#e0e4ea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    background:var(--bg); color:#222; margin:0; line-height:1.75; font-size:16px;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:24px 20px 80px;}
+  header.top{
+    background:linear-gradient(135deg,var(--navy),var(--blue));
+    color:#fff; padding:36px 28px; border-radius:14px; margin-bottom:28px;
+  }
+  header.top h1{margin:0 0 8px; font-size:1.5em;}
+  header.top p{margin:4px 0; opacity:.9; font-size:.95em;}
+  nav.toc{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:18px 22px; margin-bottom:30px;
+  }
+  nav.toc h2{margin-top:0; font-size:1.05em; color:var(--navy);}
+  nav.toc ol{margin:0; padding-left:1.3em; columns:2; column-gap:24px;}
+  nav.toc li{margin-bottom:6px; break-inside:avoid;}
+  nav.toc a{color:var(--blue); text-decoration:none;}
+  nav.toc a:hover{text-decoration:underline;}
+  section{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:26px 28px; margin-bottom:22px; scroll-margin-top:16px;
+  }
+  h2.sec-title{
+    color:var(--navy); border-bottom:3px solid var(--blue); padding-bottom:8px;
+    margin-top:0; font-size:1.35em;
+  }
+  h3{color:var(--blue); font-size:1.12em; margin-top:1.6em; margin-bottom:.5em;}
+  h4{color:var(--navy); font-size:1em; margin-bottom:.3em;}
+  p{margin:.5em 0;}
+  ul,ol{padding-left:1.4em;}
+  li{margin-bottom:.35em;}
+  .en{color:var(--gray); font-style:italic; font-size:.93em;}
+  .box{
+    background:var(--lightblue); border-left:4px solid var(--blue);
+    border-radius:6px; padding:12px 16px; margin:12px 0;
+  }
+  .box strong{color:var(--navy);}
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:.93em;}
+  th,td{border:1px solid var(--border); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:var(--navy); color:#fff;}
+  tr:nth-child(even) td{background:#f9fafc;}
+  details{
+    border:1px solid var(--border); border-radius:8px; margin:10px 0; padding:10px 16px;
+    background:#fcfcfd;
+  }
+  details summary{cursor:pointer; font-weight:600; color:var(--navy);}
+  details[open] summary{margin-bottom:8px;}
+  .quiz-item{border-top:1px dashed var(--border); padding-top:14px; margin-top:14px;}
+  .quiz-item:first-child{border-top:none; margin-top:0; padding-top:0;}
+  .ans{
+    display:inline-block; background:var(--accent); color:#fff; font-weight:700;
+    padding:2px 10px; border-radius:5px; margin-left:6px;
+  }
+  .explain{color:#444; font-size:.95em; margin-top:6px;}
+  .opts{margin:6px 0 0; padding-left:0; list-style:none;}
+  .opts li{margin-bottom:3px;}
+  .correct{font-weight:700; color:var(--accent);}
+  .key-term{font-weight:700; color:var(--navy);}
+  .stage{
+    display:inline-block; background:var(--navy); color:#fff; font-size:.8em;
+    padding:2px 10px; border-radius:12px; margin-right:8px;
+  }
+  footer{text-align:center; color:var(--gray); font-size:.85em; margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>AI應用規劃師（初級）— 科目二：生成式AI應用與規劃</h1>
+  <p>考前重點筆記｜3.3 生成式AI導入評估規劃（依 iPAS 學習指引整理）</p>
+  <p>來源：AI應用規劃師(初級) 學習指引－科目2 生成式AI應用與規劃（第37–60頁）</p>
+</header>
+
+<nav class="toc">
+  <h2>目錄</h2>
+  <ol>
+    <li><a href="#ch1">生成式AI導入評估：五大評估面向</a></li>
+    <li><a href="#ch2">導入策略ABC</a></li>
+    <li><a href="#ch3">生成式AI導入規劃：四階段流程</a></li>
+    <li><a href="#ch4">ROI 投資回報率計算</a></li>
+    <li><a href="#ch5">生成式AI風險管理</a></li>
+    <li><a href="#ch6">風險種類六大策略</a></li>
+    <li><a href="#quiz">練習題與詳解（10題）</a></li>
+    <li><a href="#cheat">考前速記表</a></li>
+  </ol>
+</nav>
+
+<section id="ch1">
+  <h2 class="sec-title">一、生成式AI導入評估：五大評估面向</h2>
+  <p>企業導入生成式 AI 需進行多面向評估，確保技術與業務需求緊密結合。</p>
+  <table>
+    <tr><th>面向</th><th>重點內容</th></tr>
+    <tr>
+      <td><strong>（1）需求與現狀評估</strong></td>
+      <td>痛點識別（流程瓶頸、資源分配失衡、決策不足）；應用場景分析（品質/生產週期/客戶體驗/供應鏈）；技術對接性評估</td>
+    </tr>
+    <tr>
+      <td><strong>（2）資源與基礎設施評估</strong></td>
+      <td>技術人才是否充足；數據品質與基礎（完整性、清洗整合）；硬體與系統架構（高效能伺服器、雲端、安全機制）；系統可擴展性</td>
+    </tr>
+    <tr>
+      <td><strong>（3）分階段導入策略</strong></td>
+      <td>試點應用（小規模測試）→ 階段性擴展 → 長期目標設定 → 持續優化與回饋機制</td>
+    </tr>
+    <tr>
+      <td><strong>（4）員工技能與文化導入</strong></td>
+      <td>技術培訓（依部門/職能設計課程）；實務操作；營造數位轉型文化，促進跨部門合作</td>
+    </tr>
+    <tr>
+      <td><strong>（5）風險評估與管理</strong></td>
+      <td>資料安全與隱私；倫理與法規遵循；技術風險管理（模型偏誤、技術失效）；資源調度風險</td>
+    </tr>
+  </table>
+</section>
+
+<section id="ch2">
+  <h2 class="sec-title">二、導入策略 ABC</h2>
+
+  <h3>A. 明確目標設定與優先級排序</h3>
+  <ul>
+    <li><strong>業務影響：</strong>考量能否創造核心價值、提升生產效率/客戶滿意度/降低成本</li>
+    <li><strong>技術實現難度：</strong>優先執行低難度且能快速產生效益的場景；高資源需求且短期難見效者可延後</li>
+  </ul>
+
+  <h3>B. 根據企業規模與願景制定目標（三階段）</h3>
+  <table>
+    <tr><th>階段</th><th>重點</th></tr>
+    <tr>
+      <td><span class="stage">初始階段</span><strong>試點與驗證</strong></td>
+      <td>資源集中小範圍試點，低成本風險可控方式驗證技術可行性；收集回饋數據、累積實務經驗</td>
+    </tr>
+    <tr>
+      <td><span class="stage">成長階段</span><strong>技術推廣與整合</strong></td>
+      <td>強化跨部門合作，將技術從單一場景推廣到多個業務環節（如數據分析、自動化客服、供應鏈優化）</td>
+    </tr>
+    <tr>
+      <td><span class="stage">成熟階段</span><strong>全面整合與創新領先</strong></td>
+      <td>優化精進AI技術，尋找創新應用場景，成為業務差異化競爭的核心驅動力；滾動式調整以配合企業長遠戰略</td>
+    </tr>
+  </table>
+
+  <h3>C. 技術人才的培養與發展</h3>
+  <ul>
+    <li><strong>內部人才培訓：</strong>客製化培訓課程，強化大型語言模型、模型微調、數據處理等核心技術</li>
+    <li><strong>外部資源整合：</strong>與外部專家/技術服務商合作，縮短學習曲線；招聘高端AI人才注入新活力</li>
+  </ul>
+</section>
+
+<section id="ch3">
+  <h2 class="sec-title">三、生成式AI導入規劃：四階段流程</h2>
+  <p>導入規劃流程：<strong>準備 → 設計 → 驗證POC → 實施/營運</strong></p>
+
+  <details open>
+  <summary>（1）準備階段（挑選 AI 應用方案）</summary>
+  <h4>A. 掌握企業課題</h4>
+  <ul>
+    <li><strong>a. 設立明確目標：</strong>從營運數據、員工交流、客戶訪談蒐集回饋，確定希望AI解決的問題（提升營收/降成本/優化流程）</li>
+    <li><strong>b. 選定應用範圍：</strong>從簡單可行的核心專案開始（如客服回應、內部資料檢索），逐步建立信心與經驗</li>
+    <li><strong>c. 提取改善項目：</strong>繪製業務流程圖，找出流程瓶頸與低效環節；識別重複性、規則性、標準化工作作為理想候選項目</li>
+  </ul>
+  <h4>B. 檢視 AI 方案與企業資源</h4>
+  <ul>
+    <li><strong>a. 生成式AI的必要性：</strong>檢視數據完整性/準確性/一致性；評估技術基礎設施（算力/儲存/軟體平台）；檢視人力技能熟練度</li>
+    <li><strong>b. AI相關方案選擇：</strong>比較商業產品/開源平台/客製化服務；分析成本結構（軟體許可、硬體投資、營運支出）</li>
+    <li><strong>c. 檢視企業資源：</strong>規劃預算（硬體升級、技術支援、軟體許可）；建立專案管理架構；配置技術資源</li>
+  </ul>
+  <h4>C. 確定應用領域優先順序</h4>
+  <ul>
+    <li><strong>a. 評估導入容易程度：</strong>核心需求對應性、技術靈活性、長期適應能力</li>
+    <li><strong>b. 方案導入優先順序：</strong>商業價值效益、技術可行性成熟度、資源投入成本、長期戰略目標契合度</li>
+  </ul>
+  </details>
+
+  <details>
+  <summary>（2）設計階段（確認 AI 生成規格）</summary>
+  <ul>
+    <li><strong>A. 確認導入最終目標：</strong>明確商業目標，定義短中長期目標（財務指標、運營效率、市場競爭力），設立可量化成功標準與KPI</li>
+    <li><strong>B. 確認數據狀態：</strong>收集多來源數據確保多樣性代表性；數據清理與標記；建立持續更新的數據流程</li>
+    <li><strong>C. 確認使用情境：</strong>分析關鍵業務流程，確定適合場景（自動化客服/數據分析/預測性維護）；評估技術可行性與擴展潛力；規劃模型部署策略</li>
+    <li><strong>D. 估算AI導入成本：</strong>技術開發成本（模型構建/測試/部署/再訓練）；硬體與雲端服務成本；長期人員培訓與維護成本</li>
+  </ul>
+  </details>
+
+  <details>
+  <summary>（3）驗證 POC（驗證 AI 效果）</summary>
+  <h4>A. 模型開發至部署</h4>
+  <ul>
+    <li><strong>a. 模型架構與演算法：</strong>依數據特性選模型（自迴歸模型、自編碼器、擴散模型、Transformer多層神經網路）；考慮創造性與生成控制能力；結合提示工程優化</li>
+    <li><strong>b. 訓練模型與優化：</strong>劃分訓練/驗證/測試集；自迴歸模型常用<strong>交叉熵損失（Cross-Entropy Loss）</strong>；優化器如AdamW、LAMB；正則化(L2、Dropout)與早停策略(Early Stopping)防過擬合；混合精度訓練加速；監控準確度/語義連貫性/生成多樣性</li>
+    <li><strong>c. 驗證方案與檢查效能：</strong>設定驗證基準（<strong>BLEU、ROUGE、Perplexity</strong>）；自動化效能測試與批量測試；主觀人工檢查；壓力測試與邊界檢查；敏感性與公平性檢查；A/B測試與線上驗證</li>
+  </ul>
+  <h4>B. 導入實務運作流程</h4>
+  <p>業務流程整合 → 試點運行 → 員工培訓 → 持續改進機制 → 效益評估與推廣</p>
+  <h4>C. ROI 的計算方式（詳見下節）</h4>
+  </details>
+
+  <details>
+  <summary>（4）實施/營運階段（持續發揮價值）</summary>
+  <ul>
+    <li><strong>A. 專案落地：</strong>培養內部專家團隊，建立跨職能支持體系；明確責任分工；設置常態化回饋機制與績效數據分析</li>
+    <li><strong>B. 模型監控與重新訓練：</strong>監控指標（準確率Accuracy、召回率Recall、預測錯誤率Error Rate）；定期檢查<strong>數據漂移（Data Drift）</strong>；建構自動化重新訓練管道（Retraining Pipeline）</li>
+    <li><strong>C. AI價值擴散：</strong>由單點應用推廣至全企業；分享成功案例（內部展示會/培訓）；設立創新獎勵機制鼓勵員工參與</li>
+  </ul>
+  </details>
+</section>
+
+<section id="ch4">
+  <h2 class="sec-title">四、ROI（投資回報率）計算方式</h2>
+  <table>
+    <tr><th>項目</th><th>內容</th></tr>
+    <tr><td>成本構成</td><td>技術開發與部署費用：設備購置、基礎設施維護、專業人力資源投入</td></tr>
+    <tr><td>收益分析</td><td>直接效益（營收增長、客戶滿意度、市場擴展）＋間接效益（流程效率提升、人力最佳化）</td></tr>
+    <tr><td>財務指標</td><td>回本時間預估、<strong>淨現值（NPV, Net Present Value）</strong>、<strong>內部報酬率（IRR, Internal Rate of Return）</strong></td></tr>
+    <tr><td>敏感性分析</td><td>模擬市場條件/業務情境/成本變動對收益的影響，識別風險與機會</td></tr>
+  </table>
+</section>
+
+<section id="ch5">
+  <h2 class="sec-title">五、生成式AI風險管理</h2>
+  <p>常見風險包括：<strong>資料隱私與安全、倫理偏見、法律合規</strong>。</p>
+
+  <h3>（1）資料隱私與安全</h3>
+  <table>
+    <tr><th>常見風險</th><th>說明</th></tr>
+    <tr><td>訓練數據洩漏</td><td>模型可能無意重複訓練數據中的敏感片段</td></tr>
+    <tr><td>反向工程</td><td>攻擊者分析模型行為推斷參數或訓練數據</td></tr>
+    <tr><td>提示詞攻擊</td><td>透過多次查詢試圖推斷/重建敏感訓練資料</td></tr>
+    <tr><td>對抗性攻擊</td><td>精心設計輸入操控模型輸出，誘導洩露隱私訊息</td></tr>
+  </table>
+  <p><strong>防範措施：</strong>身份驗證與授權機制、加密技術、<strong>差分隱私技術（Differential Privacy）</strong>。</p>
+
+  <h3>（2）倫理與偏見</h3>
+  <p>模型訓練依賴歷史資料，可能反映性別/種族/文化偏見（如職業描述預設特定性別）。應對：多樣性數據集、去偏見技術（Bias Mitigation Techniques）、監控輸出結果、提高<strong>可解釋性（Explainable AI）</strong>。AI決策常被視為「<strong>黑箱（Black Box）</strong>」，責任歸屬（數據提供方/開發者/使用者）常不清。</p>
+
+  <h3>（3）法規遵循</h3>
+  <p>需遵守隱私法規如 <strong>GDPR</strong>（一般資料保護規則）、<strong>CCPA</strong>（加州消費者隱私法案）；避免侵犯智慧財產權；高風險場景（醫療決策、自動駕駛、公共政策）需更高標準的合規審查。</p>
+
+  <div class="box"><strong>風險評估工具：</strong>常採用<strong>風險矩陣（Risk Matrix）</strong>，將發生概率與影響程度交叉對比，決定優先處理順序。</div>
+</section>
+
+<section id="ch6">
+  <h2 class="sec-title">六、風險種類六大策略</h2>
+  <table>
+    <tr><th>類型</th><th>核心概念</th></tr>
+    <tr><td><strong>A. 風險溯源</strong></td><td>對數據來源詳細審核，確保合法性可靠性；採用可解釋性AI技術使生成過程可追溯</td></tr>
+    <tr><td><strong>B. 風險文化</strong></td><td>提高員工對風險的認知，定期培訓教育；鼓勵主動報告風險並提出改進建議</td></tr>
+    <tr><td><strong>C. 風險接受</strong></td><td>適用於風險影響有限或無法完全避免的情況；評估風險容忍度並制定應急計畫</td></tr>
+    <tr><td><strong>D. 風險緩解</strong></td><td>從數據管理開始確保來源合法品質高；制定審查發布政策；定期評估更新風險控制策略</td></tr>
+    <tr><td><strong>E. 風險迴避</strong></td><td>適用於技術不成熟或可能重大損害的場景；暫緩開發推進高風險應用</td></tr>
+    <tr><td><strong>F. 風險轉移</strong></td><td>透過購買保險或與第三方簽署協議，將風險責任轉移給第三方（<strong>例：外包資料安全管理</strong>）</td></tr>
+  </table>
+</section>
+
+<section id="quiz">
+  <h2 class="sec-title">七、練習題與詳解（10 題）</h2>
+
+  <div class="quiz-item">
+    <p><strong>1. 企業導入生成式 AI 的第一步應是什麼？</strong><span class="ans">答：B</span></p>
+    <ul class="opts">
+      <li>（A）確保硬體設備升級</li>
+      <li class="correct">（B）設定可量化、可追蹤的經營目標</li>
+      <li>（C）安排員工進行 AI 相關培訓</li><li>（D）購買生成式 AI 相關軟體</li>
+    </ul>
+    <p class="explain">設定明確目標是規劃AI導入的基礎，其他步驟都需以此為依據。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>2. 以下哪一項屬於企業在評估導入生成式 AI 時需識別的問題領域？</strong><span class="ans">答：A</span></p>
+    <ul class="opts">
+      <li class="correct">（A）市場趨勢預測能力有限</li>
+      <li>（B）設計更高效能的運算資源</li>
+      <li>（C）增加銷售團隊人力</li><li>（D）減少 AI 模型參數數量</li>
+    </ul>
+    <p class="explain">評估問題領域需從企業現有瓶頸出發，市場趨勢預測能力不足是常見的挑戰。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>3. 企業若要有效支援生成式 AI 的運行，內部 IT 環境最需要具備下列何種條件？</strong><span class="ans">答：C</span></p>
+    <ul class="opts">
+      <li>（A）提供更多的辦公設備，以提升員工生產力</li>
+      <li>（B）精簡企業內部流程，以加速決策效率</li>
+      <li class="correct">（C）擁有高效能運算資源與彈性儲存空間，以支援 AI 模型訓練與推理</li>
+      <li>（D）增加部門之間的交流機會，以促進跨部門合作</li>
+    </ul>
+    <p class="explain">生成式AI需要強大的運算資源和靈活的儲存環境來支持模型訓練與推理運行。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>4. 在生成式 AI 導入過程中，資料安全與隱私保護的哪一方面是最重要的考量？</strong><span class="ans">答：A</span></p>
+    <ul class="opts">
+      <li class="correct">（A）權限控管與合規要求</li>
+      <li>（B）增強客服回饋（反饋）能力</li>
+      <li>（C）資料視覺化能力</li><li>（D）設定目標優先級</li>
+    </ul>
+    <p class="explain">確保權限控管和合規是保障資料安全和避免法律風險的重要措施。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>5. 成功導入生成式 AI 的關鍵在於哪三個因素？</strong><span class="ans">答：B</span></p>
+    <ul class="opts">
+      <li>（A）提供更多數據、加強合作、減少成本</li>
+      <li class="correct">（B）清晰定義痛點、技術匹配、培養人才</li>
+      <li>（C）投資高端設備、增加技術人員、縮短流程</li><li>（D）推行技術改革、調整市場策略、強化品牌</li>
+    </ul>
+    <p class="explain">清晰目標、適配技術和人才培養是生成式AI成功應用的三大核心因素。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>6. 在導入生成式 AI 的構想階段，企業應首先專注於什麼？</strong><span class="ans">答：B</span></p>
+    <ul class="opts">
+      <li>（A）提升內部資料儲存容量</li>
+      <li class="correct">（B）明確經營目標與核心價值</li>
+      <li>（C）進行員工 AI 基礎培訓</li><li>（D）購買市面上的 AI 軟體</li>
+    </ul>
+    <p class="explain">企業應從經營目標、核心價值和長期策略出發，明確生成式AI的應用方向，這是成功導入的基礎。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>7. 在 AI 導入正式實施階段，企業應優先進行的活動是什麼？</strong><span class="ans">答：C</span></p>
+    <ul class="opts">
+      <li>（A）增加行銷預算</li><li>（B）調整產品價格</li>
+      <li class="correct">（C）確保相關人員熟悉新流程與工具</li>
+      <li>（D）減少生產規模以減少風險</li>
+    </ul>
+    <p class="explain">員工熟悉新流程和工具是AI成功應用的基礎，確保業務能順利過渡。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>8. 下列何者為風險分析階段的主要目的？</strong><span class="ans">答：C</span></p>
+    <ul class="opts">
+      <li>（A）找到更多的數據來源</li><li>（B）增強模型的效能</li>
+      <li class="correct">（C）評估風險的影響與發生可能性</li>
+      <li>（D）降低模型運行成本</li>
+    </ul>
+    <p class="explain">風險分析的重點是根據影響程度與發生機率，評估風險的嚴重性，進行分級與資源分配。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>9. 若企業將資料安全管理外包給第三方服務供應商，屬於哪種風險應對策略？</strong><span class="ans">答：B</span></p>
+    <ul class="opts">
+      <li>（A）風險緩解</li><li class="correct">（B）風險轉移</li>
+      <li>（C）風險接受</li><li>（D）風險規避</li>
+    </ul>
+    <p class="explain">透過外包或購買保險等方式，企業將潛在風險轉移至第三方來處理，屬於風險轉移策略。</p>
+  </div>
+
+  <div class="quiz-item">
+    <p><strong>10. 為了確保風險管理的持續有效性，企業應如何應對風險管理策略的效果下降？</strong><span class="ans">答：C</span></p>
+    <ul class="opts">
+      <li>（A）繼續沿用原策略</li><li>（B）停止 AI 應用以防意外</li>
+      <li class="correct">（C）快速調整並進行必要改進</li>
+      <li>（D）將策略移交給外部顧問</li>
+    </ul>
+    <p class="explain">當發現策略效果下降時，企業應主動調整策略並進行改進，確保風險管理的持續有效性。</p>
+  </div>
+</section>
+
+<section id="cheat">
+  <h2 class="sec-title">八、考前速記表</h2>
+  <table>
+    <tr><th>主題</th><th>一句話重點</th></tr>
+    <tr><td>導入評估五面向</td><td>需求現狀／資源基礎設施／分階段策略／員工技能文化／風險評估管理</td></tr>
+    <tr><td>企業規模三階段</td><td>初始(試點驗證)→成長(推廣整合)→成熟(全面整合創新領先)</td></tr>
+    <tr><td>導入規劃四階段</td><td>準備→設計→驗證POC→實施/營運</td></tr>
+    <tr><td>模型效能驗證指標</td><td>BLEU、ROUGE、Perplexity（生成品質與語言流暢性）</td></tr>
+    <tr><td>訓練防過擬合</td><td>正則化(L2/Dropout)、早停策略(Early Stopping)、混合精度訓練</td></tr>
+    <tr><td>常用損失函數</td><td>交叉熵損失(Cross-Entropy Loss)</td></tr>
+    <tr><td>ROI關鍵財務指標</td><td>NPV(淨現值)、IRR(內部報酬率)、敏感性分析</td></tr>
+    <tr><td>模型監控指標</td><td>準確率(Accuracy)、召回率(Recall)、預測錯誤率(Error Rate)、數據漂移(Data Drift)</td></tr>
+    <tr><td>資安防範措施</td><td>身份驗證授權、加密技術、差分隱私(Differential Privacy)</td></tr>
+    <tr><td>隱私法規</td><td>GDPR(歐盟)、CCPA(加州)</td></tr>
+    <tr><td>風險種類六策略</td><td>溯源／文化／接受／緩解／迴避／轉移</td></tr>
+    <tr><td>風險評估工具</td><td>風險矩陣(Risk Matrix)：發生概率×影響程度</td></tr>
+  </table>
+</section>
+
+<footer>
+  <p>本筆記依「AI應用規劃師(初級) 學習指引－科目2 生成式AI應用與規劃」第37–60頁內容整理，僅供複習參考，正式考試內容仍以官方簡章為準。</p>
+</footer>
+
+</div>
+</body>
+</html>

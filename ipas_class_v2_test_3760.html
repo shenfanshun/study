@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 應用規劃師（初級）｜3.3 生成式 AI 導入評估規劃 隨機測驗</title>
+<style>
+  :root{
+    --ink:#152420;
+    --ink-soft:#3a4d46;
+    --paper:#f4f6f2;
+    --card:#ffffff;
+    --line:#dde3d9;
+    --accent:#1f7a54;
+    --accent-deep:#155c3f;
+    --gold:#c58a1c;
+    --wrong:#c0392b;
+    --wrong-bg:#fbeceb;
+    --right:#1f7a54;
+    --right-bg:#e6f3ec;
+    --shadow:0 8px 30px rgba(21,36,32,.09);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 500px at 100% -10%, rgba(31,122,84,.07), transparent 60%),
+      radial-gradient(900px 400px at -10% 110%, rgba(197,138,28,.08), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 80px;}
+  header.masthead{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px;}
+  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-deep);font-weight:700;margin:0 0 6px;}
+  h1{font-size:clamp(24px,4.4vw,35px);margin:0;font-weight:800;letter-spacing:-.5px;line-height:1.2;}
+  .sub{color:var(--ink-soft);margin:10px 0 0;font-size:15px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:16px;font-size:13px;color:var(--ink-soft);}
+  .meta-row b{color:var(--ink);font-weight:700;}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:28px;margin-top:26px;}
+  .start-copy{font-size:15px;color:var(--ink-soft);margin:0 0 20px;}
+  .mode-label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-deep);font-weight:700;margin:0 0 10px;}
+  .mode-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
+  .mode-btn{flex:1;min-width:150px;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left;transition:.18s;font-family:inherit;}
+  .mode-btn:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .mode-btn.active{border-color:var(--accent);background:var(--right-bg);}
+  .mode-btn .t{font-weight:700;font-size:15px;color:var(--ink);}
+  .mode-btn .d{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 26px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;box-shadow:0 4px 14px rgba(31,122,84,.28);}
+  .btn:hover{background:var(--accent-deep);transform:translateY(-1px);}
+  .btn.ghost{background:#fff;color:var(--accent-deep);border:1.5px solid var(--accent);box-shadow:none;}
+  .btn.ghost:hover{background:var(--right-bg);}
+  .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;}
+  .progress-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+  .progress-head .count{font-weight:800;font-size:15px;}
+  .progress-head .tag{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-deep);font-weight:700;}
+  .bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:24px;}
+  .bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .35s;}
+  .qtype{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.12em;padding:3px 10px;border-radius:99px;margin-bottom:12px;}
+  .qtype.know{background:#e6f2ec;color:var(--accent-deep);}
+  .qtype.case{background:#f6efe0;color:#8a6a12;}
+  .qstem{font-size:18px;font-weight:700;line-height:1.6;margin:0 0 20px;}
+  .options{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+  .opt{border:1.5px solid var(--line);border-radius:12px;padding:13px 16px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:.15s;background:#fff;font-size:15.5px;}
+  .opt:hover{border-color:var(--accent);background:#fbfcfa;}
+  .opt .key{flex:none;width:26px;height:26px;border-radius:8px;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--ink-soft);transition:.15s;}
+  .opt.correct{border-color:var(--right);background:var(--right-bg);}
+  .opt.correct .key{background:var(--right);border-color:var(--right);color:#fff;}
+  .opt.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .opt.wrong .key{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+  .opt.disabled{cursor:default;pointer-events:none;}
+  .opt.dim{opacity:.55;}
+  .explain{margin-top:16px;border-left:4px solid var(--accent);background:#eef6f1;padding:14px 16px;border-radius:0 10px 10px 0;font-size:14.5px;color:var(--ink-soft);display:none;}
+  .explain.show{display:block;}
+  .explain b{color:var(--ink);}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px;}
+  .score-hero{text-align:center;padding:10px 0 6px;}
+  .score-num{font-size:56px;font-weight:800;line-height:1;letter-spacing:-1px;}
+  .score-num small{font-size:22px;color:var(--ink-soft);font-weight:700;}
+  .score-msg{font-size:16px;color:var(--ink-soft);margin-top:8px;}
+  .ring{width:130px;height:130px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;}
+  .review-item{border-top:1px solid var(--line);padding:16px 0;}
+  .review-item:first-of-type{border-top:none;}
+  .review-q{font-weight:700;font-size:15px;margin:0 0 8px;}
+  .review-line{font-size:14px;margin:3px 0;}
+  .review-line .lab{display:inline-block;min-width:70px;color:var(--ink-soft);}
+  .ok{color:var(--right);font-weight:700;}
+  .no{color:var(--wrong);font-weight:700;}
+  .rev-badge{font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;margin-left:6px;}
+  .rev-badge.k{background:#e6f2ec;color:var(--accent-deep);}
+  .rev-badge.c{background:#f6efe0;color:#8a6a12;}
+  footer{text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:40px;}
+  .hidden{display:none;}
+  @media(max-width:600px){.panel{padding:20px;}.qstem{font-size:16.5px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">iPAS · 初級能力鑑定</p>
+    <h1>生成式 AI 導入評估規劃｜隨機測驗</h1>
+    <p class="sub">科目二 3.3　—　導入評估、規劃四階段（準備／設計／POC／營運）、ROI 與風險管理</p>
+    <div class="meta-row">
+      <span>題庫共 <b id="poolTotal">50</b> 題</span>
+      <span>每回抽出 <b>10</b> 題</span>
+      <span>知識題 <b>30</b>　情境題 <b>20</b></span>
+    </div>
+  </header>
+
+  <section id="startScreen" class="panel">
+    <p class="start-copy">每次作答會從題庫隨機抽出 10 題，選完即知道對錯與解析。你可以選擇抽題範圍：</p>
+    <p class="mode-label">出題範圍</p>
+    <div class="mode-grid">
+      <button class="mode-btn active" data-mode="all"><div class="t">綜合題</div><div class="d">知識題＋情境題混合抽 10 題</div></button>
+      <button class="mode-btn" data-mode="know"><div class="t">知識題</div><div class="d">僅抽概念與事實題</div></button>
+      <button class="mode-btn" data-mode="case"><div class="t">情境題</div><div class="d">僅抽應用與判斷情境題</div></button>
+    </div>
+    <button class="btn" id="startBtn">開始測驗　→</button>
+  </section>
+
+  <section id="quizScreen" class="panel hidden">
+    <div class="progress-head">
+      <span class="count">第 <span id="curIdx">1</span> / 10 題</span>
+      <span class="tag" id="qtypeTag">知識題</span>
+    </div>
+    <div class="bar"><span id="barFill" style="width:10%"></span></div>
+    <span class="qtype know" id="qBadge">知識題</span>
+    <p class="qstem" id="qStem">題目</p>
+    <ul class="options" id="optList"></ul>
+    <div class="explain" id="explainBox"></div>
+    <div class="nav">
+      <span style="font-size:13px;color:var(--ink-soft);align-self:center;">目前得分：<b id="liveScore">0</b></span>
+      <button class="btn hidden" id="nextBtn">下一題　→</button>
+    </div>
+  </section>
+
+  <section id="resultScreen" class="panel hidden">
+    <div class="score-hero">
+      <div class="ring" id="ring"><div><div class="score-num"><span id="finalScore">0</span><small> / 10</small></div></div></div>
+      <p class="score-msg" id="scoreMsg"></p>
+    </div>
+    <div class="btn-row" style="justify-content:center;margin:18px 0 26px;">
+      <button class="btn" id="againBtn">再考一次（重新抽題）</button>
+      <button class="btn ghost" id="homeBtn">回到首頁</button>
+    </div>
+    <div id="reviewList"></div>
+  </section>
+
+  <footer>依《生成式 AI 應用與規劃》學習指引第三章 3.3 節製作　·　僅供自我練習</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  /* ============ 知識題 30 ============ */
+  {type:"know",q:"企業導入生成式 AI 時，「需求與現狀評估」的首要工作是什麼？",
+   opts:["明確自身需求與痛點並分析現有營運模式","立即採購規格最高階的運算伺服器設備","短期內大量招募各領域的 AI 專業人才","不經測試即在全公司各部門同步上線"],a:0,
+   e:"需求與現狀評估首先需明確自身需求與業務痛點，深入分析現有營運模式與挑戰，以利設計具體可行的應用策略。"},
+
+  {type:"know",q:"「痛點識別」主要是要挖掘下列哪些問題？",
+   opts:["流程瓶頸、資源分配失衡與決策不足","員工薪資水準的高低與調整幅度","辦公室空間裝潢與座位配置方式","公司近期股價漲跌與市值的變化"],a:0,
+   e:"痛點識別是挖掘流程瓶頸、資源分配失衡或決策過程的不足。"},
+
+  {type:"know",q:"在「資源與基礎設施評估」中，生成式 AI 高度依賴什麼？",
+   opts:["大量且高品質的完整訓練數據","僅單一來源的老舊歷史資料","數量極少的隨機抽樣小資料","完全不需任何資料即可運作"],a:0,
+   e:"生成式 AI 高度依賴大量且高品質的數據，需確保數據完整性並進行清洗與整合。"},
+
+  {type:"know",q:"「系統可擴展性」在資源評估中指的是什麼？",
+   opts:["架構具彈性可隨應用規模擴展調整","架構完全固定且不可再任意變動","系統僅能供單一使用者連線操作","刻意限制可處理的最大資料容量"],a:0,
+   e:"系統可擴展性指架構需具備彈性，能隨應用規模擴展與調整。"},
+
+  {type:"know",q:"採取分階段策略時，「試點應用」的作法是什麼？",
+   opts:["選代表性業務單位小規模測試驗證","一次即在全公司完成全面性導入","略過測試環節直接進入大量量產","僅停留於理論分析而不實際執行"],a:0,
+   e:"試點應用選擇具代表性的業務單位進行小規模測試，以驗證技術可行性。"},
+
+  {type:"know",q:"「員工技能與文化導入」不包含下列哪一項？",
+   opts:["直接解散企業內部既有的技術團隊","針對不同職能設計的技術培訓課程","提供實際操作機會的實務練習環節","營造支持創新的數位轉型企業文化"],a:0,
+   e:"員工技能與文化導入包含技術培訓、實務操作與營造數位轉型文化，而非解散團隊。"},
+
+  {type:"know",q:"導入 AI 的「風險評估與管理」中，下列何者屬於技術風險管理？",
+   opts:["針對模型偏誤與技術失效設應變機制","調高公司主力產品的整體銷售定價","增加各通路的廣告投放與行銷預算","擴大公司的辦公室面積與座位數量"],a:0,
+   e:"技術風險管理針對模型偏誤、技術失效設立應變機制。"},
+
+  {type:"know",q:"根據企業規模與願景制定目標時，「初始階段」的定位是什麼？",
+   opts:["試點與驗證，資源集中於小範圍項目","全面整合並追求創新領先的成熟運營","立即展開大規模的跨國市場推廣","全面停止對相關技術的一切投資"],a:0,
+   e:"初始階段為試點與驗證，企業應將資源集中於小範圍的試點項目，以低成本且風險可控的方式驗證可行性。"},
+
+  {type:"know",q:"「成熟階段-全面整合與創新領先」的核心概念是什麼？",
+   opts:["精進技術並使其成為業務差異化的核心","僅停留在最基礎的小範圍試點驗證","全面凍結技術更新以維持系統穩定","逐步縮減並撤除公司所有 AI 應用"],a:0,
+   e:"成熟階段核心概念是優化並精進 AI 技術、測試更多可能性，實現高效系統化運營，並運用 AI 實現業務差異化競爭。"},
+
+  {type:"know",q:"技術人才培養中，「外部資源整合與專家合作」的主要好處是什麼？",
+   opts:["引進外部技術與人才並縮短學習曲線","以外部人力完全取代內部技術團隊","為節省成本而降低訓練資料的品質","放棄所有內部員工的培訓與再教育"],a:0,
+   e:"引進外部具相關經驗的專家或技術服務商合作，往往更能幫助企業縮短學習曲線，並為團隊注入新活力。"},
+
+  {type:"know",q:"在概念驗證（POC）階段，企業主要透過什麼方式評估模型效能？",
+   opts:["小規模實驗檢視準確度與作業融合度","略過測試直接於全公司正式上線","僅參考競爭對手的做法作為依據","不進行任何測試即判定方案可行"],a:0,
+   e:"在 POC 階段，企業可透過小規模實驗測試評估模型效能，檢視 AI 在真實業務環境中的預測準確度、效率及融合度。"},
+
+  {type:"know",q:"導入規劃中，POC 測試若顯示什麼結果，即代表該 AI 應用具有商業價值？",
+   opts:["模型能顯著提升整體效果或降低錯誤率","模型的表現與導入前完全沒有差別","僅是操作介面變得更為美觀好看","實際使用該系統的用戶人數下降"],a:0,
+   e:"若測試結果顯示模型能顯著提升整體效果或降低錯誤率，即代表該 AI 應用具有商業價值。"},
+
+  {type:"know",q:"設計階段「確認導入最終目標」時，用來追蹤模型效能的工具是什麼？",
+   opts:["績效指標（KPI）","公司股票代號","現有員工人數","辦公室的面積"],a:0,
+   e:"應制定績效指標（KPI）以追蹤模型效能，並根據業務變化調整模型配置。"},
+
+  {type:"know",q:"設計階段「確認數據狀態」建議如何降低模型訓練中的偏差？",
+   opts:["收集多個來源的數據以確保多樣代表性","僅使用單一來源的資料進行訓練","為求效率而略過資料的查證程序","刻意採用已過時且陳舊的舊資料"],a:0,
+   e:"應收集來自多個來源的數據，保證其多樣性與代表性，進而減少模型訓練中的偏差。"},
+
+  {type:"know",q:"在定義生成式 AI 架構與演算法時，下列何者「不是」文中列出的常見模型？",
+   opts:["線性迴歸（Linear Regression）","自迴歸模型（Autoregressive）","擴散模型（Diffusion Models）","基於 Transformer 的神經網路"],a:0,
+   e:"常見選項包括自迴歸模型、自編碼器、擴散模型，以及基於 Transformer 的多層神經網路，未列線性迴歸。"},
+
+  {type:"know",q:"自迴歸模型中常用的損失函數為何？",
+   opts:["交叉熵損失（Cross-Entropy Loss）","均方誤差的平方根計算方式","絕對值誤差的加總平均計算","餘弦相似度的比對計算方式"],a:0,
+   e:"自迴歸模型中常用的損失函數為交叉熵損失（Cross-Entropy Loss），能有效評估生成詞語的預測誤差。"},
+
+  {type:"know",q:"下列何者是文中提到常用的優化器（Optimizer）？",
+   opts:["AdamW 和 LAMB","JPEG 和 PNG","HTTP 和 FTP","CPU 和 GPU"],a:0,
+   e:"常用的優化器包括 AdamW 和 LAMB，能針對不同模型大小進行學習率調整。"},
+
+  {type:"know",q:"為防止過擬合（Overfitting），下列何者是文中提到的技術？",
+   opts:["L2 正則化、Dropout 與早停策略","在資料中大量刻意加入雜訊","直接刪除模型的驗證資料集","停止對模型效能的持續監控"],a:0,
+   e:"為防止過擬合或欠擬合，可採用正則化技術（如 L2 正則化與 Dropout）以及早停策略來穩定訓練過程。"},
+
+  {type:"know",q:"評估生成式 AI 模型時，下列何者是文中提到的量化標準指標？",
+   opts:["BLEU、ROUGE、Perplexity","GDP、CPI、PPI","RGB、CMYK、HEX","TCP、UDP、HTTP"],a:0,
+   e:"設定驗證基準時常採用 BLEU、ROUGE、Perplexity 等量化標準，以衡量模型生成內容的品質與語言流暢性。"},
+
+  {type:"know",q:"「邊界檢查（Boundary Testing）」主要用來檢測什麼？",
+   opts:["模型在稀有或異常數據下的穩定性","模型輸出畫面的外觀色彩配置","伺服器機房的溫度與濕度控制","員工每日出勤與打卡的紀錄"],a:0,
+   e:"邊界檢查檢測模型在稀有或異常數據下的穩定性與應對能力。"},
+
+  {type:"know",q:"導入實務運作流程中，「業務流程整合」的重點是什麼？",
+   opts:["將方案嵌入現有流程並定義角色分工","讓 AI 方案與現有流程完全獨立隔離","全面取消流程中所有人工參與環節","停止各部門之間的溝通與資訊交流"],a:0,
+   e:"業務流程整合是將生成式 AI 方案嵌入現有業務流程，確保操作人員與系統協作順暢，並定義清晰的角色分工。"},
+
+  {type:"know",q:"計算 ROI 時，文中提到可搭配計算哪些財務指標？",
+   opts:["淨現值（NPV）與內部報酬率（IRR）","即期匯率與市場基準利率水準","公司股價與整體市值的變化","營業稅稅率與進出口的關稅"],a:0,
+   e:"進一步計算 ROI 時，可計算財務指標如淨現值（NPV）與內部報酬率（IRR），以評估財務可行性與長期收益潛力。"},
+
+  {type:"know",q:"「敏感性分析（Sensitivity Analysis）」的作用是什麼？",
+   opts:["模擬市場與成本變動對收益的影響","單純美化財務報表的外觀與排版","對敏感資料進行加密與去識別化","加快模型整體訓練與收斂的速度"],a:0,
+   e:"敏感性分析能有效模擬市場條件、業務情境或成本變動對方案收益的影響，幫助企業識別風險與機會。"},
+
+  {type:"know",q:"模型監控與重新訓練中，「數據漂移（Data Drift）」是指什麼？",
+   opts:["輸入數據分佈變化致預測準確性降低","儲存資料的硬碟被實體搬移位置","伺服器主機的硬碟發生故障損壞","網路連線出現封包延遲的狀況"],a:0,
+   e:"數據漂移指輸入數據的分佈變化，特別是業務場景或用戶行為改變時，可能導致模型預測準確性降低。"},
+
+  {type:"know",q:"「自動化重新訓練管道（Retraining Pipeline）」的效益是什麼？",
+   opts:["縮短更新周期並於警戒值時自動觸發","將模型永久固定而不再進行更新","反而增加更多人為干預的環節","停用生產環境以避免任何風險"],a:0,
+   e:"構建自動化重新訓練管道可縮短模型更新周期，效能達設定警戒值時自動觸發重新訓練，減少人為干預的時間成本。"},
+
+  {type:"know",q:"生成式 AI 風險管理中，下列何者屬於「常見風險識別」？",
+   opts:["訓練數據洩漏、反向工程與提示詞攻擊","畫面上顯示的字型過小不易閱讀","系統介面的整體配色不夠美觀","輸出檔案的命名長度過於冗長"],a:0,
+   e:"常見風險包含訓練數據洩漏、反向工程、提示詞攻擊與對抗性攻擊。"},
+
+  {type:"know",q:"下列何者是防止敏感資料外洩的「資料雜訊技術」？",
+   opts:["差分隱私（Differential Privacy）","JPEG 影像壓縮的技術","瀏覽器快取的清除機制","畫面截圖與存檔的功能"],a:0,
+   e:"導入差分隱私（Differential Privacy）等資料雜訊技術，可防止敏感資料外洩。"},
+
+  {type:"know",q:"AI 系統決策過程常被視為「黑箱（Black Box）」，主要造成什麼問題？",
+   opts:["用戶難理解推理過程而削弱可信度","運算速度過快導致結果無法呈現","佔用過多儲存空間而拖慢系統","畫面色彩顯示錯誤影響閱讀體驗"],a:0,
+   e:"黑箱問題使用戶無法輕易理解模型的推理過程，不僅削弱結果可信度，也增加企業在倫理層面的壓力。"},
+
+  {type:"know",q:"風險評估常採用哪種工具，將發生概率與影響程度進行交叉對比？",
+   opts:["風險矩陣（Risk Matrix）","甘特圖（Gantt Chart）","組織圖（Org Chart）","流程圖（Flowchart）"],a:0,
+   e:"風險評估通常採用風險矩陣（Risk Matrix），將風險的發生概率與影響程度交叉對比，協助決策者了解各類風險的權重。"},
+
+  {type:"know",q:"下列哪一項風險應對策略是「透過購買保險或與外部夥伴簽約，將風險責任轉移給第三方」？",
+   opts:["風險轉移","風險接受","風險迴避","風險緩解"],a:0,
+   e:"風險轉移透過購買保險或與外部合作夥伴簽署協議，將部分或全部風險責任轉移給第三方。"},
+
+  /* ============ 情境題 20 ============ */
+  {type:"case",q:"某公司剛決定要導入生成式 AI，依指引第一步應該做什麼？",
+   opts:["明確自身需求與業務痛點所在","立即購買最昂貴的高階顯示卡","先舉辦盛大的內部慶祝活動","要求全體員工同一天內上線"],a:0,
+   e:"導入首要工作是明確自身需求與業務痛點，深入分析現有營運模式與挑戰，以設計可行策略。"},
+
+  {type:"case",q:"一家企業想先用低成本、風險可控的方式驗證 AI 可行性，應採取哪種策略？",
+   opts:["選擇小範圍試點項目先行驗證","直接於全公司各部門全面導入","略過驗證環節直接大量量產","僅投入市場行銷而不做測試"],a:0,
+   e:"初始階段應將資源集中於小範圍試點，以低成本且風險可控的方式驗證 AI 技術可行性。"},
+
+  {type:"case",q:"企業要提取改善項目，發現某些工作具重複性、規則性與標準化。這類工作在導入時通常是？",
+   opts:["相較理想的候選項目，如報表生成","導入時最不適合處理的工作類型","應永久維持全人工處理的項目","與 AI 導入完全無關的作業環節"],a:0,
+   e:"識別具重複性、規則性和標準化的工作，這些通常是相較理想的候選項目，例如數據處理、報表生成或客戶服務查詢。"},
+
+  {type:"case",q:"某企業在挑選 AI 方案時，發現內部資料格式不一致、歷史資料不足。依指引應優先？",
+   opts:["進行資源升級或招募培訓以補足不足","忽略現況直接讓專案上線運作","刪除所有既有的歷史累積資料","立即中止並放棄整個 AI 專案"],a:0,
+   e:"若資源出現不足，應針對不足之處進行資源升級、引入新技術或招募具備相關技能的人才，或對現有員工進行培訓。"},
+
+  {type:"case",q:"公司評估多個 AI 方案的導入優先順序，下列何者最符合指引的評估角度？",
+   opts:["綜合商業價值、技術可行性與戰略目標","只看哪個方案的使用者介面較美觀","僅依供應商的品牌名氣大小決定","以隨機抽籤的方式來決定優先序"],a:0,
+   e:"確定導入優先順序應綜合評估商業價值與效益、技術可行性與成熟度、資源投入與成本預算，以及是否符合長期戰略目標。"},
+
+  {type:"case",q:"某簡單生成任務資源有限，團隊在選擇模型架構時較適合？",
+   opts:["採用輕量級的小型預訓練模型","一律採用規模最龐大的模型","完全不使用任何模型直接輸出","改以試算表公式取代模型運算"],a:0,
+   e:"架構設計需根據任務複雜程度選擇，簡單生成任務可採用輕量級模型（如小型預訓練 Transformer）。"},
+
+  {type:"case",q:"訓練時模型在訓練集表現很好、但在新資料上表現差。這是什麼現象，應如何處理？",
+   opts:["過擬合，可用正則化與早停策略處理","資料不足，應直接刪除整個模型","硬體故障，需更換整台運算主機","與模型無關，屬正常的隨機波動"],a:0,
+   e:"訓練集好、泛化差是過擬合（Overfitting），可採用正則化（如 L2、Dropout）與早停策略來穩定訓練過程。"},
+
+  {type:"case",q:"某團隊想利用已有的預訓練模型，針對對話系統或語義搜尋做特定任務微調以提升效能。應採用？",
+   opts:["遷移學習（Transfer Learning）","從完全空白狀態重新訓練","直接放棄該項任務的開發","僅微調操作介面的顯示樣式"],a:0,
+   e:"可引入遷移學習（Transfer Learning），利用預訓練模型進行特定任務的微調，如對話系統或語義搜尋，以顯著提升應用效能。"},
+
+  {type:"case",q:"上線前，企業想確認模型在高負載與極端輸入下仍穩定。應執行哪類測試？",
+   opts:["壓力測試與邊界檢查","畫面色彩顯示測試","字型與排版的測試","用戶滿意度的問卷"],a:0,
+   e:"壓力測試檢查模型在高負載或極端場景的表現；邊界檢查檢測模型在稀有或異常數據下的穩定性與應對能力。"},
+
+  {type:"case",q:"某圖像生成模型在膚色與性別分佈上表現不均衡。依指引，應如何降低此問題？",
+   opts:["確保數據多樣並用去偏見技術監控","視為正常現象而不加以任何處理","減少訓練資料量以簡化模型判斷","停用所有輸出監控以加快回應"],a:0,
+   e:"應確保訓練數據的多樣性，使用去偏見技術（Bias Mitigation Techniques）調整模型，並對輸出結果進行監控。"},
+
+  {type:"case",q:"企業處理個人資料訓練模型，為遵守 GDPR、CCPA，應採取什麼措施？",
+   opts:["資料匿名化並確保用戶知情授權","將所有個人資料直接對外公開","略過任何形式的用戶授權程序","僅以口頭方式告知用戶即可"],a:0,
+   e:"處理個人資料時應採取資料匿名化或假名化技術，確保用戶知情並獲得授權，以遵守隱私法規要求。"},
+
+  {type:"case",q:"在醫療診斷或金融決策等高風險場景導入生成式 AI，最關鍵需要明確的是什麼？",
+   opts:["明確界定應用範圍並合理分配責任","盡量不留下任何操作與決策紀錄","將所有決策完全交由 AI 自主判定","刻意隱藏系統有使用 AI 的事實"],a:0,
+   e:"高風險場景中責任分擔是關鍵，企業需明確界定應用範圍與使用責任，確保模型出錯時能合理分配風險與責任並合規。"},
+
+  {type:"case",q:"某公司資源有限，對一項影響有限且無法完全避免的風險，選擇制定應急計畫並承擔。這屬於哪種策略？",
+   opts:["風險接受","風險迴避","風險轉移","風險緩解"],a:0,
+   e:"風險接受適用於風險影響有限或無法完全避免的情況，核心在於準確評估風險容忍度並制定應急計畫。"},
+
+  {type:"case",q:"某項 AI 技術尚不成熟且可能造成重大損害，企業決定暫緩推進、待條件成熟再恢復。這屬於？",
+   opts:["風險迴避","風險接受","風險轉移","風險文化"],a:0,
+   e:"風險迴避適用於技術不成熟或可能導致重大損害的場景，企業可暫緩開發或推進，待條件成熟後再恢復應用。"},
+
+  {type:"case",q:"企業把資料安全管理外包給第三方服務供應商並簽約分配責任，屬於哪種風險應對策略？",
+   opts:["風險轉移","風險緩解","風險接受","風險迴避"],a:0,
+   e:"透過外包或購買保險等方式將潛在風險轉移至第三方處理，屬於風險轉移。"},
+
+  {type:"case",q:"公司想從數據管理著手降低風險，確保資料來源合法且高品質，並審查生成內容。這屬於？",
+   opts:["風險緩解","風險迴避","風險轉移","風險接受"],a:0,
+   e:"風險緩解從數據管理開始，確保數據來源合法且具備高品質，並對生成內容進行審查與發布以符合法律與倫理規範。"},
+
+  {type:"case",q:"為提高員工對生成式 AI 風險的認知，企業定期培訓並鼓勵主動報告風險。這對應哪一項？",
+   opts:["風險文化","風險轉移","風險迴避","風險溯源"],a:0,
+   e:"風險文化強調提高員工對生成式 AI 風險的認知，透過定期培訓與教育、建立風險報告機制與獎勵政策強化基層參與。"},
+
+  {type:"case",q:"企業希望確保生成內容的來源與過程可追溯，以實現從數據到結果的全流程透明化。應採用？",
+   opts:["可解釋性 AI 並記錄資料集標籤結構","改用黑箱模型且不留任何紀錄","刪除系統中所有的運行日誌檔","停用資料追蹤以節省儲存空間"],a:0,
+   e:"風險溯源需採用可解釋性 AI 技術，確保生成內容來源與過程可追溯，並詳細記錄數據集標籤與結構。"},
+
+  {type:"case",q:"上線後模型效能逐漸下降，企業發現風險管理策略效果變差。最恰當的做法是？",
+   opts:["快速調整策略並進行必要改進","繼續沿用原策略完全不變動","立即全面停用所有 AI 應用","將問題全部移交外部顧問"],a:0,
+   e:"當發現策略效果下降時，企業應主動調整策略並進行改進，確保風險管理的持續有效性。"},
+
+  {type:"case",q:"為增強用戶對 AI 技術的信任並減少誤解，企業可採取下列哪項透明化承諾？",
+   opts:["明確標示此內容由 AI 生成","刻意隱藏 AI 參與的事實","對外誇大 AI 的實際能力","拒絕向用戶提供任何說明"],a:0,
+   e:"向外界展示透明的風險管理承諾，例如標示「此內容由 AI 生成」，有助於增強用戶對技術的信任並減少誤解。"}
+];
+
+const LETTERS=["A","B","C","D"];
+let mode="all",pool=[],idx=0,score=0,answered=false,session=[];
+const $=id=>document.getElementById(id);
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+document.querySelectorAll(".mode-btn").forEach(b=>{b.addEventListener("click",()=>{document.querySelectorAll(".mode-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode;});});
+function buildPool(){let base=QUESTIONS;if(mode==="know")base=QUESTIONS.filter(q=>q.type==="know");if(mode==="case")base=QUESTIONS.filter(q=>q.type==="case");return shuffle(base).slice(0,10);}
+$("startBtn").addEventListener("click",startQuiz);
+$("againBtn").addEventListener("click",startQuiz);
+$("homeBtn").addEventListener("click",()=>{$("resultScreen").classList.add("hidden");$("startScreen").classList.remove("hidden");});
+$("nextBtn").addEventListener("click",nextQuestion);
+function startQuiz(){pool=buildPool();idx=0;score=0;session=[];$("startScreen").classList.add("hidden");$("resultScreen").classList.add("hidden");$("quizScreen").classList.remove("hidden");$("liveScore").textContent="0";renderQuestion();}
+function renderQuestion(){
+  answered=false;const q=pool[idx];
+  $("curIdx").textContent=idx+1;
+  $("barFill").style.width=((idx)/pool.length*100)+"%";
+  const isKnow=q.type==="know";
+  $("qtypeTag").textContent=isKnow?"知識題":"情境題";
+  const badge=$("qBadge");badge.textContent=isKnow?"知識題":"情境題";badge.className="qtype "+(isKnow?"know":"case");
+  $("qStem").textContent=q.q;
+  const order=shuffle([0,1,2,3]);const list=$("optList");list.innerHTML="";q._order=order;
+  order.forEach((origIdx,pos)=>{const li=document.createElement("li");li.className="opt";li.innerHTML=`<span class="key">${LETTERS[pos]}</span><span>${q.opts[origIdx]}</span>`;li.addEventListener("click",()=>choose(li,origIdx));list.appendChild(li);});
+  $("explainBox").classList.remove("show");$("nextBtn").classList.add("hidden");
+}
+function choose(el,origIdx){
+  if(answered)return;answered=true;const q=pool[idx];const correct=origIdx===q.a;
+  if(correct){score++;$("liveScore").textContent=score;}
+  const items=[...$("optList").children];
+  items.forEach((li,pos)=>{li.classList.add("disabled");const o=q._order[pos];if(o===q.a)li.classList.add("correct");else if(li===el)li.classList.add("wrong");else li.classList.add("dim");});
+  const eb=$("explainBox");eb.innerHTML=`<b>${correct?"✓ 答對了":"✗ 答錯了"}　·　正確答案：${answerLetter(q)}</b><br>${q.e}`;eb.classList.add("show");
+  session.push({q:q.q,type:q.type,chosen:q.opts[origIdx],correctText:q.opts[q.a],correct});
+  $("nextBtn").classList.remove("hidden");$("nextBtn").textContent=(idx===pool.length-1)?"看結果　→":"下一題　→";
+}
+function answerLetter(q){return LETTERS[q._order.indexOf(q.a)];}
+function nextQuestion(){if(idx===pool.length-1){showResults();return;}idx++;renderQuestion();}
+function showResults(){
+  $("barFill").style.width="100%";$("quizScreen").classList.add("hidden");$("resultScreen").classList.remove("hidden");$("finalScore").textContent=score;
+  const pct=score/pool.length;let msg;
+  if(pct===1)msg="滿分！觀念非常扎實，可以上考場了。";
+  else if(pct>=0.8)msg="表現優秀，少數細節再複習即可。";
+  else if(pct>=0.6)msg="及格水準，建議回頭看錯題的解析。";
+  else msg="再加把勁，把每題解析讀過一遍會很有幫助。";
+  $("scoreMsg").textContent=msg;
+  const deg=Math.round(pct*360);const col=pct>=0.6?"var(--accent)":"var(--gold)";
+  $("ring").style.background=`conic-gradient(${col} ${deg}deg, var(--line) ${deg}deg)`;
+  $("ring").firstElementChild.style.cssText="background:#fff;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;";
+  const rl=$("reviewList");rl.innerHTML="";
+  session.forEach((s,i)=>{
+    const div=document.createElement("div");div.className="review-item";
+    const badge=s.type==="know"?'<span class="rev-badge k">知識</span>':'<span class="rev-badge c">情境</span>';
+    let lines=`<p class="review-q">${i+1}. ${s.q}${badge}</p>`;
+    if(s.correct){lines+=`<p class="review-line"><span class="lab">你的答案</span><span class="ok">${s.chosen} ✓</span></p>`;}
+    else{lines+=`<p class="review-line"><span class="lab">你的答案</span><span class="no">${s.chosen} ✗</span></p>`;lines+=`<p class="review-line"><span class="lab">正確答案</span><span class="ok">${s.correctText}</span></p>`;}
+    div.innerHTML=lines;rl.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
