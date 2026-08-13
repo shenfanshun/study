@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深度學習模型架構 情境題練習</title>
+<style>
+  :root{
+    --ink:#f6f8fb; --ink2:#eef1f7; --panel:#ffffff; --panel2:#f1f4f9;
+    --line:#e2e6ed; --muted:#6b7688; --text:#1a2230; --dim:#48566b;
+    --c1:#0d9488; --c2:#7c3aed; --c3:#db2777;
+    --ok:#16a34a; --okbg:#dcfce7;
+    --no:#dc2626; --nobg:#fee2e2;
+    --grad:linear-gradient(90deg,#0d9488 0%,#7c3aed 55%,#db2777 100%);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(124,108,255,.10), transparent 60%),
+      radial-gradient(900px 500px at -5% 10%, rgba(56,225,200,.08), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font-family:"Inter","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:28px 20px 96px}
+  header{margin-bottom:22px}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--c1);
+    font-family:"JetBrains Mono",ui-monospace,monospace;margin:0 0 10px}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.12;margin:0 0 6px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+
+  .modebar{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+  .mode{appearance:none;border:1px solid var(--line);background:transparent;color:var(--dim);
+    font-size:13px;padding:9px 16px;border-radius:99px;cursor:pointer;transition:.18s;font-family:inherit;font-weight:600}
+  .mode:hover{border-color:var(--c2);color:var(--text)}
+  .mode.active{background:var(--grad);color:#0b0f14;border-color:transparent}
+
+  .dash{display:flex;align-items:center;gap:16px;margin:16px 0 8px;flex-wrap:wrap}
+  .signal{flex:1;min-width:200px}
+  .signal .track{height:8px;border-radius:99px;background:var(--panel2);overflow:hidden;border:1px solid var(--line)}
+  .signal .fill{height:100%;width:0;background:var(--grad);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+  .signal .lab{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);
+    margin-top:7px;font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.05em}
+  .score{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px;color:var(--dim)}
+  .score b{color:var(--c1)}
+  .score .sep{color:var(--line);margin:0 6px}
+  .score .wrong{color:var(--c3)}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 6px}
+  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--dim);
+    font-size:13px;padding:8px 14px;border-radius:9px;cursor:pointer;transition:.18s;
+    font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+  .btn:hover{border-color:var(--c2);color:var(--text);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn.ghost{background:transparent}
+
+  .card{background:linear-gradient(180deg,var(--panel),var(--ink2));
+    border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;margin:16px 0;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset, 0 18px 40px -30px rgba(15,23,42,.10)}
+  .qhead{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .qnum{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--ink);
+    background:var(--c1);padding:3px 9px;border-radius:6px;font-weight:700}
+  .qtext{font-size:16px;line-height:1.72;color:var(--text);margin:0 0 16px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;
+    background:var(--panel2);border:1px solid var(--line);border-radius:11px;
+    padding:13px 14px;cursor:pointer;transition:.16s;color:var(--dim);font-size:14.5px;line-height:1.6;font-family:inherit}
+  .opt:hover:not(.locked){border-color:var(--c2);background:#f4f1fd;color:var(--text)}
+  .opt .key{flex:none;width:26px;height:26px;border-radius:7px;border:1px solid var(--line);
+    display:grid;place-items:center;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:13px;font-weight:700;color:var(--muted);transition:.16s}
+  .opt:hover:not(.locked) .key{border-color:var(--c2);color:var(--c1)}
+  .opt.locked{cursor:default}
+  .opt.correct{border-color:var(--ok);background:var(--okbg);color:var(--text)}
+  .opt.correct .key{background:var(--ok);color:var(--ink);border-color:var(--ok)}
+  .opt.wrong{border-color:var(--no);background:var(--nobg);color:var(--text)}
+  .opt.wrong .key{background:var(--no);color:#fff;border-color:var(--no)}
+  .opt.dim{opacity:.5}
+  .explain{margin-top:14px;border-left:3px solid var(--c2);background:rgba(124,108,255,.07);
+    border-radius:0 10px 10px 0;padding:12px 15px;font-size:14px;color:var(--dim);
+    max-height:0;overflow:hidden;opacity:0;transition:.35s ease}
+  .explain.show{max-height:340px;opacity:1;margin-top:14px}
+  .explain .lab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;
+    letter-spacing:.14em;color:var(--c2);text-transform:uppercase;display:block;margin-bottom:5px}
+  .explain b{color:var(--c1)}
+  .result{display:none;background:linear-gradient(180deg,var(--panel),var(--ink2));
+    border:1px solid var(--line);border-radius:16px;padding:26px;text-align:center;margin:18px 0}
+  .result.show{display:block}
+  .result .big{font-size:52px;font-weight:800;line-height:1;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .result .cap{color:var(--muted);font-size:13px;margin-top:6px;font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.1em}
+  .result .msg{margin:14px 0 18px;color:var(--dim)}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.04em}
+  @media (max-width:560px){.wrap{padding:20px 14px 90px}.qtext{font-size:15px}.opt{font-size:14px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  .opt:focus-visible,.btn:focus-visible,.mode:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">初級 AI 應用規劃師 · 情境練習</p>
+    <h1>生成 · 序列 · 視覺模型 <span class="g">情境題</span></h1>
+    <p class="sub">60 題台灣在地情境選擇題，每回合可抽考 15 題 · 真實業務難題＋選型取捨＋反向判斷 · 涵蓋 GAN／VAE／Diffusion／CFG、Transformer／RNN／LSTM、ViT／CNN／GCN</p>
+
+    <div class="modebar" id="modebar">
+      <button class="mode active" data-mode="15">抽考 15 題</button>
+      <button class="mode" data-mode="all">全部 60 題</button>
+    </div>
+
+    <div class="dash">
+      <div class="signal">
+        <div class="track"><div class="fill" id="fill"></div></div>
+        <div class="lab"><span id="progLab">已作答 0 / 0</span><span id="pct">0%</span></div>
+      </div>
+      <div class="score">正確 <b id="sCorrect">0</b><span class="sep">/</span>錯誤 <span class="wrong" id="sWrong">0</span></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="revealBtn">顯示本回合解析</button>
+      <button class="btn ghost" id="newRoundBtn">重新抽題</button>
+    </div>
+  </header>
+  <div id="quiz"></div>
+  <div class="result" id="result">
+    <div class="big" id="rBig">0%</div>
+    <div class="cap" id="rCap">SCORE</div>
+    <p class="msg" id="rMsg"></p>
+    <button class="btn" id="againBtn">再抽一回合</button>
+  </div>
+  <footer>學習來源：「生成與創作 GAN/Diffusion/VAE/CFG」＋「序列與文字 Transformer/RNN/LSTM」＋「影像與視覺 ViT/CNN/GCN」· 題型仿 115 年第一次初級 AI 應用規劃師</footer>
+</div>
+<script>
+const ALL = [{"id": 1, "q": "台灣某遊戲公司要為手遊量產大量『不存在的虛擬角色人臉』，美術總監的唯一硬性要求是成品要像真人照片一樣逼真、細節銳利，訓練不穩、要反覆調參、產出偶爾崩掉都可接受，反正挑得出好的就好。就此『逼真度壓倒一切、可容忍訓練不穩』的需求，最適合的生成模型為下列何者？", "opts": ["VAE，因為訓練穩定", "CNN，因為擅長影像", "GAN，生成品質最逼真", "GCN，因為處理關係資料"], "ans": "C", "topic": "GAN 應用", "exp": "GAN 生成品質最逼真、細節銳利，適合『逼真度優先、可容忍訓練不穩』的人臉生成。"}, {"id": 2, "q": "某新創用 GAN 為電商生成服飾圖，訓練後行銷發現：不論輸入什麼隨機種子，模型翻來覆去只吐出三、四種很像的款式，多樣性嚴重不足。工程師判斷這是 GAN 的典型病症。就此『只生成少數幾種結果』的現象，下列診斷何者最正確？", "opts": ["位置編碼遺失，應加 Position Encoding", "梯度消失，應改用 LSTM", "過擬合，應做池化降維", "模式崩潰（Mode Collapse），生成器偷懶只學會少數樣式"], "ans": "D", "topic": "模式崩潰", "exp": "GAN 常見的模式崩潰：生成器只產出少數能騙過判別器的樣式，缺乏多樣性。"}, {"id": 3, "q": "某影像團隊向主管解釋 GAN 為何難訓練：它讓兩個網路對抗，一個拚命造假、一個拚命抓假，兩邊實力要旗鼓相當才穩得住，稍有失衡就崩。關於 GAN 這兩個對抗角色的分工，下列敘述何者錯誤？", "opts": ["判別器（Discriminator）負責分辨資料是真是假", "生成器（Generator）負責產生假資料試圖騙過對方", "判別器負責造假、生成器負責鑑定真假", "兩者互相對抗、共同進步以提升品質"], "ans": "C", "topic": "GAN 角色（反向）", "exp": "錯誤敘述：生成器才是造假、判別器才是鑑定；選項把兩者角色顛倒了。"}, {"id": 4, "q": "台灣某工具機大廠要在產線上做『刀具異常偵測』：正常運轉資料極多、故障樣本極少，團隊想學出正常資料的分布，讓明顯偏離分布者被標為異常，同時希望壓縮後的潛在空間有結構、方便分析與解釋。就此需求，最適合的模型為下列何者？", "opts": ["Diffusion，因為畫質最高", "RNN，因為處理序列", "GAN，因為生成最逼真", "VAE，可學資料分布並用於異常偵測、潛在空間有結構"], "ans": "D", "topic": "VAE 應用", "exp": "VAE 學資料的機率分布、潛在空間有結構且可解釋，適合壓縮、降維與異常偵測。"}, {"id": 5, "q": "某醫療影像團隊要一個能『理解資料規律並自由創作新樣本』的模型來做資料擴增，關鍵在於它把每張影像記成一個機率分布（平均＋變異數）、再隨機取樣生成，而非死記成一個固定向量。此描述最符合下列哪一種模型，且它與一般 Autoencoder 的關鍵差異為何？", "opts": ["VAE；差異在它記機率分布而非固定值", "CNN；差異在它有卷積層", "一般 Autoencoder；差異在它記固定向量", "GAN；差異在它有判別器"], "ans": "A", "topic": "VAE vs AE", "exp": "VAE 把資料記成機率分布（平均＋變異數）並取樣生成，一般 AE 記固定向量。"}, {"id": 6, "q": "某資料團隊原本用 PCA 對客戶特徵降維，但業務希望降維之外還能『從壓縮後空間取樣、生成擬真的新客戶樣本』來擴充訓練資料。若改用 VAE 取代 PCA，下列關於 VAE 的敘述何者最正確？", "opts": ["VAE 像 PCA 但更強，除降維外還能生成新資料", "VAE 無法降維，只能分類", "VAE 降維後就無法再生成任何資料", "VAE 只能線性降維，功能完全等同 PCA"], "ans": "A", "topic": "VAE 降維", "exp": "VAE 可像 PCA 般降維，但更強：潛在空間可取樣生成全新資料。"}, {"id": 7, "q": "台灣某廣告公司要為品牌產出『畫質頂尖、幾乎零瑕疵』的主視覺概念圖，客戶對畫質極度挑剔、但可以接受每張圖算比較久（多步去噪）。就此『最高畫質優先、可容忍生成慢』的需求，最適合的模型為下列何者？", "opts": ["GAN，因為生成速度最快", "RNN，因為能記憶", "VAE，因為訓練最穩", "Diffusion，畫質最高且幾乎無模式崩潰"], "ans": "D", "topic": "Diffusion 應用", "exp": "Diffusion 畫質最高、幾乎無模式崩潰，代價是多步去噪、生成較慢。"}, {"id": 8, "q": "某文生圖服務的即時預覽功能，要求使用者一按就要『在一秒內看到草圖』，畫質可以之後再精修、偶爾崩一兩張也還好。就此『生成速度優先』的需求，相較於畫質最高但要跑很多步的 Diffusion，下列何者較適合先用來出草圖？", "opts": ["Diffusion，因為它最快", "GCN，因為它處理圖形", "GAN，因為它生成速度快", "VAE，因為它潛在空間有結構"], "ans": "C", "topic": "生成速度", "exp": "GAN 生成速度快，適合即時草圖；Diffusion 畫質最高但多步、較慢。"}, {"id": 9, "q": "台灣某影像團隊向新人說明擴散模型的兩段過程：先把乾淨圖『一步步加雜訊』直到變成純噪點，再訓練模型『一步步去雜訊』從噪點還原出圖。就這兩段過程各自的命名，下列配對何者正確？", "opts": ["兩段都叫反向生成", "加雜訊＝正向擴散（Forward）；去雜訊＝反向生成（Reverse）", "兩段都叫正向擴散", "加雜訊＝反向生成；去雜訊＝正向擴散"], "ans": "B", "topic": "Forward/Reverse", "exp": "正向擴散（Forward）是加雜訊；反向生成（Reverse）是去雜訊還原資料。"}, {"id": 10, "q": "台灣某廣告公司要在 Diffusion 與 GAN 之間選一個做高階品牌影像生成，設計總監請工程師先釐清兩者的取捨再決定。就這兩種模型的特性而言，以免日後選型或除錯時誤用，下列敘述何者錯誤？", "opts": ["GAN 較容易發生模式崩潰", "Diffusion 畫質通常最高但生成較慢", "GAN 生成速度快但訓練較不穩定", "Diffusion 生成速度最快且訓練最不穩定"], "ans": "D", "topic": "Diffusion vs GAN（反向）", "exp": "錯誤：Diffusion 生成慢（多步）且訓練相對穩定；速度快、易不穩的是 GAN。"}, {"id": 11, "q": "台灣某電商用 Diffusion 做『文字生成商品圖』，但發現產出常常跟使用者打的提示詞對不上。工程師想在不另外訓練或掛載一個獨立分類器的前提下，讓輸出更貼近提示。就此需求，最適合採用的技巧為下列何者？", "opts": ["多頭注意力（Multi-Head Attention）", "無分類器引導（CFG）", "池化（Pooling）", "鄰居聚合（Neighbor Aggregation）"], "ans": "B", "topic": "CFG", "exp": "CFG 混合有條件與無條件預測、以權重強化提示，且無需外部分類器。"}, {"id": 12, "q": "某團隊把 CFG 的引導權重調得很高後，發現生成圖確實非常貼合提示詞，但每張圖都長得很像、缺乏變化，客戶抱怨沒有多樣性。此現象說明 CFG 權重需要在哪兩者之間權衡？", "opts": ["貼近提示的程度 vs 生成多樣性", "梯度消失 vs 梯度爆炸", "訓練速度 vs 記憶體用量", "節點數 vs 邊數"], "ans": "A", "topic": "CFG 權重", "exp": "CFG 權重越高越貼近提示但多樣性下降，需在『貼近提示』與『多樣性』間權衡。"}, {"id": 13, "q": "台灣某電商導入無分類器引導（CFG）來讓文生圖更貼近提示詞，工程師在導入會議上向團隊說明 CFG 的運作。就 CFG 的特性而言，以免日後選型或除錯時誤用，下列敘述何者錯誤？", "opts": ["它混合有條件與無條件預測", "它用來讓生成結果更貼近文字提示", "它可透過調整權重平衡貼近度與多樣性", "它必須額外訓練並掛載一個外部分類器才能運作"], "ans": "D", "topic": "CFG（反向）", "exp": "錯誤：CFG 名稱 Classifier-free 即『無需外部分類器』，不必掛載外部分類器。"}, {"id": 14, "q": "台灣某銀行要建置法遵文件的機器翻譯系統，需求是模型要能一次讀懂整段長文的語意、平行運算加速、又能精準掌握段落中相隔很遠的語意關聯（如代名詞指涉）。就此需求，最適合的核心架構為下列何者？", "opts": ["CNN，因為卷積擷取特徵", "Transformer，純注意力可平行且擅長長距離關聯", "RNN，因為逐字循序處理", "GCN，因為處理圖形"], "ans": "B", "topic": "Transformer 應用", "exp": "Transformer 純以注意力理解全句、可平行、長距離關聯佳，適合機器翻譯。"}, {"id": 15, "q": "某 NLP 工程師解釋 Transformer 的自注意力：每個字會生成三種向量，分別代表『我要找誰』『我是誰』『我的內容』，靠它們算出字與字的關聯。就代表『我要找誰』的向量而言，其名稱為下列何者？", "opts": ["Gate", "Value", "Query", "Key"], "ans": "C", "topic": "Self-Attention QKV", "exp": "自注意力中 Query＝我要找誰、Key＝我是誰、Value＝我的內容。"}, {"id": 16, "q": "台灣某新聞集團要選序列模型做長文自動摘要，工程師把同一批長篇報導分別餵給傳統 RNN 與 Transformer 做壓力測試，想比較兩者在處理長序列上的差異以決定採用哪一個。就這兩種模型的比較而言，下列敘述何者錯誤？", "opts": ["RNN 需逐字循序處理，較難平行", "RNN 可一次看整句、比 Transformer 更快更準", "Transformer 較能捕捉長距離關聯", "Transformer 可平行處理、加速訓練"], "ans": "B", "topic": "RNN vs Transformer（反向）", "exp": "錯誤：能一次看整句、平行且更快更準的是 Transformer，不是逐字循序的 RNN。"}, {"id": 17, "q": "某客服對話生成系統要『根據對前文的理解，一個字一個字生成回覆』。為了向團隊清楚說明並正確選型，就 Transformer 中負責這段『生成輸出』工作的部分而言，其名稱為下列何者？", "opts": ["判別器（Discriminator）", "編碼器（Encoder）", "池化層（Pooling Layer）", "解碼器（Decoder）"], "ans": "D", "topic": "Transformer 結構", "exp": "Transformer 的 Decoder 依 Encoder 的理解，一個字一個字生成輸出。"}, {"id": 18, "q": "台灣某電力公司要做『用電量時間序列預測』，資料有明確時間先後、且當下用電會受前幾個時刻影響。團隊想先試最基礎、會用隱藏狀態把『過去資訊＋當前輸入』一起考慮的序列模型。就此需求，最基礎適用的模型為下列何者？", "opts": ["CNN，因為處理網格", "RNN，帶記憶、專處理序列資料", "GCN，因為處理圖", "GAN，因為能生成"], "ans": "B", "topic": "RNN", "exp": "RNN 帶隱藏狀態記憶，把過去資訊與當前輸入一起考慮，專處理序列資料。"}, {"id": 19, "q": "台灣某法律科技公司用一般 RNN 處理很長的合約文字，發現模型讀到後段時幾乎忘光開頭的關鍵條款，且訓練時誤差訊號往回傳遞越來越小、近乎消失。此『長期記憶困難』的根本原因為下列何者？", "opts": ["位置編碼錯誤", "過擬合", "梯度消失（Vanishing Gradient）", "模式崩潰"], "ans": "C", "topic": "RNN 梯度消失", "exp": "RNN 因梯度消失而長期記憶困難，故後續發展出 LSTM、GRU 改善。"}, {"id": 20, "q": "台灣某氣象資料團隊要處理具時間順序的觀測序列，新人問『RNN 跟一般全連接網路到底差在哪』。就 RNN 與一般全連接神經網路的差異而言，以免日後選型或除錯時誤用，下列敘述何者錯誤？", "opts": ["RNN 每次輸入也彼此獨立、完全不保留任何記憶", "一般全連接網路每次輸入彼此獨立、不保留狀態", "RNN 會用隱藏狀態記住先前資訊影響當前輸出", "RNN 專門處理有時間順序的序列資料"], "ans": "A", "topic": "RNN 特性（反向）", "exp": "錯誤：RNN 的特點正是保留記憶（hidden state），而非每次輸入獨立。"}, {"id": 21, "q": "台灣某證券商要做較長期的股價序列預測，需保留數十個交易日前的資訊，團隊想用一種能『選擇性記住長期、遺忘不重要資訊』、專門緩解 RNN 梯度消失的改良序列模型。就此需求，最適合的模型為下列何者？", "opts": ["CNN", "LSTM（長短期記憶）", "GAN", "GCN"], "ans": "B", "topic": "LSTM 應用", "exp": "LSTM 以門控做選擇性長期記憶、緩解梯度消失，適合長期依賴的序列預測。"}, {"id": 22, "q": "某工程師說明 LSTM 用三個門控制資訊流：一個決定丟棄哪些舊記憶、一個決定寫入哪些新資訊、一個決定輸出什麼。就負責『決定丟棄哪些舊記憶』的門而言，其名稱為下列何者？", "opts": ["輸出門（Output Gate）", "注意力門（Attention Gate）", "忘記門（Forget Gate）", "輸入門（Input Gate）"], "ans": "C", "topic": "LSTM 忘記門", "exp": "LSTM 的忘記門（Forget Gate）決定丟棄哪些舊記憶。"}, {"id": 23, "q": "台灣某語音客服團隊分別用 RNN 與 LSTM 處理很長的通話錄音序列，想比較兩者在記憶與訓練上的差異以決定採用哪個。就這兩種模型的比較而言，以免日後選型或除錯時誤用，下列敘述何者錯誤？", "opts": ["RNN 偏短期記憶、LSTM 較能長期記憶", "RNN 較易梯度消失、LSTM 有改善", "LSTM 結構較 RNN 複雜", "LSTM 記憶能力較差、且比 RNN 更容易梯度消失"], "ans": "D", "topic": "RNN vs LSTM（反向）", "exp": "錯誤：LSTM 記憶能力較強、且改善梯度消失；記憶弱、易梯度消失的是 RNN。"}, {"id": 24, "q": "台灣某醫院要用 Google 於 2020 年提出、『把圖片當成一段文字來處理』的架構做醫療影像判讀：先把影像切成小塊、轉向量、加位置資訊，再用自注意力學各區塊關聯。就此描述的模型而言，其名稱為下列何者？", "opts": ["VAE", "RNN", "視覺 Transformer（ViT）", "CNN"], "ans": "C", "topic": "ViT", "exp": "ViT（Google 2020）把圖片切塊當文字、加位置編碼後以自注意力學區塊關聯。"}, {"id": 25, "q": "某團隊用 ViT 做人臉分析，說明它會自動學到『臉部區塊該去關注眼睛、鼻子、嘴巴等相關區塊』。ViT 用來建立這種區塊間關聯的核心機制，以及為保留各區塊在原圖位置而額外加入的資訊，分別為下列何者？", "opts": ["卷積；池化", "自注意力（Self-Attention）；位置編碼（Position Encoding）", "滑動視窗；細胞狀態", "鄰居聚合；忘記門"], "ans": "B", "topic": "ViT 機制", "exp": "ViT 以自注意力學區塊關聯，並加位置編碼保留各區塊在原圖的位置資訊。"}, {"id": 26, "q": "台灣某醫院導入視覺 Transformer（ViT）做影像判讀，資訊室在教育訓練中說明 ViT 處理影像的方式。就 ViT 處理影像的方式而言，以免日後選型或除錯時誤用，下列敘述何者錯誤？", "opts": ["它以滑動視窗卷積、完全不使用注意力機制", "以自注意力學習哪些區塊彼此相關", "每個小塊轉成向量並加入位置資訊", "先把圖片切成一個個小塊（Patch）"], "ans": "A", "topic": "ViT（反向）", "exp": "錯誤：ViT 的核心正是自注意力而非卷積滑動視窗；用滑動視窗的是 CNN。"}, {"id": 27, "q": "台灣某超商要用影像辨識自動判讀貨架上的手寫補貨標籤（類似 MNIST 手寫數字），資料是規則的二維網格影像，團隊想用最經典、以卷積由局部特徵逐步彙整到整體判斷的模型。就此網格影像辨識需求，最適合的模型為下列何者？", "opts": ["CNN（卷積神經網路）", "GCN", "Transformer", "RNN"], "ans": "A", "topic": "CNN 應用", "exp": "CNN 專處理網格影像、由局部到整體，最常用於影像辨識（如 MNIST 手寫）。"}, {"id": 28, "q": "某工程師說明 CNN 看懂照片的三大層分工：一層做特徵提取、一層保留重要特徵並縮小圖片、一層做最後綜合判斷與分類。就負責『保留重要特徵並縮小圖片（降維）』的層而言，其名稱為下列何者？", "opts": ["池化層（Pooling Layer）", "卷積層（Convolution Layer）", "全連接層（Fully Connected Layer）", "注意力層"], "ans": "A", "topic": "CNN 池化層", "exp": "CNN 的池化層負責特徵降維，保留重要特徵並縮小圖片。"}, {"id": 29, "q": "台灣某超商要用 CNN 辨識貨架商品影像以自動盤點，工程師在交接時向新人拆解 CNN 三大核心層各自負責的工作，以便日後除錯。就 CNN 各層職責的配對而言，下列何者錯誤？", "opts": ["卷積層：以滑動視窗擷取局部特徵", "卷積層：負責最後的分類輸出", "池化層：特徵降維、縮小圖片", "全連接層：最後綜合判斷與分類輸出"], "ans": "B", "topic": "CNN 三層（反向）", "exp": "錯誤：最後分類輸出是全連接層的工作，卷積層負責特徵提取。"}, {"id": 30, "q": "台灣某社群平台要分析『使用者互相追蹤』形成的關係網並推薦好友，資料由節點（用戶）與邊（追蹤關係）構成、沒有固定形狀。就此關係型（圖形）資料的建模需求，最適合的模型為下列何者？", "opts": ["GCN（圖卷積網路）", "CNN", "RNN", "VAE"], "ans": "A", "topic": "GCN 應用", "exp": "GCN 專處理節點與邊構成的關係型（圖形）資料，如社群網路好友推薦。"}, {"id": 31, "q": "台灣某生技公司要預測分子結構與藥物性質，而分子天然可表示為由原子（節點）與化學鍵（邊）構成的圖。相較於處理規則網格影像的 CNN，此不規則圖形資料最適合的模型為下列何者？", "opts": ["GAN，因為能生成", "CNN，因為擅長影像", "GCN，專處理圖形結構資料", "LSTM，因為有記憶"], "ans": "C", "topic": "GCN 分子", "exp": "分子是圖形資料（原子節點＋化學鍵邊），適合用 GCN 預測結構與藥物性質。"}, {"id": 32, "q": "台灣某交通局要決定用 CNN 還是 GCN 來處理『路網與車流關係』資料，工程師先在評估報告中比較兩者的差異作為選型依據。就 CNN 與 GCN 的差異而言，下列敘述何者錯誤？", "opts": ["CNN 的鄰居不固定、GCN 的鄰居固定為上下左右", "CNN 以滑動視窗卷積、GCN 以鄰居聚合", "GCN 的鄰居不固定，依圖的連結而定", "CNN 的鄰居固定（如上下左右像素）"], "ans": "A", "topic": "CNN vs GCN（反向）", "exp": "錯誤：CNN 鄰居固定、GCN 鄰居依連結不固定；選項把兩者說反了。"}, {"id": 33, "q": "台灣某物流公司有三批資料要各自建模：甲是配送車拍的『路況二維影像』、乙是包裹掃描的『時間序列事件紀錄』、丙是各配送站之間的『路網關係圖』。就這三批資料分別最適合的模型，下列配對何者正確？", "opts": ["甲 GCN／乙 CNN／丙 RNN", "甲 CNN／乙 GCN／丙 RNN", "甲 RNN／乙 GCN／丙 CNN", "甲 CNN／乙 RNN／丙 GCN"], "ans": "D", "topic": "資料-模型對照", "exp": "網格影像→CNN；時間序列→RNN；路網關係圖→GCN。"}, {"id": 34, "q": "台灣某健保署專案要分析『就醫轉診網路』中醫療院所之間的轉介關係以找出異常轉診樣態，資料是院所（節點）與轉介（邊）構成、無固定形狀的圖。下列哪一種模型最不適合直接處理這種關係型資料？", "opts": ["圖神經網路類方法", "節點-邊聚合模型", "CNN（卷積神經網路）", "GCN"], "ans": "C", "topic": "GCN vs CNN（不適合）", "exp": "關係型圖資料應用 GCN；CNN 專為規則網格影像設計，最不適合直接處理圖。"}, {"id": 35, "q": "台灣某醫院影像團隊要在 CNN 與 ViT 之間選型做 X 光片分類，並向主管說明兩者理解影像的根本差異以支持決策。就這兩者理解影像的核心機制而言，下列說明何者最正確？", "opts": ["CNN 以卷積由局部到整體；ViT 把圖切塊當文字、用自注意力學區塊關聯", "兩者都以鄰居聚合處理圖", "CNN 把圖切塊當文字做自注意力；ViT 用卷積滑動視窗", "兩者都以門控處理序列"], "ans": "A", "topic": "CNN vs ViT", "exp": "CNN 以卷積由局部到整體；ViT 把圖切塊當文字、以自注意力學區塊關聯。"}, {"id": 36, "q": "台灣某新聞媒體要在三種生成模型中選一個做『高品質新聞配圖』，最在意畫質頂尖且幾乎不出現重複單調的結果，能接受生成較慢。作為選型與說明的依據，下列選型與理由何者最正確？", "opts": ["選 Diffusion，因為它畫質最高且幾乎無模式崩潰", "選 GAN，因為它畫質最高且無模式崩潰", "選 VAE，因為它畫質最高", "選 CNN，因為它能生成影像"], "ans": "A", "topic": "生成選型", "exp": "Diffusion 畫質最高、幾乎無模式崩潰，適合最在意畫質與多樣性、可容忍慢的情境。"}, {"id": 37, "q": "某團隊要為『需要清楚結構、可平滑控制、可解釋性高的潛在空間』選一個生成模型，以便在潛在空間中微調生成結果並分析。為了向團隊清楚說明並正確選型，就此需求，最適合的模型為下列何者？", "opts": ["CNN，因為有卷積", "GAN，潛在空間不規則、可解釋性低", "RNN，因為有記憶", "VAE，潛在空間有結構、控制力強、可解釋性高"], "ans": "D", "topic": "潛在空間控制", "exp": "VAE 潛在空間有結構、控制力強、可解釋性高；GAN 潛在空間不規則、可解釋性低。"}, {"id": 38, "q": "台灣某金融科技團隊要在 VAE 與 GAN 間選一個做資料生成，主管請工程師先講清楚兩者核心概念的根本差異。就 VAE 與 GAN 各自的核心概念而言，下列配對何者正確？", "opts": ["VAE 是對抗學習；GAN 是機率建模", "兩者都是對抗學習", "VAE 是機率建模（編碼-解碼）；GAN 是對抗學習（造假 vs 鑑定）", "兩者都是去噪生成"], "ans": "C", "topic": "VAE vs GAN 概念", "exp": "VAE 核心是機率建模（編碼-解碼）；GAN 核心是對抗學習（造假 vs 鑑定）。"}, {"id": 39, "q": "某公司整理三種生成模型的核心概念：一者『從雜訊一步步去噪生成』、一者『生成器與判別器對抗』、一者『用編碼-解碼做機率建模』。就『從雜訊去噪生成』對應的模型而言，其名稱為下列何者？", "opts": ["Diffusion（擴散模型）", "GAN", "VAE", "CNN"], "ans": "A", "topic": "核心概念對照", "exp": "去噪生成→Diffusion；對抗→GAN；機率編碼→VAE。"}, {"id": 40, "q": "台灣某客服中心要把大量錄音『語音轉文字』並理解長對話語意，需求是能平行加速、又能精準抓長距離語意關聯。為了向團隊清楚說明並正確選型，就此需求，相較於逐字循序的 RNN，較適合的架構為下列何者？", "opts": ["RNN，因為它平行", "Transformer，可平行且長距離關聯佳", "CNN，因為卷積", "GCN，因為圖形"], "ans": "B", "topic": "Transformer 序列", "exp": "Transformer 可平行、長距離關聯佳，較逐字循序的 RNN 更適合長對話理解。"}, {"id": 41, "q": "台灣某媒體公司要在 RNN 與 LSTM 之間選型，做一個『需保留長期依賴』的長文摘要任務，並要向主管說明選型理由。為了向團隊清楚說明並正確選型，就此需求，較適合的模型與理由為下列何者？", "opts": ["RNN，因為它不會梯度消失", "LSTM，因為它以門控保留長期記憶、緩解梯度消失", "RNN，因為它長期記憶較強", "LSTM，因為它結構較簡單"], "ans": "B", "topic": "RNN vs LSTM 選型", "exp": "需長期依賴時宜用 LSTM，以門控保留長期記憶、緩解 RNN 的梯度消失。"}, {"id": 42, "q": "台灣某資料團隊在導入序列模型時，資深工程師想用一句話幫新人記住『RNN 為何後來需要被 LSTM／GRU 取代』。就 RNN 的主要弱點與後續發展出的解法而言，下列何者正確？", "opts": ["RNN 只能處理影像，故改用 GCN", "RNN 無法處理序列，故改用 CNN", "RNN 長期記憶困難（梯度消失），故發展出 LSTM、GRU", "RNN 太複雜，故改用全連接層"], "ans": "C", "topic": "RNN 弱點", "exp": "RNN 因梯度消失而長期記憶困難，故發展出 LSTM、GRU 改善。"}, {"id": 43, "q": "台灣某電信商要用影像 AI 檢測機房設備面板的異常燈號，資料是規則的二維網格影像。若工程師主張『改用 GCN 來處理這種規則網格影像最恰當』，此主張為何不妥？請選出最正確的理由。", "opts": ["GCN 完全無法處理任何資料", "GCN 專為節點-邊的圖形資料設計，處理規則網格影像不如 CNN 恰當", "規則網格影像只能用 RNN", "GCN 與 CNN 完全等價，主張其實正確"], "ans": "B", "topic": "選型不當（反向）", "exp": "規則網格影像宜用 CNN；GCN 專為不規則圖形資料設計，用於網格影像不恰當。"}, {"id": 44, "q": "台灣某銀行要做『信用卡交易時間序列的即時詐欺偵測』，資料具有很強的時間先後順序。若有人主張『用 CNN 這種處理網格影像的模型來抓時間序列最適合』，此主張為何不妥？請選出最正確的理由。", "opts": ["CNN 完全不能運算", "時間序列只能用 GAN 生成", "CNN 專處理網格影像，時間序列宜用 RNN／LSTM 這類序列模型", "CNN 與 RNN 完全等價，主張正確"], "ans": "C", "topic": "序列選型不當（反向）", "exp": "時間序列宜用 RNN／LSTM；CNN 專為網格影像設計，用於序列不恰當。"}, {"id": 45, "q": "台灣某美妝電商要做『文字生成商品圖並貼近提示』，團隊採畫質最佳的 Diffusion 為主體，再搭配一種無需外部分類器的引導技巧強化提示。就此『主體＋引導』組合，下列何者正確？", "opts": ["主體 RNN＋引導 鄰居聚合", "主體 CNN＋引導 忘記門", "主體 GAN＋引導 池化", "主體 Diffusion＋引導 CFG（無分類器引導）"], "ans": "D", "topic": "Diffusion＋CFG", "exp": "高畫質文生圖常以 Diffusion 為主體，搭配 CFG 引導貼近提示、無需外部分類器。"}, {"id": 46, "q": "台灣某入口網站要為新聞自動下多語標題，需要模型充分理解整篇長文語意、再逐字生成標題，並掌握長距離語意。若團隊考慮 RNN 與 Transformer，下列敘述何者最正確？", "opts": ["此任務只能用 CNN", "Transformer 可平行且長距離關聯佳，較適合此長文任務", "RNN 可平行、長距離關聯優於 Transformer", "兩者都無法處理長距離關聯"], "ans": "B", "topic": "長文選型", "exp": "Transformer 可平行、長距離關聯佳，較逐字循序的 RNN 更適合長文理解與生成。"}, {"id": 47, "q": "台灣某影像新創的工程師在為專案做技術盤點，把『生成器＋判別器』與『編碼器＋解碼器』兩種架構分別對應到不同模型。就採用『生成器＋判別器（對抗）』架構的生成模型而言，其名稱為下列何者？", "opts": ["CNN", "GAN", "VAE", "Diffusion"], "ans": "B", "topic": "架構對照", "exp": "GAN＝生成器＋判別器（對抗）；VAE＝編碼器＋解碼器（機率建模）。"}, {"id": 48, "q": "台灣某醫院 AI 團隊要對胸部 X 光片做疾病分類，資料是二維網格影像，想用最經典、以卷積提取局部特徵再彙整分類的模型。為了向團隊清楚說明並正確選型，就此需求，最適合者為下列何者？", "opts": ["GCN", "RNN", "CNN", "VAE"], "ans": "C", "topic": "CNN 醫療", "exp": "二維網格醫療影像（如 X 光片）分類，宜用以卷積提取特徵的 CNN。"}, {"id": 49, "q": "台灣某知識圖譜團隊要在『企業-董監事-投資』的複雜關聯上做關係推論以偵測異常，資料是節點與邊構成、無固定形狀的圖。為了向團隊清楚說明並正確選型，就此關係推論需求，最適合者為下列何者？", "opts": ["LSTM", "CNN", "Diffusion", "GCN"], "ans": "D", "topic": "GCN 知識圖譜", "exp": "知識圖譜的關係推論屬圖形資料，宜用 GCN。"}, {"id": 50, "q": "台灣某入口網站要用 Transformer 處理長篇新聞的自動摘要，工程師向團隊說明它相較於逐字循序模型、能『一次看整段輸入』所帶來的主要好處。就此好處而言，下列敘述何者最正確？", "opts": ["使模型完全無法理解語序", "只能逐字處理、速度較慢", "讓模型只能處理影像網格", "可平行處理、加速訓練並更好捕捉長距離關係"], "ans": "D", "topic": "Transformer 平行", "exp": "Transformer 可平行處理整段輸入，加速訓練並更好捕捉長距離關係。"}, {"id": 51, "q": "台灣某翻譯團隊在說明 Transformer 的『多角度理解』機制：它不只用單一組注意力，而是同時用多組注意力，從不同角度理解同一段文字中字詞之間的關聯。此機制的名稱為下列何者？", "opts": ["自注意力（Self-Attention）", "池化（Pooling）", "多頭注意力（Multi-Head Attention）", "門控（Gating）"], "ans": "C", "topic": "Multi-Head", "exp": "多頭注意力以多組注意力從多角度理解資料。"}, {"id": 52, "q": "台灣某銀行要為房貸建立可解釋的資料生成與異常偵測流程，重視潛在空間可解釋、可控制，能接受生成影像略糊。若在 GAN 與 VAE 間選，作為選型與說明的依據，下列選型與理由何者最正確？", "opts": ["選 VAE，因為潛在空間有結構、可解釋性高", "選 GAN，因為它訓練最穩", "選 GAN，因為潛在空間可解釋性高", "選 VAE，因為它生成最逼真"], "ans": "A", "topic": "VAE 選型", "exp": "VAE 潛在空間有結構、可解釋性高，適合重視可解釋與異常偵測、可容忍略糊的情境。"}, {"id": 53, "q": "台灣某資料工程師在技術文件上看到一段描述：『把 CNN 的卷積概念，從規則的網格影像，擴展到由節點與邊構成、沒有固定形狀的圖形資料上』。就這段描述所指涉的模型而言，其名稱為下列何者？", "opts": ["GCN", "VAE", "RNN", "ViT"], "ans": "A", "topic": "GCN 定位", "exp": "GCN 將 CNN 的卷積概念擴展到不規則的圖形結構資料上。"}, {"id": 54, "q": "台灣某音樂串流平台要用生成模型做『資料擴增與異常偵測』，特別重視潛在空間結構清楚、可解釋，且能接受生成品質略遜。就此以『可解釋潛在空間』為核心的需求，下列哪一種模型最不適合？", "opts": ["具編碼-解碼的機率模型", "可做異常偵測的自編碼類模型", "GAN（潛在空間不規則、可解釋性低）", "VAE"], "ans": "C", "topic": "選型不當（反向）", "exp": "重視可解釋潛在空間宜用 VAE；GAN 潛在空間不規則、可解釋性低，最不適合。"}, {"id": 55, "q": "台灣某新聞媒體要在 Diffusion 與 GAN 間選一個做新聞配圖，特別在意生成結果會不會單調重複（模式崩潰）。就兩者在模式崩潰上的表現而言，下列敘述何者最正確？", "opts": ["GAN 幾乎無模式崩潰、Diffusion 常見", "兩者都幾乎無模式崩潰", "兩者都常模式崩潰", "GAN 常見模式崩潰、Diffusion 幾乎沒有"], "ans": "D", "topic": "模式崩潰對照", "exp": "GAN 常見模式崩潰；Diffusion 幾乎沒有模式崩潰。"}, {"id": 56, "q": "台灣某交通局要分析『捷運站點之間的乘客流動關係網』以優化轉乘，資料是站點（節點）與流動（邊）構成的圖。為了向團隊清楚說明並正確選型，就此圖形關係分析，最適合的模型為下列何者？", "opts": ["GAN", "GCN", "CNN", "LSTM"], "ans": "B", "topic": "GCN 交通", "exp": "站點-流動的關係網屬圖形資料，宜用 GCN 做關係分析。"}, {"id": 57, "q": "台灣某證券團隊要用 LSTM 做長序列預測，工程師向新人解釋 LSTM 內部有一條『貫穿整個時間序列、專門承載長期記憶』的通道，是它能保留長期資訊的關鍵。此記憶通道的名稱為下列何者？", "opts": ["位置編碼（Position Encoding）", "潛在空間（Latent Space）", "隱藏狀態（Hidden State）", "細胞狀態（Cell State）"], "ans": "D", "topic": "Cell State", "exp": "LSTM 的細胞狀態（Cell State）是承載長期記憶的記憶通道。"}, {"id": 58, "q": "台灣某美妝電商要用 Diffusion＋CFG 做文生圖，行銷希望『圖片緊貼提示』但也要『有足夠多樣性可挑選』。若工程師把 CFG 的引導權重無限調高，會發生什麼取捨後果？", "opts": ["造成節點與邊爆增", "更貼近提示但多樣性下降、每張都很像", "多樣性上升但完全偏離提示", "造成梯度消失"], "ans": "B", "topic": "CFG 取捨", "exp": "CFG 權重過高會更貼提示但降低多樣性，需在貼近度與多樣性間權衡。"}, {"id": 59, "q": "台灣某醫院影像團隊要處理一個『把整張圖片當成一段文字』的視覺判讀任務：先把圖片切塊、轉成向量、加入位置編碼，再用自注意力學習各區塊之間的關聯。此作法對應的模型為下列何者？", "opts": ["RNN", "GCN", "CNN", "ViT（視覺 Transformer）"], "ans": "D", "topic": "ViT 作法", "exp": "ViT 把圖片切塊當文字、加位置編碼後以自注意力學區塊關聯。"}, {"id": 60, "q": "台灣某社群 App 要用生成模型量產『逼真的虛擬頭像』，產品經理表明最在意逼真度，能接受訓練不穩、需要反覆調參。為了向團隊清楚說明並正確選型，就此逼真度優先的需求，最適合的模型與理由為下列何者？", "opts": ["選 GAN，因為生成品質最逼真", "選 CNN，因為它能生成", "選 VAE，因為它最逼真", "選 GCN，因為它處理圖"], "ans": "A", "topic": "GAN 頭像", "exp": "逼真度優先、可容忍訓練不穩的頭像生成，宜用生成品質最逼真的 GAN。"}];
+const LETTERS=['A','B','C','D'];
+let mode = 15;          // 15 or 'all'
+let pool = [];          // current round's questions (subset of ALL)
+let answered = {};      // index-in-pool -> chosen letter
+const $ = s=>document.querySelector(s);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildRound(){
+  answered = {};
+  $('#result').classList.remove('show');
+  let idx = ALL.map((_,i)=>i);
+  shuffle(idx);
+  const n = (mode==='all') ? ALL.length : Math.min(15, ALL.length);
+  pool = idx.slice(0, n).map(i=>ALL[i]);
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function render(){
+  const quiz = $('#quiz'); quiz.innerHTML='';
+  pool.forEach((q,pos)=>{
+    const card = document.createElement('div');
+    card.className='card'; card.dataset.pos=pos;
+    const chosen = answered[pos];
+    card.innerHTML = `
+      <div class="qhead"><span class="qnum">第 ${String(pos+1).padStart(2,'0')} 題</span></div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts">
+        ${q.opts.map((o,k)=>{const L=LETTERS[k];
+          return `<button class="opt" data-l="${L}" role="button"><span class="key">${L}</span><span>${o}</span></button>`;
+        }).join('')}
+      </div>
+      <div class="explain" id="exp-${pos}">
+        <span class="lab">解析 · 正解 ${q.ans} · 觀念：${q.topic}</span>${q.exp}
+      </div>`;
+    quiz.appendChild(card);
+    if(chosen) applyLock(card, q, chosen);
+    card.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click',()=>choose(pos,q,card,btn.dataset.l));
+    });
+  });
+  updateDash();
+}
+function applyLock(card,q,chosen){
+  card.querySelectorAll('.opt').forEach(b=>{
+    b.classList.add('locked');
+    const L=b.dataset.l;
+    if(L===q.ans) b.classList.add('correct');
+    else if(L===chosen) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  $('#exp-'+card.dataset.pos).classList.add('show');
+}
+function choose(pos,q,card,L){
+  if(answered[pos]) return;
+  answered[pos]=L; applyLock(card,q,L); updateDash();
+  if(Object.keys(answered).length===pool.length) finish();
+}
+function updateDash(){
+  const n=Object.keys(answered).length; let correct=0;
+  for(const k in answered){ if(answered[k]===pool[k].ans) correct++; }
+  const total=pool.length||1;
+  const pct=Math.round(n/total*100);
+  $('#fill').style.width=pct+'%';
+  $('#progLab').textContent=`已作答 ${n} / ${pool.length}`;
+  $('#pct').textContent=pct+'%';
+  $('#sCorrect').textContent=correct; $('#sWrong').textContent=n-correct;
+}
+function finish(){
+  let correct=0;
+  for(const k in answered){ if(answered[k]===pool[k].ans) correct++; }
+  const pct=Math.round(correct/pool.length*100);
+  $('#rBig').textContent=pct+'%';
+  $('#rMsg').textContent=`本回合答對 ${correct} 題，共 ${pool.length} 題。`+
+    (pct>=80?' 掌握得很扎實，各學習方式與模型的適用情境都分得清楚。':
+     pct>=60?' 基礎穩固，再留意易混淆處（如自監督各法是否需負樣本、K-means 與 PCA、決策樹與隨機森林）。':
+     ' 建議回頭複習監督式七模型與半／自／非監督三種學習方式的核心定義與適用時機。');
+  const r=$('#result'); r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+$('#revealBtn').addEventListener('click',()=>{
+  pool.forEach((q,pos)=>{
+    const card=document.querySelector(`.card[data-pos="${pos}"]`);
+    if(!answered[pos]){
+      card.querySelectorAll('.opt').forEach(b=>{
+        b.classList.add('locked');
+        if(b.dataset.l===q.ans) b.classList.add('correct'); else b.classList.add('dim');
+      });
+    }
+    $('#exp-'+pos).classList.add('show');
+  });
+});
+$('#newRoundBtn').addEventListener('click',buildRound);
+$('#againBtn').addEventListener('click',buildRound);
+document.querySelectorAll('.mode').forEach(m=>{
+  m.addEventListener('click',()=>{
+    document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));
+    m.classList.add('active');
+    mode = m.dataset.mode==='all' ? 'all' : 15;
+    buildRound();
+  });
+});
+buildRound();
+</script>
+</body>
+</html>

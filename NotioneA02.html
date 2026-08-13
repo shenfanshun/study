@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基礎演算法與資料工程 情境題練習</title>
+<style>
+  :root{
+    --ink:#f6f8fb; --ink2:#eef1f7; --panel:#ffffff; --panel2:#f1f4f9;
+    --line:#e2e6ed; --muted:#6b7688; --text:#1a2230; --dim:#48566b;
+    --c1:#0d9488; --c2:#7c3aed; --c3:#db2777;
+    --ok:#16a34a; --okbg:#dcfce7;
+    --no:#dc2626; --nobg:#fee2e2;
+    --grad:linear-gradient(90deg,#0d9488 0%,#7c3aed 55%,#db2777 100%);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(124,108,255,.10), transparent 60%),
+      radial-gradient(900px 500px at -5% 10%, rgba(56,225,200,.08), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font-family:"Inter","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:28px 20px 96px}
+  header{margin-bottom:22px}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--c1);
+    font-family:"JetBrains Mono",ui-monospace,monospace;margin:0 0 10px}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.12;margin:0 0 6px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+  .dash{display:flex;align-items:center;gap:16px;margin:20px 0 8px;flex-wrap:wrap}
+  .signal{flex:1;min-width:200px}
+  .signal .track{height:8px;border-radius:99px;background:var(--panel2);overflow:hidden;border:1px solid var(--line)}
+  .signal .fill{height:100%;width:0;background:var(--grad);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+  .signal .lab{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);
+    margin-top:7px;font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.05em}
+  .score{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px;color:var(--dim)}
+  .score b{color:var(--c1)}
+  .score .sep{color:var(--line);margin:0 6px}
+  .score .wrong{color:var(--c3)}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--dim);
+    font-size:13px;padding:8px 14px;border-radius:9px;cursor:pointer;transition:.18s;
+    font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+  .btn:hover{border-color:var(--c2);color:var(--text);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn.ghost{background:transparent}
+  .card{background:linear-gradient(180deg,var(--panel),var(--ink2));
+    border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;margin:16px 0;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset, 0 18px 40px -30px rgba(15,23,42,.10)}
+  .qhead{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .qnum{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--ink);
+    background:var(--c1);padding:3px 9px;border-radius:6px;font-weight:700}
+  .qtext{font-size:16px;line-height:1.72;color:var(--text);margin:0 0 16px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;
+    background:var(--panel2);border:1px solid var(--line);border-radius:11px;
+    padding:13px 14px;cursor:pointer;transition:.16s;color:var(--dim);font-size:14.5px;line-height:1.6;font-family:inherit}
+  .opt:hover:not(.locked){border-color:var(--c2);background:#f4f1fd;color:var(--text)}
+  .opt .key{flex:none;width:26px;height:26px;border-radius:7px;border:1px solid var(--line);
+    display:grid;place-items:center;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:13px;font-weight:700;color:var(--muted);transition:.16s}
+  .opt:hover:not(.locked) .key{border-color:var(--c2);color:var(--c1)}
+  .opt.locked{cursor:default}
+  .opt.correct{border-color:var(--ok);background:var(--okbg);color:var(--text)}
+  .opt.correct .key{background:var(--ok);color:var(--ink);border-color:var(--ok)}
+  .opt.wrong{border-color:var(--no);background:var(--nobg);color:var(--text)}
+  .opt.wrong .key{background:var(--no);color:#fff;border-color:var(--no)}
+  .opt.dim{opacity:.5}
+  .explain{margin-top:14px;border-left:3px solid var(--c2);background:rgba(124,108,255,.07);
+    border-radius:0 10px 10px 0;padding:12px 15px;font-size:14px;color:var(--dim);
+    max-height:0;overflow:hidden;opacity:0;transition:.35s ease}
+  .explain.show{max-height:320px;opacity:1;margin-top:14px}
+  .explain .lab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;
+    letter-spacing:.14em;color:var(--c2);text-transform:uppercase;display:block;margin-bottom:5px}
+  .explain b{color:var(--c1)}
+  .result{display:none;background:linear-gradient(180deg,var(--panel),var(--ink2));
+    border:1px solid var(--line);border-radius:16px;padding:26px;text-align:center;margin:18px 0}
+  .result.show{display:block}
+  .result .big{font-size:52px;font-weight:800;line-height:1;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .result .cap{color:var(--muted);font-size:13px;margin-top:6px;font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.1em}
+  .result .msg{margin:14px 0 18px;color:var(--dim)}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.04em}
+  @media (max-width:560px){.wrap{padding:20px 14px 90px}.qtext{font-size:15px}.opt{font-size:14px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  .opt:focus-visible,.btn:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">初級 AI 應用規劃師 · 情境練習</p>
+    <h1>基礎演算法與資料工程 <span class="g">情境題</span></h1>
+    <p class="sub">30 題跨產業情境選擇題 · 涵蓋搜尋演算法、Regex、ETL、Hadoop/Spark、HDFS、資料分片與 ACID</p>
+    <div class="dash">
+      <div class="signal">
+        <div class="track"><div class="fill" id="fill"></div></div>
+        <div class="lab"><span id="progLab">已作答 0 / 30</span><span id="pct">0%</span></div>
+      </div>
+      <div class="score">正確 <b id="sCorrect">0</b><span class="sep">/</span>錯誤 <span class="wrong" id="sWrong">0</span></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="revealBtn">顯示所有解析</button>
+      <button class="btn ghost" id="shuffleBtn">打亂題序</button>
+      <button class="btn ghost" id="resetBtn">重新開始</button>
+    </div>
+  </header>
+  <div id="quiz"></div>
+  <div class="result" id="result">
+    <div class="big" id="rBig">0%</div>
+    <div class="cap" id="rCap">SCORE</div>
+    <p class="msg" id="rMsg"></p>
+    <button class="btn" id="againBtn">再練一次</button>
+  </div>
+  <footer>學習來源：Notion「基礎演算法筆記」＋「資料工程筆記」· 題型仿 115 年第一次初級 AI 應用規劃師</footer>
+</div>
+<script>
+const DATA = [{"id": 1, "q": "某大型連鎖藥局的庫存系統儲存了數十萬筆藥品資料，且平時已依「藥品條碼」由小到大排序完成。門市人員在結帳時需要在毫秒內定位單一藥品，工程師希望查詢過程能每次比較就把待搜尋範圍縮小一半。在資料已排序的前提下，下列何種搜尋演算法最能滿足此效能需求？", "opts": ["線性搜尋（Linear Search），從第一筆逐一往後比對", "二分搜尋（Binary Search），每次比較後將搜尋範圍切成一半", "廣度優先搜尋（BFS），從起點一層一層向外擴展", "深度優先搜尋（DFS），沿一條路徑走到底再回溯"], "ans": "B", "topic": "二分搜尋", "exp": "資料已排序時，二分搜尋每次將範圍切半，時間效率高，最適合此情境。"}, {"id": 2, "q": "某新創團隊開發一款記帳 App，早期使用者只有數十筆交易紀錄，且資料並未經過任何排序。工程師評估後認為，此階段不需要複雜的索引或前置排序，只想用實作最單純、不需任何前置條件的方式逐筆查找目標交易。就此小量且未排序的資料而言，下列何種搜尋方式最為合適？", "opts": ["深度優先搜尋，適合走迷宮式探索", "線性搜尋，逐筆比對、不需事先排序，適合小量資料", "廣度優先搜尋，適合尋找最短路徑", "二分搜尋，因為速度最快"], "ans": "B", "topic": "線性搜尋", "exp": "線性搜尋不需排序、實作單純，資料量小時最直接合適。"}, {"id": 3, "q": "某遊戲公司正在設計迷宮逃脫關卡的 AI 尋路行為，希望角色能「先沿著一條通道一路走到底，遇到死路再回頭改走另一條岔路」，藉此把每一條可能路徑都探索過一遍。就此種一路走到底、走不通才回溯的探索策略而言，下列何種演算法最為貼切？", "opts": ["二分搜尋（Binary Search）", "線性搜尋（Linear Search）", "廣度優先搜尋（BFS）", "深度優先搜尋（DFS）"], "ans": "D", "topic": "DFS", "exp": "DFS 沿單一路徑走到底再回溯，像走迷宮，適合逐條探索所有路徑。"}, {"id": 4, "q": "某外送平台要在一張「各路口之間距離都視為相等」的市區路網上，替外送員規劃「經過最少路口」的最短路線。演算法設計上打算從出發點開始，先檢查所有相鄰路口，再逐層往外擴展，直到抵達目的地。就此在無權重圖上求最短路徑的需求而言，下列何者最適合？", "opts": ["深度優先搜尋（DFS）", "廣度優先搜尋（BFS）", "線性搜尋（Linear Search）", "二分搜尋（Binary Search）"], "ans": "B", "topic": "BFS", "exp": "BFS 由起點一層層向外擴展，在無權重圖中可找出經過最少節點的最短路徑。"}, {"id": 5, "q": "某物流公司同時面臨兩個路徑問題：一是要在倉庫平面圖中「窮舉所有可能通道以確認是否有路可通」，二是要在無權重的配送網中「找出經過最少節點的最短路徑」。技術主管想釐清 DFS 與 BFS 的分工。下列敘述何者最正確？", "opts": ["兩者都必須先將節點排序後才能執行", "兩者都只適用於已排序的線性資料", "DFS 一層層擴展適合找最短路徑，BFS 走到底回溯適合窮舉探索", "DFS 走到底再回溯適合窮舉探索，BFS 一層層擴展適合找最短路徑"], "ans": "D", "topic": "DFS vs BFS", "exp": "DFS 走到底再回溯（探索）；BFS 一層層擴展（最短路徑），兩者分工不同。"}, {"id": 6, "q": "某電信客服中心累積了大量的線上對話逐字紀錄，內含許多亂碼與雜訊字元，資料團隊需要在建模前先移除垃圾字元，並自動抓出對話中出現的電話號碼與 Email 等固定格式欄位以供後續分析。就這類依樣式（Pattern）進行字串搜尋、比對與萃取的資料清理需求而言，下列何種技術最為直接適用？", "opts": ["正規表達式（Regular Expression, Regex）", "二分搜尋（Binary Search）", "MapReduce 分散式運算", "資料分片（Data Sharding）"], "ans": "A", "topic": "Regex", "exp": "Regex 以樣式比對進行字串搜尋、取代與欄位萃取，最適合這類資料清理。"}, {"id": 7, "q": "某政府線上申辦平台要求，民眾在表單送出前，系統須即時檢查所填的 Email 與身分證字號是否符合規定的固定格式，格式錯誤即擋下並提示重填。就這類需要事先定義字元樣式、再據以驗證輸入是否合規的需求而言，下列何種工具最為合適？", "opts": ["HDFS 分散式儲存", "正規表達式（Regex）", "ACID 交易機制", "Spark Streaming 串流處理"], "ans": "B", "topic": "Regex", "exp": "Regex 常用於表單格式驗證，如 Email、身分證字號等固定樣式的比對。"}, {"id": 8, "q": "某公司導入大型語言模型打造對外客服機器人，資安團隊擔心使用者可能在輸入中夾帶惡意腳本或敏感字，藉此誘導模型（prompt injection）或發動注入攻擊。因此團隊想在輸入送進模型之前，先以樣式比對方式檢查並過濾可疑字串。就此輸入過濾與 prompt 安全需求而言，下列何種技術最能直接支援？", "opts": ["正規表達式（Regex）進行輸入過濾", "範圍分片（Range Sharding）", "MapReduce 平行運算", "BFS 最短路徑演算法"], "ans": "A", "topic": "Regex", "exp": "Regex 可用於輸入過濾與 prompt 安全，檢查敏感字並過濾腳本或注入攻擊。"}, {"id": 9, "q": "某零售企業建置資料倉儲時，資料團隊將整套作業描述為：先從各門市 POS 與電商後台把原始資料讀取出來，接著進行清洗與格式轉換，最後把整理好、有價值的資料寫入資料倉儲供報表使用。此團隊坦言這並非某一套特定軟體，而是一種資料處理的概念與流程。下列何者最能概括此流程？", "opts": ["DFS 深度優先搜尋", "ETL（Extract、Transform、Load）", "ACID 交易原則", "HDFS 分散式檔案系統"], "ans": "B", "topic": "ETL", "exp": "ETL 是資料處理的流程概念（萃取、轉換、載入），並非特定軟體。"}, {"id": 10, "q": "某銀行的資料工程團隊正在為信用卡交易建立資料管線，目前正處理的工作是：把從各來源撈取進來的原始交易資料進行去重、缺失值填補與欄位格式統一，使其符合下游分析所需的規格。此工作對應 ETL 流程中的哪一個階段？", "opts": ["Transform（轉換）階段", "Load（載入）階段", "Extract（萃取）階段", "Replication（複本）階段"], "ans": "A", "topic": "ETL-Transform", "exp": "對原始資料進行清洗、去重與格式轉換，屬 ETL 的 Transform 階段。"}, {"id": 11, "q": "某製造業的資料平台已完成資料的擷取與清洗彙整，最後一個步驟是將這批乾淨、具分析價值的資料寫入企業資料倉儲，供 BI 報表與後續 AI 訓練取用。此最終步驟對應 ETL 流程中的哪一個階段？", "opts": ["Transform（轉換）階段", "Extract（萃取）階段", "Sharding（分片）階段", "Load（載入）階段"], "ans": "D", "topic": "ETL-Load", "exp": "將轉換好的乾淨資料寫入最終目的地（如資料倉儲），屬 ETL 的 Load 階段。"}, {"id": 12, "q": "某企業技術會議上，有人主張「ETL、Hadoop、Spark 三者本質相同、可互相取代」。資深架構師出面澄清，指出三者在本質上分屬不同層次，不宜混為一談。下列對三者本質關係的說明，何者最正確？", "opts": ["ETL 是硬體設備，Hadoop 與 Spark 是資料格式", "三者都是同一套特定軟體，功能完全相同", "ETL 是方法論／流程，Hadoop 與 Spark 是實現此流程的工具／平台", "三者是互相競爭、企業只能三選一的關係"], "ans": "C", "topic": "ETL 與工具關係", "exp": "ETL 是流程方法論；Hadoop 與 Spark 是工具平台，可用來執行 ETL 流程。"}, {"id": 13, "q": "某大型電商的現代大數據架構如下：先把海量的日誌與交易紀錄丟進 HDFS 便宜且安全地存起來，工程師再撰寫程式去讀取 HDFS 中的資料、以記憶體高速完成清洗與加總，最後把精華資料載入資料倉儲供分析。此架構最能說明 ETL、Hadoop 與 Spark 三者之間的何種關係？", "opts": ["三者互斥，企業必須擇一採用", "ETL 只能於單機執行，與 Hadoop、Spark 無關", "三者協同合作：Hadoop 負責儲存、Spark 執行 ETL 運算、再載入倉儲供分析", "Spark 專責儲存資料，HDFS 專責高速運算"], "ans": "C", "topic": "大數據協同架構", "exp": "現代架構常協同：HDFS 儲存、Spark 高速執行 ETL，載入倉儲供 BI/AI 使用。"}, {"id": 14, "q": "某入口網站每天產生數以 TB 計的存取日誌，公司希望以「便宜、可橫向擴充且高容錯」的方式，將這些龐大資料分散存放在多台一般規格的伺服器上，並自動保留備援，以承受個別機器故障。就此大數據的分散式儲存需求而言，下列何者最為適合？", "opts": ["Spark 記憶體運算引擎", "二分搜尋（Binary Search）", "HDFS 分散式檔案系統", "正規表達式（Regex）"], "ans": "C", "topic": "HDFS", "exp": "HDFS 將資料分散儲存於多台普通伺服器並自動備份，具高容錯與可橫向擴展特性。"}, {"id": 15, "q": "某研究團隊要在叢集上統計一份超大文字語料中每個詞出現的次數。他們採用的運算框架邏輯是：先把整份資料切成許多小片、分派給叢集內各台機器同時計算各自的部分結果，最後再把所有機器的結果彙整加總。此描述最符合下列哪一種運算模型？", "opts": ["把全部資料集中在單一節點一次算完", "只負責資料儲存、完全不進行運算的機制", "把所有中間結果都放在記憶體以加速的引擎", "MapReduce：任務拆小分派各機器平行計算（Map），再彙整加總（Reduce）"], "ans": "D", "topic": "MapReduce", "exp": "MapReduce 把任務拆小、平行運算（Map），再彙整加總結果（Reduce）。"}, {"id": 16, "q": "某企業導入 Hadoop 生態系處理大數據，架構團隊向新進工程師介紹其核心由兩大部分組成，一部分專責把龐大資料分散存放於多台機器，另一部分專責把運算任務拆解後分派各機器平行處理。關於這兩大核心的分工，下列配對何者正確？", "opts": ["HDFS 負責分散式儲存、MapReduce 負責分散式運算", "HDFS 負責運算、MapReduce 負責儲存", "兩者皆負責運算，儲存另交由 Spark 處理", "兩者皆負責儲存，運算另交由 Regex 處理"], "ans": "A", "topic": "Hadoop 組成", "exp": "Hadoop 核心＝HDFS（分散式儲存）＋MapReduce（分散式運算）。"}, {"id": 17, "q": "某金融科技公司原本以 Hadoop MapReduce 執行風控批次作業，但工程團隊發現它在反覆讀寫磁碟上耗費大量時間、整體速度太慢。他們希望改採一種把資料與中間運算結果都保留在記憶體中、藉此大幅加速的新一代運算引擎。就此需求而言，下列何者最為適合？", "opts": ["正規表達式（Regex）", "範圍分片（Range Sharding）", "HDFS 分散式檔案系統", "Spark 記憶體高速運算引擎"], "ans": "D", "topic": "Spark", "exp": "Spark 為改善 MapReduce 太慢而生，將資料與中間結果放在記憶體（RAM）中加速。"}, {"id": 18, "q": "某資料科學平台希望能用同一套運算引擎，一次滿足機器學習建模、即時串流資料處理與 SQL 查詢等多種需求，而不必為每種工作各自導入不同系統。就這種內建多種模組、功能全面的全能型架構而言，下列何者最為符合？", "opts": ["正規表達式（Regex）", "HDFS 分散式檔案系統", "Spark（內建 MLlib、Spark Streaming 與 Spark SQL）", "MapReduce 批次運算"], "ans": "C", "topic": "Spark 模組", "exp": "Spark 內建 MLlib（機器學習）、Streaming（串流）與 Spark SQL，屬全能型架構。"}, {"id": 19, "q": "某電商的資料工程師比較兩套引擎後發現，同樣的迭代式運算作業在 Spark 上明顯快於傳統 Hadoop MapReduce。主管請他說明 Spark 為何較快。下列說明何者最正確？", "opts": ["因為 Spark 把資料與中間結果放在記憶體，減少磁碟反覆讀寫", "因為 Spark 以 Regex 直接查詢原始資料", "因為 Spark 只能處理極小量資料所以較快", "因為 Spark 完全不需要任何叢集即可運作"], "ans": "A", "topic": "Spark 加速原理", "exp": "Spark 以記憶體（In-Memory）保存中間結果，避免磁碟反覆讀寫而更快。"}, {"id": 20, "q": "某影音平台要把長達數小時的原始影片檔存進 HDFS。資料工程師向團隊說明 HDFS 的儲存機制：它不會把整個大檔案完整放在單一節點，而是先把檔案切成固定大小的區塊，再分散存放到叢集的多台伺服器上。關於 HDFS 這種資料切塊機制，下列敘述何者最正確？", "opts": ["HDFS 不切塊，整份檔案完整存於單一節點", "HDFS 將檔案切成區塊（通常 128MB 或 256MB）分散儲存於多台伺服器", "HDFS 的區塊大小固定為 1KB", "HDFS 的區塊只存在記憶體、不寫入磁碟"], "ans": "B", "topic": "HDFS Block", "exp": "HDFS 把大檔案切成區塊（常見 128MB 或 256MB），分散儲存於叢集多台伺服器。"}, {"id": 21, "q": "某企業在規劃 HDFS 叢集的容錯策略時，工程師說明系統為避免單台伺服器故障導致資料遺失，預設會為每一個資料區塊自動保存多份複本、分散存放於不同節點。就 HDFS 的預設複本數而言，下列何者正確？", "opts": ["預設 1 份（不製作任何複本）", "預設 10 份複本", "預設 3 份複本", "預設 2 份複本"], "ans": "C", "topic": "HDFS 複本", "exp": "HDFS 預設為每個資料區塊製作 3 份複本（Replication），以提升容錯能力。"}, {"id": 22, "q": "某資料團隊以圖書館比喻 HDFS 的架構，向新人說明其中一個節點就像「總管理員」，專門負責管理整體檔案目錄與檔案對應到哪些區塊，另一種節點則像「書架」實際存放資料。就負責管理檔案目錄的「總管理員」角色而言，對應下列何者？", "opts": ["ShardNode", "DataNode", "MapReduce", "NameNode"], "ans": "D", "topic": "HDFS 角色", "exp": "NameNode 是總管理員，管理檔案目錄；DataNode 像書架，真正儲存資料區塊。"}, {"id": 23, "q": "某銀行的核心帳務系統需要支援大量交易的即時查詢與逐筆更新（OLTP），且系統中存在極大量的零碎小檔案。架構師評估是否直接以 HDFS 作為此系統的底層儲存。就 HDFS 的設計特性而言，下列哪一種情境最不適合使用 HDFS？", "opts": ["大規模資料集的離線統計分析", "海量伺服器日誌的離線分析（Log Analysis）", "大數據的批次處理（Batch Processing）", "需要即時查詢逐筆更新的 OLTP，且含大量小檔案"], "ans": "D", "topic": "HDFS 適用性", "exp": "HDFS 適合大數據批次與日誌分析；不適合即時查詢（OLTP）與大量小檔案情境。"}, {"id": 24, "q": "某講師在資料工程課程中總結 HDFS 的三大關鍵設計，涵蓋資料切塊、副本機制與容錯能力等面向。有學員提問：某個常被提及的特性其實是另一套引擎的核心，而非 HDFS 的三大關鍵設計之一。下列何者並不屬於 HDFS 的三大關鍵設計？", "opts": ["Fault Tolerance（容錯能力）", "In-Memory（記憶體運算）", "Replication（副本機制）", "Block（資料切塊）"], "ans": "B", "topic": "HDFS 三大設計", "exp": "HDFS 三大設計為 Block、Replication、Fault Tolerance；記憶體運算是 Spark 特性。"}, {"id": 25, "q": "某快速成長的社群平台使用者暴增，單一資料庫在讀寫負載下已不堪負荷。架構團隊決定把龐大的使用者資料切成多塊、分散到不同機器與資料庫中儲存與處理，藉此讓系統更快也更能水平擴展。就這種將大量資料切塊分散儲存的技術而言，下列何者最符合？", "opts": ["二分搜尋（Binary Search）", "正規表達式（Regex）", "資料分片（Data Sharding）", "ACID 交易原則"], "ans": "C", "topic": "Data Sharding", "exp": "資料分片把大量資料切塊分散到不同機器，目的是讓系統更快、更能擴展。"}, {"id": 26, "q": "某跨國串流服務為降低各地使用者的存取延遲，決定依照使用者所在的區域，把其資料分散存放到就近的區域機房。就這種依地區來決定資料分佈位置的分片方式而言，下列何者最為符合？", "opts": ["時間分片（Time Sharding）", "地理分片（Geo Sharding）", "範圍分片（Range Sharding）", "雜湊分片（Hash Sharding）"], "ans": "B", "topic": "Geo Sharding", "exp": "地理分片（Geo Sharding）按地區分佈資料，適合就近儲存與存取以降低延遲。"}, {"id": 27, "q": "某大型論壇為讓資料能平均分佈、避免特定機器負載過重，設計上以一個雜湊函數對每筆資料的鍵值運算，並依運算結果決定該筆資料要落到哪一個分片。就這種以雜湊函數決定資料落點的分片方式而言，下列何者最為符合？", "opts": ["雜湊分片（Hash Sharding）", "地理分片（Geo Sharding）", "範圍分片（Range Sharding）", "副本分片（Replica Sharding）"], "ans": "A", "topic": "Hash Sharding", "exp": "雜湊分片以 Hash function 決定資料落點，有助於讓資料分佈較為平均。"}, {"id": 28, "q": "某銀行的轉帳交易要求：「A 帳戶扣款」與「B 帳戶入帳」這兩個動作必須同時成功或同時失敗，絕不允許只完成其中一半（例如扣了款卻沒入帳）。就交易不可只做一半、必須全有或全無的這項特性而言，最符合 ACID 原則中的哪一項？", "opts": ["原子性（Atomicity）", "一致性（Consistency）", "隔離性（Isolation）", "持久性（Durability）"], "ans": "A", "topic": "ACID-原子性", "exp": "原子性（Atomicity）要求交易不可只做一半，須全部成功或全部失敗。"}, {"id": 29, "q": "某電商在促銷檔期會有大量訂單交易幾乎同時發生。資料庫團隊要確保「即使多筆交易在同一時間並行進行，彼此也不會因互相干擾而讀到或改到不正確的中間狀態，導致資料出錯」。就這項避免並行交易互相干擾的特性而言，最符合 ACID 原則中的哪一項？", "opts": ["隔離性（Isolation）", "原子性（Atomicity）", "持久性（Durability）", "一致性（Consistency）"], "ans": "A", "topic": "ACID-隔離性", "exp": "隔離性（Isolation）避免多筆交易同時進行時互相干擾而造成錯誤。"}, {"id": 30, "q": "某第三方金流平台要求：一旦交易被系統確認成功並提交，這筆交易的結果就必須永久保存，縱使緊接著發生停電或系統當機，資料也絕不能因此遺失。就這項交易一旦成功便永久保存、不會消失的特性而言，最符合 ACID 原則中的哪一項？", "opts": ["原子性（Atomicity）", "隔離性（Isolation）", "持久性（Durability）", "一致性（Consistency）"], "ans": "C", "topic": "ACID-持久性", "exp": "持久性（Durability）確保交易一旦成功提交，資料就永久保存、不會消失。"}];
+const LETTERS=['A','B','C','D'];
+let order = DATA.map((_,i)=>i);
+let answered = {};
+const $ = s=>document.querySelector(s);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function render(){
+  const quiz = $('#quiz'); quiz.innerHTML='';
+  order.forEach((oi,pos)=>{
+    const q = DATA[oi];
+    const card = document.createElement('div');
+    card.className='card'; card.dataset.oi=oi;
+    const chosen = answered[oi];
+    card.innerHTML = `
+      <div class="qhead"><span class="qnum">第 ${String(pos+1).padStart(2,'0')} 題</span></div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts">
+        ${q.opts.map((o,k)=>{const L=LETTERS[k];
+          return `<button class="opt" data-l="${L}" role="button"><span class="key">${L}</span><span>${o}</span></button>`;
+        }).join('')}
+      </div>
+      <div class="explain" id="exp-${oi}">
+        <span class="lab">解析 · 正解 ${q.ans} · 觀念：${q.topic}</span>${q.exp}
+      </div>`;
+    quiz.appendChild(card);
+    if(chosen) applyLock(card, q, chosen);
+    card.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click',()=>choose(oi,q,card,btn.dataset.l));
+    });
+  });
+  updateDash();
+}
+function applyLock(card,q,chosen){
+  card.querySelectorAll('.opt').forEach(b=>{
+    b.classList.add('locked');
+    const L=b.dataset.l;
+    if(L===q.ans) b.classList.add('correct');
+    else if(L===chosen) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  $('#exp-'+card.dataset.oi).classList.add('show');
+}
+function choose(oi,q,card,L){
+  if(answered[oi]) return;
+  answered[oi]=L; applyLock(card,q,L); updateDash();
+  if(Object.keys(answered).length===DATA.length) finish();
+}
+function updateDash(){
+  const n=Object.keys(answered).length; let correct=0;
+  for(const k in answered){ if(answered[k]===DATA[k].ans) correct++; }
+  const pct=Math.round(n/DATA.length*100);
+  $('#fill').style.width=pct+'%';
+  $('#progLab').textContent=`已作答 ${n} / ${DATA.length}`;
+  $('#pct').textContent=pct+'%';
+  $('#sCorrect').textContent=correct; $('#sWrong').textContent=n-correct;
+}
+function finish(){
+  let correct=0;
+  for(const k in answered){ if(answered[k]===DATA[k].ans) correct++; }
+  const pct=Math.round(correct/DATA.length*100);
+  $('#rBig').textContent=pct+'%';
+  $('#rMsg').textContent=`答對 ${correct} 題，共 ${DATA.length} 題。`+
+    (pct>=80?' 掌握得很扎實，搜尋演算法與大數據工具都分得清楚。':
+     pct>=60?' 基礎穩固，再留意易混淆處（如 DFS/BFS、HDFS/Spark、ACID 四特性）。':
+     ' 建議回頭複習搜尋演算法、ETL 與 Hadoop/Spark、HDFS 與 ACID 的核心定義。');
+  const r=$('#result'); r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+$('#revealBtn').addEventListener('click',()=>{
+  order.forEach(oi=>{
+    const q=DATA[oi];
+    const card=document.querySelector(`.card[data-oi="${oi}"]`);
+    if(!answered[oi]){
+      card.querySelectorAll('.opt').forEach(b=>{
+        b.classList.add('locked');
+        if(b.dataset.l===q.ans) b.classList.add('correct'); else b.classList.add('dim');
+      });
+    }
+    $('#exp-'+oi).classList.add('show');
+  });
+});
+$('#shuffleBtn').addEventListener('click',()=>{ shuffle(order); answered={}; $('#result').classList.remove('show'); render(); window.scrollTo({top:0,behavior:'smooth'}); });
+$('#resetBtn').addEventListener('click',reset);
+$('#againBtn').addEventListener('click',reset);
+function reset(){ order=DATA.map((_,i)=>i); answered={}; $('#result').classList.remove('show'); render(); window.scrollTo({top:0,behavior:'smooth'}); }
+render();
+</script>
+</body>
+</html>

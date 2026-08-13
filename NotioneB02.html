@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>強化學習 情境題練習</title>
+<style>
+  :root{
+    --ink:#f6f8fb; --ink2:#eef1f7; --panel:#ffffff; --panel2:#f1f4f9;
+    --line:#e2e6ed; --muted:#6b7688; --text:#1a2230; --dim:#48566b;
+    --c1:#0d9488; --c2:#7c3aed; --c3:#db2777;
+    --ok:#16a34a; --okbg:#dcfce7;
+    --no:#dc2626; --nobg:#fee2e2;
+    --grad:linear-gradient(90deg,#0d9488 0%,#7c3aed 55%,#db2777 100%);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(124,108,255,.10), transparent 60%),
+      radial-gradient(900px 500px at -5% 10%, rgba(56,225,200,.08), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font-family:"Inter","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:28px 20px 96px}
+  header{margin-bottom:22px}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--c1);
+    font-family:"JetBrains Mono",ui-monospace,monospace;margin:0 0 10px}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.12;margin:0 0 6px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+
+  .modebar{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+  .mode{appearance:none;border:1px solid var(--line);background:transparent;color:var(--dim);
+    font-size:13px;padding:9px 16px;border-radius:99px;cursor:pointer;transition:.18s;font-family:inherit;font-weight:600}
+  .mode:hover{border-color:var(--c2);color:var(--text)}
+  .mode.active{background:var(--grad);color:#0b0f14;border-color:transparent}
+
+  .dash{display:flex;align-items:center;gap:16px;margin:16px 0 8px;flex-wrap:wrap}
+  .signal{flex:1;min-width:200px}
+  .signal .track{height:8px;border-radius:99px;background:var(--panel2);overflow:hidden;border:1px solid var(--line)}
+  .signal .fill{height:100%;width:0;background:var(--grad);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+  .signal .lab{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);
+    margin-top:7px;font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.05em}
+  .score{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px;color:var(--dim)}
+  .score b{color:var(--c1)}
+  .score .sep{color:var(--line);margin:0 6px}
+  .score .wrong{color:var(--c3)}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 6px}
+  .btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--dim);
+    font-size:13px;padding:8px 14px;border-radius:9px;cursor:pointer;transition:.18s;
+    font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+  .btn:hover{border-color:var(--c2);color:var(--text);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn.ghost{background:transparent}
+
+  .card{background:linear-gradient(180deg,var(--panel),var(--ink2));
+    border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;margin:16px 0;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset, 0 18px 40px -30px rgba(15,23,42,.10)}
+  .qhead{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .qnum{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--ink);
+    background:var(--c1);padding:3px 9px;border-radius:6px;font-weight:700}
+  .qtext{font-size:16px;line-height:1.72;color:var(--text);margin:0 0 16px}
+  .opts{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;
+    background:var(--panel2);border:1px solid var(--line);border-radius:11px;
+    padding:13px 14px;cursor:pointer;transition:.16s;color:var(--dim);font-size:14.5px;line-height:1.6;font-family:inherit}
+  .opt:hover:not(.locked){border-color:var(--c2);background:#f4f1fd;color:var(--text)}
+  .opt .key{flex:none;width:26px;height:26px;border-radius:7px;border:1px solid var(--line);
+    display:grid;place-items:center;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:13px;font-weight:700;color:var(--muted);transition:.16s}
+  .opt:hover:not(.locked) .key{border-color:var(--c2);color:var(--c1)}
+  .opt.locked{cursor:default}
+  .opt.correct{border-color:var(--ok);background:var(--okbg);color:var(--text)}
+  .opt.correct .key{background:var(--ok);color:var(--ink);border-color:var(--ok)}
+  .opt.wrong{border-color:var(--no);background:var(--nobg);color:var(--text)}
+  .opt.wrong .key{background:var(--no);color:#fff;border-color:var(--no)}
+  .opt.dim{opacity:.5}
+  .explain{margin-top:14px;border-left:3px solid var(--c2);background:rgba(124,108,255,.07);
+    border-radius:0 10px 10px 0;padding:12px 15px;font-size:14px;color:var(--dim);
+    max-height:0;overflow:hidden;opacity:0;transition:.35s ease}
+  .explain.show{max-height:340px;opacity:1;margin-top:14px}
+  .explain .lab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;
+    letter-spacing:.14em;color:var(--c2);text-transform:uppercase;display:block;margin-bottom:5px}
+  .explain b{color:var(--c1)}
+  .result{display:none;background:linear-gradient(180deg,var(--panel),var(--ink2));
+    border:1px solid var(--line);border-radius:16px;padding:26px;text-align:center;margin:18px 0}
+  .result.show{display:block}
+  .result .big{font-size:52px;font-weight:800;line-height:1;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .result .cap{color:var(--muted);font-size:13px;margin-top:6px;font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.1em}
+  .result .msg{margin:14px 0 18px;color:var(--dim)}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.04em}
+  @media (max-width:560px){.wrap{padding:20px 14px 90px}.qtext{font-size:15px}.opt{font-size:14px}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  .opt:focus-visible,.btn:focus-visible,.mode:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">初級 AI 應用規劃師 · 情境練習</p>
+    <h1>強化學習 <span class="g">情境題</span></h1>
+    <p class="sub">60 題台灣在地決策情境選擇題，每回合可抽考 15 題 · 真實業務難題＋選型取捨＋反向判斷 · 涵蓋 TD／SARSA／Q-Learning／DQN／DRL、價值／策略路線與 GRPO</p>
+
+    <div class="modebar" id="modebar">
+      <button class="mode active" data-mode="15">抽考 15 題</button>
+      <button class="mode" data-mode="all">全部 60 題</button>
+    </div>
+
+    <div class="dash">
+      <div class="signal">
+        <div class="track"><div class="fill" id="fill"></div></div>
+        <div class="lab"><span id="progLab">已作答 0 / 0</span><span id="pct">0%</span></div>
+      </div>
+      <div class="score">正確 <b id="sCorrect">0</b><span class="sep">/</span>錯誤 <span class="wrong" id="sWrong">0</span></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="revealBtn">顯示本回合解析</button>
+      <button class="btn ghost" id="newRoundBtn">重新抽題</button>
+    </div>
+  </header>
+  <div id="quiz"></div>
+  <div class="result" id="result">
+    <div class="big" id="rBig">0%</div>
+    <div class="cap" id="rCap">SCORE</div>
+    <p class="msg" id="rMsg"></p>
+    <button class="btn" id="againBtn">再抽一回合</button>
+  </div>
+  <footer>學習來源：「決策與控制 DRL」＋「強化學習＋GRPO」＋「強化學習演算法總彙比較表」· 題型仿 115 年第一次初級 AI 應用規劃師</footer>
+</div>
+<script>
+const ALL = [{"id": 1, "q": "台灣某科技廠的無人搬運車行駛於狹窄且有工人走動的產線走道，安全團隊明訂：訓練過程中車輛絕不能學到會擦撞人員的冒進路線，寧可路徑保守繞遠也不能出事。工程師需選一種在更新時會把『下一步實際會走、含撞人風險』一併算進評估的演算法。就此以訓練安全為最高原則的需求，下列選擇與理由何者最適當？", "opts": ["DQN，因為它用神經網路所以最安全", "Q-Learning，因為它總是假設下一步走最優、最安全", "GRPO，因為它專門處理安全問題", "SARSA，因為它是在線學習、會把實際冒的險算進評估、訓練較保守"], "ans": "D", "topic": "SARSA 選型", "exp": "重視訓練安全宜用在線的 SARSA，它把下一步實際行動的風險納入評估、較保守。"}, {"id": 2, "q": "台灣某物流公司要為園區內固定路線的送貨車學出『總行駛距離最短』的最優路徑，園區封閉、沒有行人、訓練時偶爾走錯撞到虛擬牆壁也無所謂，只要最後學到的路線最短最好。就此追求最短最優解、可容忍訓練踩雷的需求，下列選擇與理由何者最適當？", "opts": ["Q-Learning，因為它離線、假設下一步走最優、常得最短最優解", "SARSA，因為它保守、路線最短", "TD(0)，因為它只做預測", "GRPO，因為它走策略路線"], "ans": "A", "topic": "Q-Learning 選型", "exp": "追最短最優、可容忍訓練踩雷宜用離線的 Q-Learning，它假設下一步走最優。"}, {"id": 3, "q": "台灣某自動控制團隊同時要交付兩個案子：甲案是封閉場域、追求最短最優、可承受訓練中偶爾出錯；乙案是有行人的公共場域、最重視訓練過程不能出現危險行為。工程師要為甲、乙各配一種演算法。就此兩案的取捨，下列配對何者最適當？", "opts": ["甲 GRPO／乙 DQN", "甲 SARSA／乙 Q-Learning", "甲 Q-Learning／乙 SARSA", "甲 DQN／乙 GRPO"], "ans": "C", "topic": "情境配對", "exp": "追最優可踩雷→Q-Learning；重視訓練安全→SARSA。"}, {"id": 4, "q": "台灣某巡檢團隊的新進工程師主張：『我們這個有行人走動的巡檢場域最怕訓練時出危險，所以應該用 Q-Learning，因為它比較保守安全。』資深工程師聽了立刻指出這個主張把演算法特性搞反了。此主張為何不妥？", "opts": ["巡檢任務只能用 DQN", "Q-Learning 其實是離線、較激進大膽，重視訓練安全應改用保守的 SARSA", "Q-Learning 完全無法用於巡檢", "此主張其實完全正確"], "ans": "B", "topic": "選型不當（反向）", "exp": "激進大膽的是 Q-Learning；重視訓練安全宜用保守的 SARSA，主張把兩者說反。"}, {"id": 5, "q": "台灣某團隊在文件寫下兩句話描述演算法對風險的態度：甲『我下一步既然可能亂走，就把這風險算進現在的評估』、乙『不管實際會不會亂選，評估時都假設下一步選最完美的動作』。就甲、乙對應的演算法，下列配對何者正確？", "opts": ["甲 SARSA／乙 Q-Learning", "甲 DQN／乙 TD(0)", "甲 GRPO／乙 DQN", "甲 Q-Learning／乙 SARSA"], "ans": "A", "topic": "風險態度", "exp": "把實際風險算進評估→SARSA；假設下一步選最完美動作→Q-Learning。"}, {"id": 6, "q": "台灣某桌遊 App 要做一個五子棋 AI，棋盤狀態數量有限、可以逐格用表格記錄，且手機端計算資源有限、不想動用神經網路。就此小型離散、資源有限的需求，下列選擇與理由何者最適當？", "opts": ["傳統 Q-Learning，狀態可用 Q 表明確記錄、計算需求低", "DRL，因為它處理高維", "GRPO，因為它走策略路線", "DQN，因為它用神經網路最省資源"], "ans": "A", "topic": "Q-Learning 選型", "exp": "小型離散、資源有限宜用以 Q 表記錄的傳統 Q-Learning，計算需求低。"}, {"id": 7, "q": "台灣某遊戲公司要訓練一個以『整張遊戲畫面像素』為輸入、需即時反應的動作遊戲 AI，狀態空間龐大到無法用表格窮舉，但公司有 GPU 叢集可負擔較高算力。就此高維影像輸入、需函數近似的需求，下列選擇與理由何者最適當？", "opts": ["Deep Q-Learning（DQN），以神經網路近似 Q 值、可吃高維影像", "傳統 Q-Learning，因為它能窮舉所有畫面", "肘部法，因為它選 K 值", "SARSA，因為它保守"], "ans": "A", "topic": "DQN 選型", "exp": "高維影像輸入、狀態無法窮舉時宜用以神經網路近似的 DQN。"}, {"id": 8, "q": "台灣某工程師為一個『以廠區攝影機即時影像為輸入』的複雜控制任務選了傳統表格式 Q-Learning，實作後卻發現狀態多到記憶體塞不下、模型根本學不起來。就選型角度而言，此做法錯在哪裡？", "opts": ["其實選型完全正確、是硬體問題", "影像任務只能用 SARSA", "Q-Learning 根本不能學習", "高維影像的狀態空間過大、無法用表格窮舉，應改用以神經網路近似的 DQN"], "ans": "D", "topic": "選型不當（反向）", "exp": "高維影像狀態無法用表格窮舉，應改用函數近似的 DQN，而非表格式 Q-Learning。"}, {"id": 9, "q": "台灣某遊戲工作室的工程師為新專案比較 Q-Learning 與 DQN，想先釐清兩者在價值表示與適用規模上的差異，以免把小型離散與高維影像的場景用反。就這兩者的比較，下列關於兩者的敘述何者錯誤？", "opts": ["DQN 以神經網路函數近似、適合高維複雜問題", "Q-Learning 以表格明確記錄 Q 值、適合小型離散問題", "DQN 計算需求較 Q-Learning 高", "Q-Learning 適合高維影像、DQN 只適合小型離散問題"], "ans": "D", "topic": "Q-Learning vs DQN（反向）", "exp": "錯誤：適合高維影像的是 DQN；小型離散才用表格式 Q-Learning。"}, {"id": 10, "q": "台灣某研究團隊要做一個能下圍棋達職業水準的 AI，需同時看懂高維盤面、又要在海量對局中試錯學出最佳落子策略，傳統以表格記錄狀態的方法完全撐不住這種規模。就此需求，下列選擇與理由何者最適當？", "opts": ["貝氏分類器，因為它算得快", "線性迴歸，因為它可解釋", "傳統表格式 RL，因為它最省資源", "深度增強式學習（DRL），結合深度學習處理高維、以試錯學最佳決策"], "ans": "D", "topic": "DRL 選型", "exp": "高維盤面＋大量試錯學決策（如圍棋）需結合深度學習與 RL 的 DRL。"}, {"id": 11, "q": "台灣某自駕團隊的工程師在專案評估報告中主張：『傳統 RL 只要用表格就能處理自駕車的高維影像輸入，不必大費周章導入 DRL。』技術主管審閱後指出此主張與事實不符。此主張為何不妥？", "opts": ["自駕只能用 SARSA", "傳統 RL 以表格表示狀態、適合小型問題，高維影像應用以神經網路的 DRL", "傳統 RL 根本不能處理任何資料", "此主張其實正確"], "ans": "B", "topic": "傳統RL vs DRL（反向）", "exp": "高維影像應用 DRL；傳統 RL 以表格表示狀態、僅適合小型問題。"}, {"id": 12, "q": "台灣某新創的客服 LLM 要提升『解數學應用題』的能力，重點是模型要能一步步推導、還能自我檢查對錯，團隊打算用『答對給獎勵』的方式改善它的推理過程，而不是把它當成單步分類器。就此需求，下列選擇與理由何者最適當？", "opts": ["SARSA，因為它是控制演算法", "DQN，因為它用神經網路", "K-means，因為它能分群", "GRPO，走策略路線、用獎勵提升 LLM 的多步推理能力"], "ans": "D", "topic": "GRPO 選型", "exp": "提升 LLM 多步推理（如數學解題）宜用策略路線的 GRPO，以獎勵改善推理。"}, {"id": 13, "q": "台灣某電商團隊想把 GRPO 用來做『把顧客評論分成正面或負面』的情緒分類任務，導入後卻發現效果不如預期、投入產出不成比例。就 GRPO 的設計初衷，此應用為何不適當？", "opts": ["情緒分類是單步驟辨識、不需多步推理，並非 GRPO 擅長的推理型任務", "GRPO 其實最適合情緒分類", "情緒分類只能用 DQN", "GRPO 根本不能運算"], "ans": "A", "topic": "GRPO 誤用（反向）", "exp": "GRPO 擅長數學/邏輯/程式等多步推理；情緒分類是單步辨識，非其強項。"}, {"id": 14, "q": "台灣某 AI 公司要在四個任務中挑出『最適合用 GRPO』的一個：顧客情緒分類、語音轉文字、圖片分類、數學證明題求解。就 GRPO 擅長逐步推理的特性，下列哪一個最適合？", "opts": ["語音轉文字", "圖片分類", "情緒分類", "數學證明題求解"], "ans": "D", "topic": "GRPO 適合任務", "exp": "GRPO 最適合數學、邏輯、程式等需逐步推導的推理任務。"}, {"id": 15, "q": "台灣某工程師在專案技術文件中整理 GRPO 的定位與適用範圍，供團隊選型時參考，以免誤把它用在只需單步輸出的辨識或分類任務上而事倍功半。就 GRPO 的敘述，下列何者錯誤？", "opts": ["GRPO 用獎勵提升 LLM 的推理能力", "GRPO 屬策略路線（Policy-based）", "GRPO 最適合情緒分類、語音轉文字等單步辨識任務", "GRPO 最適合數學、邏輯、程式等多步推理"], "ans": "C", "topic": "GRPO（反向）", "exp": "錯誤：GRPO 最適合多步推理；單步辨識任務反而不適合。"}, {"id": 16, "q": "台灣某團隊要為『走迷宮機器人』選路線方法，任務狀態與動作都很明確，作法是先估出每個動作的價值（Q 值）、再挑價值最高的動作來走。就此『先估價值再選動作』的作法，屬於下列哪一種路線，且下列代表演算法何者正確？", "opts": ["價值路線；代表 TD、SARSA、Q-Learning、DQN", "策略路線；代表 GRPO", "半監督路線；代表偽標籤", "自監督路線；代表 CLIP"], "ans": "A", "topic": "價值路線", "exp": "先估 Q 值再選動作屬價值路線，代表 TD、SARSA、Q-Learning、DQN。"}, {"id": 17, "q": "台灣某 LLM 團隊不想先估每個動作的 Q 值，而是想『直接調整模型的策略、讓好的推理行為出現機率變高』來訓練推理能力。就此直接優化策略的作法，屬於下列哪一種路線，且代表演算法為何？", "opts": ["策略路線；代表 GRPO", "價值路線；代表 Q-Learning", "非監督路線；代表 K-means", "降維路線；代表 PCA"], "ans": "A", "topic": "策略路線", "exp": "直接優化策略讓好行為機率提高屬策略路線，代表演算法為 GRPO。"}, {"id": 18, "q": "台灣某工程師在選型會議上主張：『GRPO 跟 DQN 一樣都是價值路線，都是先估出每個動作的 Q 值、再挑價值最高的動作來走。』與會的資深同事聽完後立刻指出這個主張有誤。此主張為何不妥？", "opts": ["此主張完全正確", "GRPO 屬策略路線、直接優化策略，並非先估 Q 值的價值路線", "DQN 其實是策略路線", "GRPO 根本不能訓練 LLM"], "ans": "B", "topic": "路線歸屬（反向）", "exp": "GRPO 屬策略路線（直接優化策略）；價值路線才是先估 Q 值，如 DQN。"}, {"id": 19, "q": "台灣某推薦系統的序列決策模組在技術文件上寫著：『本模組先估每個動作的 Q 值再選最高者，環境為狀態-動作明確的走迷宮任務。』就這段描述所指的方法性質，下列哪一種方法最不可能是它？", "opts": ["Q-Learning", "GRPO", "SARSA", "DQN"], "ans": "B", "topic": "路線排除（反向）", "exp": "先估 Q 值屬價值路線；GRPO 屬策略路線，最不可能對應此模組。"}, {"id": 20, "q": "台灣某電商要讓一個 AI 自己學會『動態調整促銷折扣以最大化長期營收』：系統實際下折扣、觀察成交與退貨帶來的獎懲、再逐步修正策略，過程沒有人給標準答案。就此透過試錯從獎懲中學習的問題，最適合下列哪一類方法？", "opts": ["強化學習", "非監督式分群", "主成分分析降維", "監督式學習"], "ans": "A", "topic": "強化學習", "exp": "透過與環境互動、從獎懲中試錯學最佳決策，屬強化學習。"}, {"id": 21, "q": "台灣某工程師設計送餐機器人的強化學習系統，把『每次送達準時加分、遲到或打翻扣分』這個回饋訊號，用來引導機器人學習。就這個『環境對行動給出、用以評價好壞的回饋訊號』在 RL 中的角色，其名稱為下列何者？", "opts": ["行動（Action）", "獎勵（Reward）", "狀態（State）", "代理（Agent）"], "ans": "B", "topic": "RL 要素-Reward", "exp": "Reward 是環境對行動的回饋訊號，是 RL 學習的依據。"}, {"id": 22, "q": "台灣某送餐機器人團隊的工程師，向剛到職的同事說明強化學習五個要素及其分工，以免日後在設計獎勵函數與定義狀態時，把各要素扮演的角色搞混。就這五個要素的敘述，下列何者錯誤？", "opts": ["Agent 是做決策、採取行動的主體", "Environment 是 Agent 互動的外部世界", "Reward 是環境對行動給出的回饋訊號", "Action 是環境用來評價 Agent 好壞的分數"], "ans": "D", "topic": "RL 要素（反向）", "exp": "錯誤：評價好壞的分數是 Reward；Action 是 Agent 可採取的行動。"}, {"id": 23, "q": "台灣某教學團隊用一句話說明某方法的精神：『邊做邊學，用現在的預測去修正過去的預測』，並指出 SARSA 與 Q-Learning 都建立在它之上。就此作為多種控制演算法共同基礎的方法，其名稱為下列何者？", "opts": ["肘部法（Elbow Method）", "核函數（Kernel Trick）", "時序差分（Temporal-Difference, TD）", "主成分分析（PCA）"], "ans": "C", "topic": "時序差分 TD", "exp": "TD 邊做邊學、以現在預測修正過去預測，是 SARSA 與 Q-Learning 的基礎。"}, {"id": 24, "q": "台灣某資料團隊的工程師向主管釐清 SARSA、Q-Learning、DQN 三者的理論關係與共同基礎，避免把不同層次的概念混為一談而誤導後續選型。就這三者的關係，下列敘述何者錯誤？", "opts": ["三者都屬價值路線（Value-based）", "三者都建立在主成分分析（PCA）之上", "TD 的精神是邊做邊學、以現在預測修正過去預測", "三者都建立在時序差分（TD）之上"], "ans": "B", "topic": "TD 共同基礎（反向）", "exp": "錯誤：三者共同基礎是時序差分（TD），與 PCA 無關。"}, {"id": 25, "q": "台灣某新創以強化學習訓練走迷宮 AI，靠不斷試錯、跌倒、獲得獎懲，逐步建立一張記錄『各狀態下採取各動作、預期未來總回報』的表格作為決策依據。就此無模型、以該表格為核心的演算法，其名稱為下列何者？", "opts": ["PCA", "SARSA", "Q-Learning", "GRPO"], "ans": "C", "topic": "Q-Learning", "exp": "Q-Learning 以試錯、無模型學習，核心是記錄狀態-動作價值的 Q 表。"}, {"id": 26, "q": "台灣某工程師向新人說明 Q-Learning 的 Q(S,A)：它代表在某處境下採取某動作後、AI 對未來能累積之總回報的預期估計。就 Q(S,A) 的意涵，下列敘述何者錯誤？", "opts": ["它考慮的是未來累積回報而非只看當下", "它代表在狀態 S 下做動作 A 的預期未來總回報", "它只代表當前這一步的立即獎勵、與未來無關", "它是選擇動作時的重要依據"], "ans": "C", "topic": "Q(S,A)（反向）", "exp": "錯誤：Q(S,A) 是預期未來累積回報，並非只看當下的立即獎勵。"}, {"id": 27, "q": "台灣某教學團隊把 Q-Learning 比喻為『在環境中不斷跌倒、獲得獎懲、逐步學會該做什麼』，並強調它不需要事先知道環境的完整運作規則就能學習。就此無模型的特性，下列敘述何者最正確？", "opts": ["它屬於監督式學習需要完整標籤", "它以主成分分析壓縮狀態", "它是無模型（model-free）方法、純靠與環境互動試錯", "它需要事先知道環境的完整轉移模型"], "ans": "C", "topic": "Q-Learning 無模型", "exp": "Q-Learning 是無模型方法，純靠與環境互動試錯學習，不需環境完整模型。"}, {"id": 28, "q": "台灣某自駕團隊要讓 AI 直接吃攝影機的高維影像來學駕駛，傳統 Q 表因狀態爆炸而失效，於是改用深度神經網路來『估計』各狀態-動作的 Q 值。就此以神經網路取代 Q 表的演算法，其名稱為下列何者？", "opts": ["SARSA", "TD(0)", "Deep Q-Learning（DQN）", "K-means"], "ans": "C", "topic": "DQN", "exp": "DQN 以神經網路取代 Q 表估計 Q 值，可從高維影像學策略。"}, {"id": 29, "q": "台灣某課程以自駕車與 AlphaGo 為例，說明某方法能在試錯中學最佳決策、又能處理影像等高維輸入，這是它相較於只能處理小型問題之傳統 RL 的最大突破。此方法為下列何者？", "opts": ["半監督式偽標籤", "非監督式分群", "線性迴歸", "深度增強式學習（DRL）"], "ans": "D", "topic": "DRL 應用", "exp": "DRL 能處理高維輸入並在試錯中學最佳決策，應用於自駕車、AlphaGo。"}, {"id": 30, "q": "台灣某工程師在專案技術評估報告中，比較傳統 RL 與 DRL 在狀態表示與能力範圍上的差異，以決定一個含高維影像輸入的專案該採用哪一種方法。就這兩者的能力範圍，下列敘述何者錯誤？", "opts": ["DRL 常應用於自駕車、AlphaGo", "傳統 RL 多以表格表示狀態、適合小型問題", "傳統 RL 能處理高維影像、DRL 只能處理小型問題", "DRL 以神經網路取代表格、能處理高維問題"], "ans": "C", "topic": "DRL vs 傳統RL（反向）", "exp": "錯誤：能處理高維影像的是 DRL；傳統 RL 僅適合小型（表格）問題。"}, {"id": 31, "q": "台灣某控制團隊的工程師整理 SARSA 與 Q-Learning 的差異，作為選型與教學依據，以免把在線與離線、保守與激進的特性弄反。就這兩者的差異，下列敘述何者錯誤？", "opts": ["SARSA 把下一步實際行動的風險納入評估", "SARSA 屬離線、Q-Learning 屬在線", "SARSA 屬在線（On-policy）、訓練較保守", "Q-Learning 屬離線（Off-policy）、訓練較激進"], "ans": "B", "topic": "On/Off-policy（反向）", "exp": "錯誤：SARSA 是在線（On-policy）、Q-Learning 是離線（Off-policy）。"}, {"id": 32, "q": "台灣某工程師在為離散控制任務調參時，說明 Q-Learning 更新價值時對『下一步動作』所做的假設，這是它與 SARSA 的關鍵區別。就 Q-Learning 的這項假設，下列敘述何者最正確？", "opts": ["完全忽略下一步、只看當前獎勵", "假設下一步一定選分數最高的動作", "把下一步實際會採取的行動與風險納入", "隨機假設下一步的動作"], "ans": "B", "topic": "Q-Learning 更新假設", "exp": "Q-Learning 更新時假設下一步一定選分數最高的動作（Off-policy）。"}, {"id": 33, "q": "台灣某工程師在為離散控制任務調參時，比較 SARSA 更新價值時如何處理『下一步動作』，因為這正是它偏保守安全的關鍵所在。就 SARSA 的處理方式，下列敘述何者最正確？", "opts": ["假設下一步一定選分數最高的動作", "把下一步實際會採取的行動納入考量", "完全不考慮下一步", "以隨機森林投票決定下一步"], "ans": "B", "topic": "SARSA 更新假設", "exp": "SARSA 更新時把下一步實際會採取的行動納入考量（On-policy）。"}, {"id": 34, "q": "台灣某課程說明 On-policy 與 Off-policy 兩類演算法的代表：一類的代表是 SARSA，另一類的代表是 Q-Learning 與 DQN。就『Off-policy 離線』這一類的代表演算法，下列何者最正確？", "opts": ["Q-Learning 與 DQN", "TD(0) 與 SARSA", "GRPO", "SARSA"], "ans": "A", "topic": "Off-policy 代表", "exp": "Off-policy 代表為 Q-Learning 與 DQN；On-policy 代表為 SARSA。"}, {"id": 35, "q": "台灣某醫院要用強化學習排程手術室，狀態與動作明確、且極度重視『訓練過程不能排出危及病人的方案』，寧可保守。若工程師選了激進的 Q-Learning，較可能的風險為何，應改用何者？", "opts": ["無需改，任何演算法都一樣", "毫無風險；Q-Learning 最安全", "風險是算得太慢；宜改用 DQN", "風險是訓練中可能學到危險排程；宜改用保守的在線 SARSA"], "ans": "D", "topic": "SARSA 情境", "exp": "重視訓練安全的離散控制宜用保守的 SARSA，而非激進的 Q-Learning。"}, {"id": 36, "q": "台灣某捷運公司要用 AI 學出『尖峰時段列車調度以最小化乘客等待』的最優策略，路網狀態明確、可承受模擬中偶爾出錯，目標是最短等待的最優解。就此需求，下列選擇與理由何者最適當？", "opts": ["SARSA，因為它保守", "PCA，因為它降維", "GRPO，因為它做推理", "Q-Learning，因為它離線、追最短最優解"], "ans": "D", "topic": "Q-Learning 情境", "exp": "追最優、可容忍模擬踩雷宜用離線的 Q-Learning。"}, {"id": 37, "q": "台灣某手遊公司要為一款以『整張戰場畫面像素』為輸入的即時戰略遊戲訓練操作 AI，畫面狀態多到無法用表格窮舉，但公司有雲端 GPU 可負擔較高算力。就此高維畫面輸入的需求，下列選擇與理由何者最適當？", "opts": ["傳統 Q-Learning，因為它能窮舉畫面", "DQN，因為它以神經網路近似 Q 值、可吃高維畫面", "肘部法，因為它選 K 值", "SARSA，因為它保守"], "ans": "B", "topic": "DQN 情境", "exp": "高維畫面、無法窮舉狀態宜用以神經網路近似的 DQN。"}, {"id": 38, "q": "台灣某 AI 公司要提升程式助理『自動解題並驗證程式碼』的能力，需要模型能逐步推導、產生候選解、再依測資對錯給予獎勵來改善推理過程。就此多步推理型的 LLM 任務，下列選擇與理由何者最適當？", "opts": ["DQN，因為它用神經網路", "GRPO，走策略路線、以獎勵提升 LLM 的多步推理", "SARSA，因為它是控制演算法", "K-means，因為它分群"], "ans": "B", "topic": "GRPO 情境", "exp": "程式解題屬多步推理，宜用以獎勵改善推理的策略路線 GRPO。"}, {"id": 39, "q": "台灣某研究團隊以小型且狀態離散的走迷宮為環境、計算資源有限，想用最基礎、能以表格明確記錄狀態-動作價值、靠試錯學出最優策略的無模型演算法。就此小型離散、資源有限的需求，下列選擇何者最適當？", "opts": ["DRL", "DQN", "傳統 Q-Learning", "GRPO"], "ans": "C", "topic": "Q-Learning 情境", "exp": "小型離散、資源有限宜用以 Q 表明確記錄價值的傳統 Q-Learning。"}, {"id": 40, "q": "台灣某物流倉的自動避障堆高機，狀態與動作明確且離散，安全部門要求訓練過程中絕不能學到會撞倒貨架或人員的冒進行為，最終路線略保守也能接受。就此重視訓練安全的需求，下列選擇何者最適當？", "opts": ["GRPO（LLM 推理）", "SARSA（保守在線）", "PCA（降維）", "Q-Learning（激進離線）"], "ans": "B", "topic": "SARSA 情境2", "exp": "重視訓練安全、偏保守的離散控制宜用在線的 SARSA。"}, {"id": 41, "q": "台灣某考生的強化學習速記卡上，為某演算法寫下核心描述：『激進、離線（Off-policy），更新時永遠假設下一步會選分數最高的最優動作』。就這句描述，最對應下列哪一個演算法？", "opts": ["TD（邊做邊學的地基）", "DQN（換上神經網路大腦）", "SARSA（保守在線）", "Q-Learning（激進離線、假設走最優）"], "ans": "D", "topic": "速記-QLearning", "exp": "Q-Learning＝激進離線，更新時永遠假設下一步選最優動作。"}, {"id": 42, "q": "台灣某考生的強化學習速記卡上，為某演算法寫下核心描述：『把 Q-Learning 換上神經網路這顆大腦，因而能吃下高維影像資料（如遊戲畫面）』。就這句描述，最對應下列哪一個演算法？", "opts": ["GRPO", "TD(0)", "SARSA", "Deep Q-Learning（DQN）"], "ans": "D", "topic": "速記-DQN", "exp": "DQN＝Q-Learning 換上神經網路，能處理高維（如影像）資料。"}, {"id": 43, "q": "台灣某考生的強化學習速記卡上，為某演算法寫下核心描述：『跳脫價值路線、改走策略路線，專門訓練大型語言模型的數學、邏輯與程式等逐步推理能力』。就這句描述，最對應下列哪一個演算法？", "opts": ["DQN", "SARSA", "GRPO", "Q-Learning"], "ans": "C", "topic": "速記-GRPO", "exp": "GRPO＝策略路線，專門提升 LLM 的數學、邏輯、程式推理。"}, {"id": 44, "q": "台灣某考生的速記卡上，某演算法對應『大家的地基、邊做邊學，用現在的預測修正過去的預測』，SARSA 與 Q-Learning 都建立在它之上。就這句描述，最對應下列哪一個演算法？", "opts": ["GRPO", "DQN", "時序差分（TD）", "PCA"], "ans": "C", "topic": "速記-TD", "exp": "TD 是邊做邊學的地基，SARSA 與 Q-Learning 都建立在它之上。"}, {"id": 45, "q": "台灣某工程師比較 SARSA 與 Q-Learning 的『最終結果傾向』以決定選型：一者傾向較安全的路線，另一者通常學出最短最優解、但訓練中較容易踩雷。就『學出最短最優解、但訓練較易踩雷』的那一種，下列何者正確？", "opts": ["Q-Learning（最短最優解）", "GRPO（推理策略）", "TD(0)（基礎預測）", "SARSA（安全路線）"], "ans": "A", "topic": "結果傾向", "exp": "Q-Learning 通常學出最短最優解、訓練較易踩雷；SARSA 較安全。"}, {"id": 46, "q": "台灣某課程指出 SARSA、Q-Learning 與 DQN 雖同屬價值路線，但價值表示方式不同：其中兩者以表格記錄、DQN 以神經網路表示。就 SARSA 與 Q-Learning 的價值表示方式，下列何者正確？", "opts": ["以主成分表示", "以決策樹葉節點記錄", "以神經網路函數近似", "以 Q 表（Q-table）記錄"], "ans": "D", "topic": "價值表示對照", "exp": "SARSA、Q-Learning 以 Q 表記錄價值；DQN 以神經網路函數近似。"}, {"id": 47, "q": "台灣某講師向學員說明 TD(0) 與 SARSA 的定位差異：一個是最基礎的『預測』演算法，另一個是建立在 TD 之上的『控制』演算法。就這兩者的定位，下列敘述何者最正確？", "opts": ["TD(0) 是最佳化控制、SARSA 只做預測", "TD(0) 是最基礎的預測演算法、SARSA 是基於 TD 的控制演算法", "兩者都屬策略路線", "兩者都只做預測"], "ans": "B", "topic": "TD(0) vs SARSA", "exp": "TD(0) 為最基礎的預測演算法；SARSA 為基於 TD 的控制演算法。"}, {"id": 48, "q": "台灣某工程師整理各演算法的『輸入型態』差異：TD(0)、SARSA、Q-Learning 三者多處理離散狀態，DQN 則能處理另一種輸入型態。就 DQN 特別擅長處理的輸入型態，下列何者最正確？", "opts": ["僅限單一布林值", "僅限已排序的數值", "圖片／高維資料", "僅限文字字串"], "ans": "C", "topic": "輸入型態", "exp": "DQN 能處理圖片／高維資料；其餘三者多處理離散狀態。"}, {"id": 49, "q": "台灣某自駕團隊的工程師向團隊說明 DQN 為何能直接從攝影機的高維影像像素學最佳策略、而不必人工設計龐大的狀態表格，關鍵就在其背後所依靠的核心技術。就此技術，下列何者最正確？", "opts": ["以核函數映射到低維空間", "以條件機率相乘", "以深度神經網路做函數近似", "以肘部法選狀態數"], "ans": "C", "topic": "DQN 能力", "exp": "DQN 靠深度神經網路做函數近似，能從高維影像直接學最佳策略。"}, {"id": 50, "q": "台灣某研究團隊要用最基礎的時序差分演算法做價值預測，它只依相鄰兩時刻的價值差值來更新、是整個 TD 家族中最單純的預測型作法，常被寫作 1 步時序差分。就此演算法，其名稱為下列何者？", "opts": ["TD(0) / 1 步時序差分", "DQN", "SARSA", "Q-Learning"], "ans": "A", "topic": "TD(0)", "exp": "TD(0)（1 步時序差分）最基礎，依相鄰兩時刻的差值更新價值。"}, {"id": 51, "q": "台灣某平台要判斷某新任務是否適合導入 GRPO，準則是該任務是否『需要一步一步推理與決策』而非只輸出一個標籤。下列敘述何者最能說明 GRPO 與一般分類任務的本質差異？", "opts": ["GRPO 只是換名字的分類器", "GRPO 以獎勵改善模型的多步推理，而非做單步分類或辨識", "GRPO 專門用於語音轉文字", "GRPO 只能處理已標註的監督式資料"], "ans": "B", "topic": "GRPO 本質", "exp": "GRPO 以獎勵改善逐步推理，本質不同於單步分類或辨識。"}, {"id": 52, "q": "台灣某企業內訓在課程總結時提到 GRPO：它用強化學習提升 LLM 的推理能力、透過獎勵改善思考，最適合某三類需逐步推導的任務。就這三類最適合 GRPO 的任務，下列何者最正確？", "opts": ["數學、邏輯、程式", "情緒分類、語音轉文字、圖片分類", "分群、降維、視覺化", "翻譯、摘要、拼字檢查"], "ans": "A", "topic": "GRPO 三類任務", "exp": "GRPO 最適合數學、邏輯、程式等需逐步推導的推理任務。"}, {"id": 53, "q": "台灣某 LLM 團隊要讓模型『思考得更好』而非只會背答案，作法是讓模型自己產生推理過程、再依最終結果給予獎勵來改善推理，而不是把它當成一般分類器。就此方法，其名稱為下列何者？", "opts": ["GRPO", "PCA", "SARSA", "K-means"], "ans": "A", "topic": "GRPO", "exp": "GRPO 以強化學習提升 LLM 推理能力，透過獎勵改善思考而非做一般分類。"}, {"id": 54, "q": "台灣某公司同時有兩個 RL 案子：甲為狀態離散的小型控制、追最短最優且可承受踩雷；乙為以影像為輸入的複雜控制、可負擔高算力。就甲、乙分別最適合的演算法，下列配對何者最正確？", "opts": ["甲 DQN／乙 Q-Learning", "甲 DQN／乙 GRPO", "甲 GRPO／乙 SARSA", "甲 Q-Learning／乙 DQN"], "ans": "D", "topic": "情境配對2", "exp": "小型離散追最優→Q-Learning；高維影像複雜控制→DQN。"}, {"id": 55, "q": "台灣某科技公司的工程師在導入強化學習前，先盤點手上各個演算法分別屬於價值路線還是策略路線，以免選型時張冠李戴、把不同路線的方法錯誤混用。就這些方法的路線歸屬，下列敘述何者錯誤？", "opts": ["TD、SARSA、Q-Learning、DQN 屬價值路線", "價值路線常用於遊戲、走迷宮、控制決策", "GRPO 屬價值路線、DQN 屬策略路線", "GRPO 屬策略路線"], "ans": "C", "topic": "路線歸屬（反向）", "exp": "錯誤：GRPO 屬策略路線；DQN 屬價值路線，選項將兩者說反。"}, {"id": 56, "q": "台灣某講師比較兩大路線的典型應用：一者用於遊戲、走迷宮、控制決策等狀態-動作明確的環境，另一者用於訓練 LLM 推理。就『用於遊戲、走迷宮、控制決策』的那一種路線，下列何者最正確？", "opts": ["自監督路線，代表 CLIP", "策略路線，代表 GRPO", "半監督路線，代表偽標籤", "價值路線，代表 TD、SARSA、Q-Learning、DQN"], "ans": "D", "topic": "路線應用", "exp": "價值路線用於遊戲、走迷宮、控制決策；策略路線用於 LLM 推理。"}, {"id": 57, "q": "台灣某團隊評估把 GRPO 應用到各種任務上，並以『是否需要多步驟推理與決策』作為判斷是否適合的關鍵準則。就 GRPO 強調逐步推理的特性，下列哪一種任務最不適合用 GRPO？", "opts": ["數學推理", "程式解題", "把語音檔轉成逐字稿的語音辨識", "邏輯推理"], "ans": "C", "topic": "GRPO 不適合（反向）", "exp": "語音轉文字等單步辨識不適合 GRPO；數學/邏輯/程式等多步推理才適合。"}, {"id": 58, "q": "台灣某自駕新創的工程師比較 Q-Learning 與 DQN 的價值表示方式，以決定一個高維影像輸入專案的選型，避免把兩者的適用規模用反。就這兩者的比較，下列敘述何者錯誤？", "opts": ["高維影像宜用表格式 Q-Learning、DQN 只適合離散小型", "Q-Learning 以表格明確記錄 Q 值", "DQN 以神經網路函數近似表示 Q 值", "高維影像宜用 DQN"], "ans": "A", "topic": "選型（反向）", "exp": "錯誤：高維影像宜用函數近似的 DQN；表格式 Q-Learning 適合離散小型。"}, {"id": 59, "q": "台灣某銀行要用強化學習打造程式碼自動修補助手，需要模型逐步推導修補方案、並依測試結果給獎勵來改善，而非單步分類。若工程師選了 DQN 這類價值路線方法，較不理想的原因為何？", "opts": ["多步推理型的 LLM 任務較適合策略路線的 GRPO，而非價值路線的 DQN", "其實 DQN 最適合此任務", "程式修補只能用 SARSA", "DQN 根本不能運算"], "ans": "A", "topic": "GRPO vs 價值路線（反向）", "exp": "LLM 多步推理任務宜用策略路線 GRPO；DQN 屬價值路線，較不對味。"}, {"id": 60, "q": "台灣某工程師要向團隊解釋為什麼 SARSA 與 Q-Learning 常被一起教：因為兩者都建立在同一個核心精神之上——邊做邊學、用現在的預測去修正過去的預測。就這個作為兩者共同基礎的方法，其名稱為下列何者？", "opts": ["核函數（Kernel Trick）", "時序差分（Temporal-Difference, TD）", "主成分分析（PCA）", "肘部法（Elbow Method）"], "ans": "B", "topic": "TD 共同基礎2", "exp": "SARSA 與 Q-Learning 都建立在時序差分（TD）之上，核心是邊做邊學、以現在預測修正過去預測。"}];
+const LETTERS=['A','B','C','D'];
+let mode = 15;          // 15 or 'all'
+let pool = [];          // current round's questions (subset of ALL)
+let answered = {};      // index-in-pool -> chosen letter
+const $ = s=>document.querySelector(s);
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildRound(){
+  answered = {};
+  $('#result').classList.remove('show');
+  let idx = ALL.map((_,i)=>i);
+  shuffle(idx);
+  const n = (mode==='all') ? ALL.length : Math.min(15, ALL.length);
+  pool = idx.slice(0, n).map(i=>ALL[i]);
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function render(){
+  const quiz = $('#quiz'); quiz.innerHTML='';
+  pool.forEach((q,pos)=>{
+    const card = document.createElement('div');
+    card.className='card'; card.dataset.pos=pos;
+    const chosen = answered[pos];
+    card.innerHTML = `
+      <div class="qhead"><span class="qnum">第 ${String(pos+1).padStart(2,'0')} 題</span></div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts">
+        ${q.opts.map((o,k)=>{const L=LETTERS[k];
+          return `<button class="opt" data-l="${L}" role="button"><span class="key">${L}</span><span>${o}</span></button>`;
+        }).join('')}
+      </div>
+      <div class="explain" id="exp-${pos}">
+        <span class="lab">解析 · 正解 ${q.ans} · 觀念：${q.topic}</span>${q.exp}
+      </div>`;
+    quiz.appendChild(card);
+    if(chosen) applyLock(card, q, chosen);
+    card.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click',()=>choose(pos,q,card,btn.dataset.l));
+    });
+  });
+  updateDash();
+}
+function applyLock(card,q,chosen){
+  card.querySelectorAll('.opt').forEach(b=>{
+    b.classList.add('locked');
+    const L=b.dataset.l;
+    if(L===q.ans) b.classList.add('correct');
+    else if(L===chosen) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+  $('#exp-'+card.dataset.pos).classList.add('show');
+}
+function choose(pos,q,card,L){
+  if(answered[pos]) return;
+  answered[pos]=L; applyLock(card,q,L); updateDash();
+  if(Object.keys(answered).length===pool.length) finish();
+}
+function updateDash(){
+  const n=Object.keys(answered).length; let correct=0;
+  for(const k in answered){ if(answered[k]===pool[k].ans) correct++; }
+  const total=pool.length||1;
+  const pct=Math.round(n/total*100);
+  $('#fill').style.width=pct+'%';
+  $('#progLab').textContent=`已作答 ${n} / ${pool.length}`;
+  $('#pct').textContent=pct+'%';
+  $('#sCorrect').textContent=correct; $('#sWrong').textContent=n-correct;
+}
+function finish(){
+  let correct=0;
+  for(const k in answered){ if(answered[k]===pool[k].ans) correct++; }
+  const pct=Math.round(correct/pool.length*100);
+  $('#rBig').textContent=pct+'%';
+  $('#rMsg').textContent=`本回合答對 ${correct} 題，共 ${pool.length} 題。`+
+    (pct>=80?' 掌握得很扎實，各學習方式與模型的適用情境都分得清楚。':
+     pct>=60?' 基礎穩固，再留意易混淆處（如自監督各法是否需負樣本、K-means 與 PCA、決策樹與隨機森林）。':
+     ' 建議回頭複習監督式七模型與半／自／非監督三種學習方式的核心定義與適用時機。');
+  const r=$('#result'); r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+$('#revealBtn').addEventListener('click',()=>{
+  pool.forEach((q,pos)=>{
+    const card=document.querySelector(`.card[data-pos="${pos}"]`);
+    if(!answered[pos]){
+      card.querySelectorAll('.opt').forEach(b=>{
+        b.classList.add('locked');
+        if(b.dataset.l===q.ans) b.classList.add('correct'); else b.classList.add('dim');
+      });
+    }
+    $('#exp-'+pos).classList.add('show');
+  });
+});
+$('#newRoundBtn').addEventListener('click',buildRound);
+$('#againBtn').addEventListener('click',buildRound);
+document.querySelectorAll('.mode').forEach(m=>{
+  m.addEventListener('click',()=>{
+    document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));
+    m.classList.add('active');
+    mode = m.dataset.mode==='all' ? 'all' : 15;
+    buildRound();
+  });
+});
+buildRound();
+</script>
+</body>
+</html>

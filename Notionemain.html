@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 應用規劃師 · 測驗總覽</title>
+<style>
+  :root{
+    --ink:#f6f8fb; --ink2:#eef1f7; --panel:#ffffff; --panel2:#f1f4f9;
+    --line:#e2e6ed; --muted:#6b7688; --text:#1a2230; --dim:#48566b;
+    --c1:#0d9488; --c2:#7c3aed; --c3:#db2777;
+    --grad:linear-gradient(90deg,#0d9488 0%,#7c3aed 55%,#db2777 100%);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(124,58,237,.06), transparent 60%),
+      radial-gradient(900px 500px at -5% 10%, rgba(13,148,136,.05), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font-family:"Inter","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:36px 20px 96px}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--c1);
+    font-family:"JetBrains Mono",ui-monospace,monospace;margin:0 0 10px}
+  h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 8px;font-weight:800;letter-spacing:-.02em}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 34px}
+
+  .section{margin:38px 0 18px}
+  .section h2{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
+    font-family:"JetBrains Mono",ui-monospace,monospace;margin:0 0 14px;
+    display:flex;align-items:center;gap:10px}
+  .section h2::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+  .card{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:14px;
+    background:linear-gradient(180deg,var(--panel),var(--ink2));
+    border:1px solid var(--line);border-radius:16px;padding:20px;
+    text-decoration:none;color:inherit;transition:.18s;overflow:hidden;
+    box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  .card:hover{border-color:var(--c2);transform:translateY(-2px);box-shadow:0 10px 24px -12px rgba(15,23,42,.18)}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad);
+    opacity:0;transition:.18s}
+  .card:hover::before{opacity:1}
+  .card .tag{font-size:11px;font-family:"JetBrains Mono",ui-monospace,monospace;color:var(--c1);
+    letter-spacing:.06em}
+  .card h3{font-size:17px;margin:6px 0 4px;font-weight:700;letter-spacing:-.01em}
+  .card p{font-size:13px;color:var(--muted);margin:0;flex:1}
+  .card .meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+    color:var(--dim);font-family:"JetBrains Mono",ui-monospace,monospace;
+    border-top:1px solid var(--line);padding-top:12px;margin-top:2px}
+  .card .go{color:var(--c2);font-weight:700}
+  .card:hover .go{color:var(--c1)}
+
+  footer{margin-top:50px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">初級 AI 應用規劃師 · 情境題練習合輯</p>
+    <h1>選一份考卷，<span class="g">開始練習</span></h1>
+    <p class="sub">共 9 份測驗，點卡片即可在新分頁開始作答，完成後回到這裡再選下一份。</p>
+  </header>
+
+  <div class="section"><h2>A · 基礎與資料工程</h2></div>
+  <div class="grid">
+    <a class="card" href="NotioneA01.html" target="_blank">
+      <div>
+        <div class="tag">A01</div>
+        <h3>可解釋 AI（XAI）情境題練習</h3>
+        <p>LIME、SHAP、PDP、反事實解釋、顯著性圖與黑箱／白箱模型</p>
+      </div>
+      <div class="meta"><span>30 題</span><span class="go">開始 →</span></div>
+    </a>
+    <a class="card" href="NotioneA02.html" target="_blank">
+      <div>
+        <div class="tag">A02</div>
+        <h3>基礎演算法與資料工程</h3>
+        <p>搜尋演算法、Regex、ETL、Hadoop／Spark、HDFS、資料分片與 ACID</p>
+      </div>
+      <div class="meta"><span>30 題</span><span class="go">開始 →</span></div>
+    </a>
+    <a class="card" href="NotioneA03.html" target="_blank">
+      <div>
+        <div class="tag">A03</div>
+        <h3>資料處理與分析</h3>
+        <p>編碼與標準化、EDA、四大分析、對數轉換、SMOTE、雷達圖與自動特徵工程</p>
+      </div>
+      <div class="meta"><span>30 題</span><span class="go">開始 →</span></div>
+    </a>
+  </div>
+
+  <div class="section"><h2>B · 模型與學習方法</h2></div>
+  <div class="grid">
+    <a class="card" href="NotioneB01.html" target="_blank">
+      <div>
+        <div class="tag">B01</div>
+        <h3>監督式與非監督式學習</h3>
+        <p>監督式七模型與半／自／非監督三種學習方式，題庫抽考</p>
+      </div>
+      <div class="meta"><span>題庫 50 · 每回合 15 題</span><span class="go">開始 →</span></div>
+    </a>
+    <a class="card" href="NotioneB02.html" target="_blank">
+      <div>
+        <div class="tag">B02</div>
+        <h3>強化學習</h3>
+        <p>TD／SARSA／Q-Learning／DQN／DRL、價值／策略路線與 GRPO</p>
+      </div>
+      <div class="meta"><span>題庫 60 · 每回合 15 題</span><span class="go">開始 →</span></div>
+    </a>
+    <a class="card" href="NotioneB03.html" target="_blank">
+      <div>
+        <div class="tag">B03</div>
+        <h3>深度學習模型架構</h3>
+        <p>GAN／VAE／Diffusion／CFG、Transformer／RNN／LSTM、ViT／CNN／GCN</p>
+      </div>
+      <div class="meta"><span>題庫 60 · 每回合 15 題</span><span class="go">開始 →</span></div>
+    </a>
+  </div>
+
+  <div class="section"><h2>C · 生成式 AI</h2></div>
+  <div class="grid">
+    <a class="card" href="NotioneC01.html" target="_blank">
+      <div>
+        <div class="tag">C01</div>
+        <h3>生成式 AI 應用與規劃</h3>
+        <p>提示工程、模型最佳化與部署、模型評估、NLP／LLM、RAG 與檢索</p>
+      </div>
+      <div class="meta"><span>50 題</span><span class="go">開始 →</span></div>
+    </a>
+  </div>
+
+  <div class="section"><h2>D · 綜合筆記測驗（內含主題選單）</h2></div>
+  <div class="grid">
+    <a class="card" href="NotioneD01.html" target="_blank">
+      <div>
+        <div class="tag">D01</div>
+        <h3>AI 筆記選擇測驗</h3>
+        <p>7 個子主題（Benchmark、可解釋性、缺失資料、分類／迴歸指標、模型壓縮、鑑別式分類），進入後可再選主題</p>
+      </div>
+      <div class="meta"><span>每主題 50 題 · 每回合 10 題</span><span class="go">開始 →</span></div>
+    </a>
+    <a class="card" href="NotioneD02.html" target="_blank">
+      <div>
+        <div class="tag">D02</div>
+        <h3>AI 筆記隨機測驗</h3>
+        <p>12 個子主題（雲端儲存、NoSQL、Domain/Data/Concept Drift、VAE vs GAN vs Diffusion 等），進入後可再選主題</p>
+      </div>
+      <div class="meta"><span>每主題 50 題 · 每回合 10 題</span><span class="go">開始 →</span></div>
+    </a>
+  </div>
+
+  <footer>本頁為入口頁，各測驗檔案為獨立網頁，作答進度不互通。</footer>
+</div>
+</body>
+</html>
