@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 應用規劃師（初級）｜3.2 生成式 AI 應用領域與工具使用 隨機測驗</title>
+<style>
+  :root{
+    --ink:#1a2238;
+    --ink-soft:#3f4a66;
+    --paper:#f6f4ee;
+    --card:#ffffff;
+    --line:#e2ddd0;
+    --accent:#6d3bd4;
+    --accent-deep:#54299f;
+    --gold:#d08a1e;
+    --wrong:#c0392b;
+    --wrong-bg:#fbeceb;
+    --right:#6d3bd4;
+    --right-bg:#f0eafb;
+    --shadow:0 8px 30px rgba(26,34,56,.09);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 500px at 100% -10%, rgba(109,59,212,.07), transparent 60%),
+      radial-gradient(900px 400px at -10% 110%, rgba(208,138,30,.08), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 80px;}
+  header.masthead{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:8px;}
+  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-deep);font-weight:700;margin:0 0 6px;}
+  h1{font-size:clamp(25px,4.6vw,36px);margin:0;font-weight:800;letter-spacing:-.5px;line-height:1.2;}
+  .sub{color:var(--ink-soft);margin:10px 0 0;font-size:15px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:16px;font-size:13px;color:var(--ink-soft);}
+  .meta-row b{color:var(--ink);font-weight:700;}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:28px;margin-top:26px;}
+  .start-copy{font-size:15px;color:var(--ink-soft);margin:0 0 20px;}
+  .mode-label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-deep);font-weight:700;margin:0 0 10px;}
+  .mode-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
+  .mode-btn{flex:1;min-width:150px;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left;transition:.18s;font-family:inherit;}
+  .mode-btn:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .mode-btn.active{border-color:var(--accent);background:var(--right-bg);}
+  .mode-btn .t{font-weight:700;font-size:15px;color:var(--ink);}
+  .mode-btn .d{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 26px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:.18s;box-shadow:0 4px 14px rgba(109,59,212,.28);}
+  .btn:hover{background:var(--accent-deep);transform:translateY(-1px);}
+  .btn.ghost{background:#fff;color:var(--accent-deep);border:1.5px solid var(--accent);box-shadow:none;}
+  .btn.ghost:hover{background:var(--right-bg);}
+  .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;}
+  .progress-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+  .progress-head .count{font-weight:800;font-size:15px;}
+  .progress-head .tag{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent-deep);font-weight:700;}
+  .bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:24px;}
+  .bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .35s;}
+  .qtype{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.12em;padding:3px 10px;border-radius:99px;margin-bottom:12px;}
+  .qtype.know{background:#efeafb;color:var(--accent-deep);}
+  .qtype.case{background:#f6efe0;color:#8a6a12;}
+  .qstem{font-size:18px;font-weight:700;line-height:1.6;margin:0 0 20px;}
+  .options{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+  .opt{border:1.5px solid var(--line);border-radius:12px;padding:13px 16px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:.15s;background:#fff;font-size:15.5px;}
+  .opt:hover{border-color:var(--accent);background:#fcfbfe;}
+  .opt .key{flex:none;width:26px;height:26px;border-radius:8px;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--ink-soft);transition:.15s;}
+  .opt.correct{border-color:var(--right);background:var(--right-bg);}
+  .opt.correct .key{background:var(--right);border-color:var(--right);color:#fff;}
+  .opt.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .opt.wrong .key{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+  .opt.disabled{cursor:default;pointer-events:none;}
+  .opt.dim{opacity:.55;}
+  .explain{margin-top:16px;border-left:4px solid var(--accent);background:#f4f0fc;padding:14px 16px;border-radius:0 10px 10px 0;font-size:14.5px;color:var(--ink-soft);display:none;}
+  .explain.show{display:block;}
+  .explain b{color:var(--ink);}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px;}
+  .score-hero{text-align:center;padding:10px 0 6px;}
+  .score-num{font-size:56px;font-weight:800;line-height:1;letter-spacing:-1px;}
+  .score-num small{font-size:22px;color:var(--ink-soft);font-weight:700;}
+  .score-msg{font-size:16px;color:var(--ink-soft);margin-top:8px;}
+  .ring{width:130px;height:130px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;}
+  .review-item{border-top:1px solid var(--line);padding:16px 0;}
+  .review-item:first-of-type{border-top:none;}
+  .review-q{font-weight:700;font-size:15px;margin:0 0 8px;}
+  .review-line{font-size:14px;margin:3px 0;}
+  .review-line .lab{display:inline-block;min-width:70px;color:var(--ink-soft);}
+  .ok{color:var(--right);font-weight:700;}
+  .no{color:var(--wrong);font-weight:700;}
+  .rev-badge{font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;margin-left:6px;}
+  .rev-badge.k{background:#efeafb;color:var(--accent-deep);}
+  .rev-badge.c{background:#f6efe0;color:#8a6a12;}
+  footer{text-align:center;color:var(--ink-soft);font-size:12.5px;margin-top:40px;}
+  .hidden{display:none;}
+  @media(max-width:600px){.panel{padding:20px;}.qstem{font-size:16.5px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">iPAS · 初級能力鑑定</p>
+    <h1>生成式 AI 應用領域與工具使用｜隨機測驗</h1>
+    <p class="sub">科目二 3.2　—　基本概念、市場價值、技術進化、工具趨勢與各領域應用</p>
+    <div class="meta-row">
+      <span>題庫共 <b id="poolTotal">50</b> 題</span>
+      <span>每回抽出 <b>10</b> 題</span>
+      <span>知識題 <b>30</b>　情境題 <b>20</b></span>
+    </div>
+  </header>
+
+  <section id="startScreen" class="panel">
+    <p class="start-copy">每次作答會從題庫隨機抽出 10 題，選完即知道對錯與解析。你可以選擇抽題範圍：</p>
+    <p class="mode-label">出題範圍</p>
+    <div class="mode-grid">
+      <button class="mode-btn active" data-mode="all"><div class="t">綜合題</div><div class="d">知識題＋情境題混合抽 10 題</div></button>
+      <button class="mode-btn" data-mode="know"><div class="t">知識題</div><div class="d">僅抽概念與事實題</div></button>
+      <button class="mode-btn" data-mode="case"><div class="t">情境題</div><div class="d">僅抽應用與判斷情境題</div></button>
+    </div>
+    <button class="btn" id="startBtn">開始測驗　→</button>
+  </section>
+
+  <section id="quizScreen" class="panel hidden">
+    <div class="progress-head">
+      <span class="count">第 <span id="curIdx">1</span> / 10 題</span>
+      <span class="tag" id="qtypeTag">知識題</span>
+    </div>
+    <div class="bar"><span id="barFill" style="width:10%"></span></div>
+    <span class="qtype know" id="qBadge">知識題</span>
+    <p class="qstem" id="qStem">題目</p>
+    <ul class="options" id="optList"></ul>
+    <div class="explain" id="explainBox"></div>
+    <div class="nav">
+      <span style="font-size:13px;color:var(--ink-soft);align-self:center;">目前得分：<b id="liveScore">0</b></span>
+      <button class="btn hidden" id="nextBtn">下一題　→</button>
+    </div>
+  </section>
+
+  <section id="resultScreen" class="panel hidden">
+    <div class="score-hero">
+      <div class="ring" id="ring"><div><div class="score-num"><span id="finalScore">0</span><small> / 10</small></div></div></div>
+      <p class="score-msg" id="scoreMsg"></p>
+    </div>
+    <div class="btn-row" style="justify-content:center;margin:18px 0 26px;">
+      <button class="btn" id="againBtn">再考一次（重新抽題）</button>
+      <button class="btn ghost" id="homeBtn">回到首頁</button>
+    </div>
+    <div id="reviewList"></div>
+  </section>
+
+  <footer>依《生成式 AI 應用與規劃》學習指引第三章 3.2 節製作　·　僅供自我練習</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  /* ============ 知識題 30 ============ */
+  {type:"know",q:"生成式 AI 的核心特徵是什麼？",
+   opts:["透過模型的學習能力生成全新的內容","僅能分析或辨識現有的既有數據","只能依固定規則執行運算與比對","主要用於資料的長期儲存與備份"],a:0,
+   e:"生成式 AI 的核心特徵在於透過模型的學習能力生成新內容，而非僅僅分析或辨識現有數據。"},
+
+  {type:"know",q:"下列何者被視為掀起生成式 AI 科技革命浪潮的關鍵事件？",
+   opts:["ChatGPT 於 2022 年底正式向公眾推出","全球第一台個人電腦問世並量產上市","早期網際網路基礎架構的誕生與普及","智慧型手機在全球消費市場快速普及"],a:0,
+   e:"隨著 ChatGPT 於 2022 年 11 月正式向公眾推出後，生成式 AI 掀起了一波重大的科技革命浪潮。"},
+
+  {type:"know",q:"生成式 AI 通常基於下列哪些模型架構來執行任務？",
+   opts:["GAN、VAE 以及 Transformer 架構","決策樹、隨機森林與支援向量機","線性迴歸、邏輯迴歸與多項式","K-means、DBSCAN 等分群演算法"],a:0,
+   e:"生成式 AI 通常基於生成對抗網路（GAN）、變分自編碼器（VAE）以及基於變換器（Transformer）架構的模型。"},
+
+  {type:"know",q:"在深度學習網路中，「自注意力（Self-Attention）」機制主要有助於什麼？",
+   opts:["處理長距離依賴並學習序列的內在結構","有效降低整體模型所需的參數數量","對輸入資料進行加密與安全性保護","大幅減少模型訓練所需的資料筆數"],a:0,
+   e:"注意力機制尤其是自注意力，有助於處理長距離依賴關係，並有效學習序列數據的內在結構。"},
+
+  {type:"know",q:"訓練數據處理中的「數據清洗（Data Cleaning）」主要做什麼？",
+   opts:["移除雜訊或錯誤數據並填補遺缺值","把文本拆分為詞或子詞等基本單元","將文本轉換為模型可用的數值向量","控制生成內容隨機性的溫度參數"],a:0,
+   e:"數據清洗移除雜訊（Noise）或錯誤的數據，並填補遺缺值（Missing Value），以保證數據品質與一致性。"},
+
+  {type:"know",q:"「標記化處理（Tokenization）」的作用是什麼？",
+   opts:["將文本數據拆分為詞或子詞等基本單元","移除資料中的雜訊與明顯錯誤的數據","把文本轉換為模型可用的數值向量","調整生成內容隨機性的溫度參數值"],a:0,
+   e:"標記化處理將文本數據拆分為基本單元（例如詞或子詞），以便深度學習模型進行處理。"},
+
+  {type:"know",q:"「向量化表示（Vectorization）」的目的為何？",
+   opts:["將文本等數據轉為模型可用的數值形式","刪除資料集中重複與冗餘的紀錄","增加神經網路模型的隱藏層數目","限制模型每次生成內容的長度"],a:0,
+   e:"向量化表示將文本或其他數據轉換為數值形式，從而適應深度學習模型的需求。"},
+
+  {type:"know",q:"推理機制中的「溫度參數（Temperature）」有何作用？",
+   opts:["控制生成內容隨機性，低溫保守高溫創意","決定神經網路模型的隱藏層總數量","負責訓練前資料清洗與雜訊的移除","將輸入文本切分為基本的處理單元"],a:0,
+   e:"溫度參數控制生成內容的隨機性，低溫度值會生成較保守的內容，高溫度值則生成更具創意的內容。"},
+
+  {type:"know",q:"「頂部採樣（Top-k Sampling）」的作法是什麼？",
+   opts:["選擇生成機率最高的前 k 個選項生成","不看機率完全隨機挑選任一個選項","固定只選擇機率排名最末的選項","忽略所有機率直接輸出全部候選"],a:0,
+   e:"Top-k Sampling 選擇生成機率最高的前 k 個選項來生成內容，以保證品質與多樣性。"},
+
+  {type:"know",q:"「核採樣（Nucleus Sampling）」是依據什麼來挑選候選？",
+   opts:["選累積機率達到某一閾值的選項採樣","固定每次只挑選前五個候選選項","僅保留機率排名第一名的單一選項","不參考任何機率而完全隨機取樣"],a:0,
+   e:"核採樣選擇累積機率達到某一閾值（如 0.9）的選項進行採樣，以更靈活地平衡內容品質與隨機性。"},
+
+  {type:"know",q:"下列何者屬於生成式 AI 在實際應用中面臨的挑戰？",
+   opts:["大量計算資源需求與 AI 幻覺的防範","完全不存在任何形式的偏見問題","運行時完全不需要任何硬體資源","保證輸出內容絕不會產生任何錯誤"],a:0,
+   e:"實際應用挑戰包含大量計算資源需求、硬體限制、輸出準確性、AI 幻覺（AI hallucinations）以及偏見與安全性等。"},
+
+  {type:"know",q:"為提升「模型效率」，技術演進主要朝哪個方向發展？",
+   opts:["模型壓縮、量化與推理加速的技術","大幅增加人工資料標註的工作量","持續擴建更大規模的實體機房","盡量減少實際使用的用戶人數"],a:0,
+   e:"在模型效率方面，技術致力於模型壓縮、量化和推理加速。"},
+
+  {type:"know",q:"生成式 AI 的市場規模預計在哪一年達到數百億美元？",
+   opts:["2030 年","2025 年","2035 年","2040 年"],a:0,
+   e:"生成式 AI 的市場規模預計將在 2030 年達到數百億美元。"},
+
+  {type:"know",q:"依指引，生成式 AI 對就業市場的影響被描述為？",
+   opts:["雙面性的，既有取代也有新興職務","只會單方面地創造出更多工作","只會單方面地取代掉既有工作","對整體就業市場完全沒有影響"],a:0,
+   e:"生成式 AI 對就業市場的影響是雙面性的：部分重複性、低技能工作可能被取代，同時湧現新興職務。"},
+
+  {type:"know",q:"下列何者屬於生成式 AI 帶動的「新興職務」？",
+   opts:["提示工程師（Prompt Engineer）","傳統文書排版作業的專職打字員","電話總機轉接的人工接線生員","賣場收銀櫃檯的結帳作業人員"],a:0,
+   e:"如 AI 訓練師、提示工程師（Prompt Engineer）等新興職務逐漸湧現。"},
+
+  {type:"know",q:"經濟效益分析中，「降低營運成本並提高生產效率」屬於哪一類效益？",
+   opts:["直接效益","間接效益","衍生效益","無任何效益"],a:0,
+   e:"直接效益為降低營運成本並提高生產效率；間接效益為促進創新並開創新業務模式；衍生效益為帶動 AI 硬體與雲端服務等相關產業。"},
+
+  {type:"know",q:"「帶動相關產業的發展，如 AI 硬體和雲端服務」屬於哪一類效益？",
+   opts:["衍生效益","直接效益","間接效益","負面效益"],a:0,
+   e:"衍生效益指帶動相關產業的發展，如 AI 硬體和雲端服務。"},
+
+  {type:"know",q:"下列哪項技術突破「引領了高品質圖像生成的潮流」？",
+   opts:["生成對抗網路（GAN）","決策樹（Decision Tree）","線性迴歸（Regression）","分群演算法（K-means）"],a:0,
+   e:"生成對抗網路（GAN）引領了高品質圖像生成的潮流，並能生成多樣化且真實感強的圖像。"},
+
+  {type:"know",q:"RLHF 的中文意義為何？",
+   opts:["人類回饋強化學習","隨機隱藏層函數","遞迴線性哈希法","即時負載平衡法"],a:0,
+   e:"RLHF（Reinforcement Learning from Human Feedback）為人類回饋強化學習，可使生成結果更貼近用戶需求。"},
+
+  {type:"know",q:"下列何者是專為將文本轉化為高品質圖像、實現跨模態創意設計的工具？",
+   opts:["DALL-E","Whisper","vLLM","Hugging Face"],a:0,
+   e:"DALL-E 基於文本生成高品質圖像，實現跨模態的創意設計；Midjourney 也能從文本與圖片生成藝術風格圖像。"},
+
+  {type:"know",q:"Whisper 主要對應下列哪一種多模態能力？",
+   opts:["語音與文字之間的轉換","從文字生成對應的圖像","進行影片的智慧化剪輯","建立立體的 3D 模型"],a:0,
+   e:"語音與文字轉換如 Whisper 與 ChatGPT 語音模式，可實現語音與文字的無縫轉換。"},
+
+  {type:"know",q:"下列何者是指引提到的開放原始碼與社群合作代表平台？",
+   opts:["Hugging Face","Photoshop","Excel","Windows"],a:0,
+   e:"平台如 Hugging Face 提供開源資源，使更多開發者、企業與研究機構能共享技術資源，加速 AI 工具整合與創新。"},
+
+  {type:"know",q:"AIaaS（AI as a Service）主要帶來什麼好處？",
+   opts:["雲端與 API 普及降低 AI 的使用門檻","反而提高存取 AI 所需的硬體門檻","嚴格限制企業與現有系統的整合","盡量減少對外部 API 的介接使用"],a:0,
+   e:"AI 即服務（AIaaS）透過雲端運算與 API 服務普及，降低了生成式 AI 的使用門檻。"},
+
+  {type:"know",q:"下列何者屬於工具趨勢中「安全性與隱私保護」的作法？",
+   opts:["本地部署選項確保敏感資料不外洩","對外公開所有用戶的原始資料","為求便利而停用所有加密機制","移除版權管理與內容過濾機制"],a:0,
+   e:"安全性與隱私保護包含本地部署選項、資料加密處理與隱私保護模式，以及版權管理與內容過濾機制。"},
+
+  {type:"know",q:"「模型壓縮（Model Compression）與量化（Quantization）」主要效果為何？",
+   opts:["降低硬體需求並支援邊緣移動設備","顯著提高執行所需的硬體資源","使模型檔案的整體體積變得更大","犧牲並降低最終的生成品質"],a:0,
+   e:"模型壓縮與量化技術降低硬體資源需求，支援邊緣設備與移動設備運行。"},
+
+  {type:"know",q:"工具趨勢中「道德與法律規範」不包含下列哪一項？",
+   opts:["允許無限制生成任何類型的內容","確保生成內容不侵權的版權管理","防止假新聞與深偽影像的濫用防範","制定明確 AI 應用規範的法規遵循"],a:0,
+   e:"道德與法律規範包含內容版權管理、濫用防範與法規遵循，而非無限制生成任何內容。"},
+
+  {type:"know",q:"生成式 AI 在藝術與設計領域的「應用趨勢」被描述為？",
+   opts:["創作者專注創意，AI 負責細節與技術","由 AI 完全取代人類創作者的角色","全面禁止 AI 參與任何創作的環節","僅將 AI 用於作品檔案的儲存備份"],a:0,
+   e:"應用趨勢為創作者將 AI 作為輔助工具，專注於構思與創意，AI 則負責細節與技術性工作，促進跨領域創作。"},
+
+  {type:"know",q:"在醫療與生技領域，生成式 AI 的「醫學影像分析」主要作用是什麼？",
+   opts:["生成合成影像數據以提升診斷準確性","為醫療產品撰寫吸睛的行銷文案","為電玩遊戲設計新的關卡與場景","進行不同語言之間的語音即時翻譯"],a:0,
+   e:"醫學影像分析可生成合成醫學影像數據，提升診斷準確性並優化醫學模型訓練。"},
+
+  {type:"know",q:"在產品設計與製造中，生成式 AI 結合 3D 列印可達成什麼？",
+   opts:["快速原型製作並轉化為實體樣品","自動撰寫具法律效力的商業合約","為音樂人生成背景旋律與配樂","協助語言學習者進行口說訓練"],a:0,
+   e:"快速原型製作結合 3D 列印與 AI 設計，快速轉化設計為實體樣品，縮短開發週期。"},
+
+  {type:"know",q:"生成式 AI 具備的關鍵特點，下列何者正確？",
+   opts:["強大的上下文理解能力與可控生成","訓練過程完全不需要任何資料集","缺乏任何遷移學習能力與泛化性","僅能支援單一模態而無法跨模態"],a:0,
+   e:"生成式 AI 具備強大的上下文理解能力、遷移學習特性、多模態處理支持，以及透過提示詞進行可控生成。"},
+
+  /* ============ 情境題 20 ============ */
+  {type:"case",q:"某企業要在即時場景（如客服對話）部署生成式 AI，並希望能運行於邊緣或移動設備。下列哪項技術最相關？",
+   opts:["高效推理與模型壓縮，如 vLLM 架構","一味增加訓練資料的總筆數規模","停用注意力機制以簡化模型結構","放棄自動化而改回全人工的回覆"],a:0,
+   e:"高效推理與模型壓縮（如 vLLM 架構）讓生成式 AI 能在實時場景中應用，特別適用於邊緣計算和移動設備。"},
+
+  {type:"case",q:"行銷團隊希望生成內容更貼近用戶偏好與需求。依指引，下列哪種技術最能達成此目的？",
+   opts:["人類回饋強化學習，即 RLHF 技術","關閉模型微調功能以維持原樣","盡量減少提示詞的長度與數量","移除領域知識整合以加快速度"],a:0,
+   e:"加上人類回饋強化學習（RLHF），可使生成結果更貼近用戶需求。"},
+
+  {type:"case",q:"設計工作室想輸入一段文字描述，自動生成具藝術風格、創意融合的圖像。最合適的工具是？",
+   opts:["Midjourney","Whisper","vLLM","Excel"],a:0,
+   e:"Midjourney 可從文本和圖片生成藝術風格、創意融合的圖像。"},
+
+  {type:"case",q:"某公司希望在不採購高階硬體的情況下使用高效能生成式 AI，並整合進現有流程。最適合的途徑是？",
+   opts:["透過雲端 API 服務並以介接整合流程","自行建置大型實體機房與伺服器","改用僅能離線運作的單機小工具","評估後放棄使用任何 AI 相關工具"],a:0,
+   e:"AIaaS 讓用戶無需高階硬體或專業知識，即可透過雲端平台存取高效能 AI 工具，並以 API 介接整合至現有流程。"},
+
+  {type:"case",q:"一個內容團隊要多名成員同時參與內容創作與修改，並希望即時調整生成結果。下列哪項工具特性最契合？",
+   opts:["即時回饋與多人團隊協作的功能","僅限本地單機唯讀的使用模式","停用迭代優化只能一次性輸出","限制僅供單一使用者操作使用"],a:0,
+   e:"協作與即時回饋機制：即時回饋與迭代式內容優化讓用戶即時調整，團隊協作功能使多人可同時參與創作與修改。"},
+
+  {type:"case",q:"金融機構導入生成式 AI，最需要優先落實下列哪項工具趨勢以保護敏感資料？",
+   opts:["本地部署搭配資料加密處理的機制","對外公開全部的交易與客戶資料","停用內容過濾以加快回應的速度","移除系統的權限控管以方便存取"],a:0,
+   e:"安全性與隱私保護建議採本地部署選項、資料加密處理與隱私保護模式，保障敏感資料不外洩。"},
+
+  {type:"case",q:"某教育機構想依學習者需求自動生成教學內容與練習題以提升學習效率，屬於哪一項應用？",
+   opts:["依需求生成教材的個人化學習內容","預測需求補貨的供應鏈管理應用","偵測異常交易的金融詐騙偵測","預測流行趨勢的時尚設計應用"],a:0,
+   e:"教育與培訓中的個人化學習內容，可根據學習者需求自動生成教學內容與練習題，提升學習效率。"},
+
+  {type:"case",q:"醫院想結合 VR/AR 生成模擬病例，讓醫學生練習臨床決策與手術。這對應哪一項應用？",
+   opts:["結合 VR/AR 模擬病例的醫學教育","結合市場數據的自動化投資建議","自動產生遊戲地圖的遊戲開發","生成背景旋律的音樂創作應用"],a:0,
+   e:"醫療與生技的醫學教育：結合 VR/AR 生成模擬病例，提供醫學生臨床決策與手術練習機會。"},
+
+  {type:"case",q:"遊戲公司想自動生成遊戲地圖、角色設定與劇情支線。生成式 AI 對應的領域是？",
+   opts:["生成地圖與角色的娛樂與媒體應用","自動化撰寫審閱的法律文件處理","生成合成影像的醫學影像分析","偵測異常交易的金融詐騙偵測"],a:0,
+   e:"娛樂與媒體的遊戲開發：可自動生成遊戲地圖、角色設定與劇情支線。"},
+
+  {type:"case",q:"某製造業想根據功能需求與使用者行為生成產品設計草圖並優化外觀結構，屬於哪一項應用？",
+   opts:["生成設計草圖的創新產品設計","模擬對話情境的語言學習應用","即時互動生成的虛擬主播應用","偵測異常交易的金融詐騙偵測"],a:0,
+   e:"產品設計與製造的創新產品設計：根據功能需求與使用者行為生成產品設計草圖，優化外觀與結構。"},
+
+  {type:"case",q:"法律事務所導入生成式 AI 工具，最合適用於下列哪項工作？",
+   opts:["法律文件撰寫審閱與法規檢索","自動生成遊戲角色與劇情支線","為音樂人作曲與配樂的創作","合成醫學影像數據優化訓練"],a:0,
+   e:"專業化與垂直整合中，法律領域：AI 工具能協助法律文件自動化撰寫與審閱、風險評估與法規檢索。"},
+
+  {type:"case",q:"某新創想針對特定產業（如醫療、金融）推出深度優化的專屬 AI 解決方案。這對應哪一項工具發展趨勢？",
+   opts:["針對特定產業優化的專業化與垂直整合","嚴格限制工具的多模態生成能力","刻意降低整體系統的安全性設計","全面停止對外開放任何 API 介接"],a:0,
+   e:"工具趨勢中的專業化與垂直整合：生成式 AI 工具逐步針對特定產業進行深度優化，提供專屬解決方案。"},
+
+  {type:"case",q:"團隊要把語音會議內容自動轉為文字紀錄。最相關的多模態能力是？",
+   opts:["語音與文字之間的轉換","從文字生成對應的圖像","進行 3D 立體模型建構","為影片加入視覺特效"],a:0,
+   e:"多模態整合中，語音與文字轉換如 Whisper 與 ChatGPT 語音模式，可實現語音與文字的無縫轉換。"},
+
+  {type:"case",q:"某圖像生成專案用於商業印刷海報。依指引，下列何者是「必須一併考慮」的問題？",
+   opts:["解析度、版權合法性與推論時間都要考量","只需考慮圖像的整體色彩與飽和度","只需考慮輸出檔案的命名是否清楚","無需任何前置考量可直接生成使用"],a:0,
+   e:"使用生成式 AI 進行圖像生成時需多方面考量：解析度（符合印刷需求）、版權與合法性、推論時間（滿足應用效率）。"},
+
+  {type:"case",q:"學校要引導學生正確使用生成式 AI 工具，最恰當的做法是？",
+   opts:["訂立清晰規範並說明適用場景與倫理","完全禁止學生於任何場域使用 AI","放任學生無任何限制地使用工具","僅鼓勵學生用 AI 代寫課堂作業"],a:0,
+   e:"教師應制定清晰使用規範，說明 AI 適用場景、倫理考量及可能限制，幫助學生發展批判性思維，將 AI 作為輔助而非替代。"},
+
+  {type:"case",q:"企業想改善客服平台的效率與溝通品質，最適合導入下列哪種技術方案？",
+   opts:["自然語言處理與生成式回應模組","設備預測性維護的監控工具","生產排程最佳化的智慧排程","消費行為分析的洞察模型"],a:0,
+   e:"NLP 和生成式回應模組可以提升客服平台的效率和溝通品質。"},
+
+  {type:"case",q:"公司想幫現職員工快速提升 AI 應用能力。依指引，最有效的方式是？",
+   opts:["安排跨部門交流並實作測試專案","僅單純提高薪資以吸引人才","大幅減少員工既有的工作負擔","讓員工完全自學而不加以引導"],a:0,
+   e:"實務操作和交流有助於員工快速掌握 AI 技術，比單純自學效果更好。"},
+
+  {type:"case",q:"某研究者使用生成式 AI 產出的內容撰寫報告，為確保內容品質應採取什麼措施？",
+   opts:["適當標注並查證引用的來源出處","直接沿用生成內容不加以審查","刻意減少人工參與的審查程序","完全排除所有由 AI 生成的資料"],a:0,
+   e:"適當標注引用來源可避免抄襲、尊重知識產權並提供內容的可靠性與可追溯性，是確保品質的重要措施。"},
+
+  {type:"case",q:"下列哪一項「不」屬於生成式 AI 工具在使用體驗方面的優化方向？",
+   opts:["限制使用者自訂生成內容的範圍","提供更為直觀易懂的操作介面","支援以自然語言下達操作指令","提供智慧化的參數調整的建議"],a:0,
+   e:"使用體驗優化方向包含更直觀的操作、自然語言指令與智慧化參數建議，而非限制使用者自訂生成內容。"},
+
+  {type:"case",q:"一家公司評估導入生成式 AI 後最直接可預期的影響是什麼？",
+   opts:["提升整體生產力與作業效率","反而增加對人力數量的需求","降低企業原有的數據處理能力","削弱企業在市場上的競爭力"],a:0,
+   e:"AI 技術能有效提升生產力與效率，特別是在自動化流程與數據分析中，這是導入後最直接的影響。"}
+];
+
+const LETTERS=["A","B","C","D"];
+let mode="all",pool=[],idx=0,score=0,answered=false,session=[];
+const $=id=>document.getElementById(id);
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+document.querySelectorAll(".mode-btn").forEach(b=>{b.addEventListener("click",()=>{document.querySelectorAll(".mode-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode;});});
+function buildPool(){let base=QUESTIONS;if(mode==="know")base=QUESTIONS.filter(q=>q.type==="know");if(mode==="case")base=QUESTIONS.filter(q=>q.type==="case");return shuffle(base).slice(0,10);}
+$("startBtn").addEventListener("click",startQuiz);
+$("againBtn").addEventListener("click",startQuiz);
+$("homeBtn").addEventListener("click",()=>{$("resultScreen").classList.add("hidden");$("startScreen").classList.remove("hidden");});
+$("nextBtn").addEventListener("click",nextQuestion);
+function startQuiz(){pool=buildPool();idx=0;score=0;session=[];$("startScreen").classList.add("hidden");$("resultScreen").classList.add("hidden");$("quizScreen").classList.remove("hidden");$("liveScore").textContent="0";renderQuestion();}
+function renderQuestion(){
+  answered=false;const q=pool[idx];
+  $("curIdx").textContent=idx+1;
+  $("barFill").style.width=((idx)/pool.length*100)+"%";
+  const isKnow=q.type==="know";
+  $("qtypeTag").textContent=isKnow?"知識題":"情境題";
+  const badge=$("qBadge");badge.textContent=isKnow?"知識題":"情境題";badge.className="qtype "+(isKnow?"know":"case");
+  $("qStem").textContent=q.q;
+  const order=shuffle([0,1,2,3]);const list=$("optList");list.innerHTML="";q._order=order;
+  order.forEach((origIdx,pos)=>{const li=document.createElement("li");li.className="opt";li.innerHTML=`<span class="key">${LETTERS[pos]}</span><span>${q.opts[origIdx]}</span>`;li.addEventListener("click",()=>choose(li,origIdx));list.appendChild(li);});
+  $("explainBox").classList.remove("show");$("nextBtn").classList.add("hidden");
+}
+function choose(el,origIdx){
+  if(answered)return;answered=true;const q=pool[idx];const correct=origIdx===q.a;
+  if(correct){score++;$("liveScore").textContent=score;}
+  const items=[...$("optList").children];
+  items.forEach((li,pos)=>{li.classList.add("disabled");const o=q._order[pos];if(o===q.a)li.classList.add("correct");else if(li===el)li.classList.add("wrong");else li.classList.add("dim");});
+  const eb=$("explainBox");eb.innerHTML=`<b>${correct?"✓ 答對了":"✗ 答錯了"}　·　正確答案：${answerLetter(q)}</b><br>${q.e}`;eb.classList.add("show");
+  session.push({q:q.q,type:q.type,chosen:q.opts[origIdx],correctText:q.opts[q.a],correct});
+  $("nextBtn").classList.remove("hidden");$("nextBtn").textContent=(idx===pool.length-1)?"看結果　→":"下一題　→";
+}
+function answerLetter(q){return LETTERS[q._order.indexOf(q.a)];}
+function nextQuestion(){if(idx===pool.length-1){showResults();return;}idx++;renderQuestion();}
+function showResults(){
+  $("barFill").style.width="100%";$("quizScreen").classList.add("hidden");$("resultScreen").classList.remove("hidden");$("finalScore").textContent=score;
+  const pct=score/pool.length;let msg;
+  if(pct===1)msg="滿分！觀念非常扎實，可以上考場了。";
+  else if(pct>=0.8)msg="表現優秀，少數細節再複習即可。";
+  else if(pct>=0.6)msg="及格水準，建議回頭看錯題的解析。";
+  else msg="再加把勁，把每題解析讀過一遍會很有幫助。";
+  $("scoreMsg").textContent=msg;
+  const deg=Math.round(pct*360);const col=pct>=0.6?"var(--accent)":"var(--gold)";
+  $("ring").style.background=`conic-gradient(${col} ${deg}deg, var(--line) ${deg}deg)`;
+  $("ring").firstElementChild.style.cssText="background:#fff;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;";
+  const rl=$("reviewList");rl.innerHTML="";
+  session.forEach((s,i)=>{
+    const div=document.createElement("div");div.className="review-item";
+    const badge=s.type==="know"?'<span class="rev-badge k">知識</span>':'<span class="rev-badge c">情境</span>';
+    let lines=`<p class="review-q">${i+1}. ${s.q}${badge}</p>`;
+    if(s.correct){lines+=`<p class="review-line"><span class="lab">你的答案</span><span class="ok">${s.chosen} ✓</span></p>`;}
+    else{lines+=`<p class="review-line"><span class="lab">你的答案</span><span class="no">${s.chosen} ✗</span></p>`;lines+=`<p class="review-line"><span class="lab">正確答案</span><span class="ok">${s.correctText}</span></p>`;}
+    div.innerHTML=lines;rl.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
