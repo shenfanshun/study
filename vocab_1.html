@@ -72,6 +72,14 @@
     letter-spacing:.1em;
   }
   .term{font-size:24px;font-weight:700;letter-spacing:-.3px;}
+  .term-pos{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:13px;font-style:italic;color:var(--gold);font-weight:600;
+  }
+  .term-zh{
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+    font-size:15px;color:var(--accent);font-weight:600;
+  }
   .say-word{
     margin-left:auto;border:none;background:var(--accent-soft);
     color:var(--accent);width:38px;height:38px;border-radius:50%;
@@ -147,7 +155,7 @@
 
 <script>
 const DATA = [
- {w:"Assurance", s:[
+ {w:"Assurance", pos:"n.", zh:"保證；把握；自信；（英）壽險", s:[
   ["The salesman gave his assurance that the product would last for years.","業務員保證這項產品可以使用很多年。"],
   ["Her calm assurance during the crisis reassured everyone in the room.","她在危機中沉著的自信讓房間裡的每個人都安心下來。"],
   ["We need written assurance before we sign the contract.","在簽合約之前，我們需要書面保證。"],
@@ -159,7 +167,7 @@ const DATA = [
   ["Quality assurance is a vital step before any product reaches the market.","品質保證是任何產品上市前的重要環節。"],
   ["With quiet assurance, she stepped onto the stage and began to speak.","她帶著沉靜的自信走上舞台，開始發言。"]
  ]},
- {w:"Abide by", s:[
+ {w:"Abide by", pos:"phr. v.", zh:"遵守；服從；信守", s:[
   ["All players must abide by the rules of the game.","所有球員都必須遵守比賽規則。"],
   ["If you join the club, you agree to abide by its policies.","如果你加入這個俱樂部，你就同意遵守它的規定。"],
   ["She promised to abide by the terms of the agreement.","她承諾會遵守協議的條款。"],
@@ -171,7 +179,7 @@ const DATA = [
   ["The two countries agreed to abide by the peace treaty.","兩國同意遵守這項和平條約。"],
   ["You must abide by the referee's final decision.","你必須服從裁判的最終判決。"]
  ]},
- {w:"Determine", s:[
+ {w:"Determine", pos:"v.", zh:"查明；決定；使下定決心", s:[
   ["Scientists are trying to determine the cause of the disease.","科學家正試圖查明這種疾病的病因。"],
   ["Your attitude will determine how far you go in life.","你的態度將決定你在人生中能走多遠。"],
   ["We need more data to determine the best course of action.","我們需要更多資料才能判定最佳的行動方案。"],
@@ -183,7 +191,7 @@ const DATA = [
   ["They met to determine the date of the next meeting.","他們碰面以敲定下次會議的日期。"],
   ["A quick test can determine whether the water is safe.","一項快速檢測就能判定這些水是否安全。"]
  ]},
- {w:"Engage", s:[
+ {w:"Engage", pos:"v.", zh:"從事；使參與；聘用；吸引（注意）", s:[
   ["Good teachers know how to engage their students.","好老師懂得如何吸引學生投入。"],
   ["The company hopes to engage more customers through social media.","這家公司希望透過社群媒體吸引更多顧客。"],
   ["She was fully engaged in the conversation.","她全神貫注地投入這場對話。"],
@@ -195,7 +203,7 @@ const DATA = [
   ["We want to engage with the local community more actively.","我們想更積極地與當地社區互動。"],
   ["The gears engage smoothly when you shift up.","當你升檔時，齒輪會順暢地咬合。"]
  ]},
- {w:"Establish", s:[
+ {w:"Establish", pos:"v.", zh:"建立；設立；確立；查明", s:[
   ["The company was established over a hundred years ago.","這家公司創立於一百多年前。"],
   ["We need to establish clear rules from the start.","我們一開始就需要訂立明確的規則。"],
   ["It took years for her to establish herself as a writer.","她花了好幾年才在作家界站穩腳步。"],
@@ -207,7 +215,7 @@ const DATA = [
   ["He quickly established a reputation for honesty.","他很快就建立起誠實的名聲。"],
   ["Scientists have established a clear link between smoking and cancer.","科學家已確立了吸菸與癌症之間的明確關聯。"]
  ]},
- {w:"Obligate", s:[
+ {w:"Obligate", pos:"v.", zh:"使負義務；強制", s:[
   ["The contract obligates the company to deliver goods on time.","這份合約使公司有義務準時交貨。"],
   ["You are not obligated to answer any of these questions.","你沒有義務回答這些問題中的任何一個。"],
   ["The law obligates drivers to wear seat belts.","法律規定駕駛人有義務繫安全帶。"],
@@ -219,7 +227,7 @@ const DATA = [
   ["She was obligated by her promise to attend the meeting.","她因自己的承諾而有義務出席這場會議。"],
   ["Membership does not obligate you to attend every event.","成為會員並不強制你出席每一場活動。"]
  ]},
- {w:"Obligation", s:[
+ {w:"Obligation", pos:"n.", zh:"義務；責任", s:[
   ["You have no obligation to buy anything today.","你今天沒有義務購買任何東西。"],
   ["Paying taxes is a legal obligation for all citizens.","繳稅是所有公民的法律義務。"],
   ["She felt a strong sense of obligation to her family.","她對家人懷有強烈的責任感。"],
@@ -231,7 +239,7 @@ const DATA = [
   ["Under no obligation, you may cancel the service at any time.","在沒有任何義務的情況下，你可以隨時取消這項服務。"],
   ["Their contract sets out the rights and obligations of both sides.","他們的合約載明了雙方的權利與義務。"]
  ]},
- {w:"Provision", s:[
+ {w:"Provision", pos:"n.", zh:"供應；條款；準備；（複）糧食", s:[
   ["The contract includes a provision for early termination.","這份合約包含一項提前終止的條款。"],
   ["The government is responsible for the provision of public services.","政府負責提供公共服務。"],
   ["They made provision for their children's future.","他們為孩子的未來做了準備。"],
@@ -243,7 +251,7 @@ const DATA = [
   ["There is no provision in the budget for extra staff.","預算中沒有編列增聘人員的款項。"],
   ["The agreement was signed with the provision that it could be reviewed yearly.","這項協議簽訂時附帶一項條件：可以每年檢討一次。"]
  ]},
- {w:"Specific", s:[
+ {w:"Specific", pos:"adj. / n.", zh:"具體的；特定的；（複）細節", s:[
   ["Can you be more specific about what you need?","你能更具體地說明你需要什麼嗎？"],
   ["Each department has its own specific responsibilities.","每個部門都有各自特定的職責。"],
   ["The doctor gave me specific instructions for taking the medicine.","醫生給了我服藥的明確指示。"],
@@ -255,7 +263,7 @@ const DATA = [
   ["Is there a specific date you have in mind?","你心裡有沒有一個確切的日期？"],
   ["The disease affects one specific part of the brain.","這種疾病會影響大腦的某個特定部位。"]
  ]},
- {w:"Engagement", s:[
+ {w:"Engagement", pos:"n.", zh:"訂婚；約定；參與；交戰", s:[
   ["They announced their engagement at the family dinner.","他們在家庭聚餐上宣布了訂婚的消息。"],
   ["The company measures customer engagement on social media.","這家公司會衡量顧客在社群媒體上的參與度。"],
   ["I'm sorry, but I have a prior engagement that evening.","很抱歉，那天晚上我已經有約在先。"],
@@ -267,7 +275,7 @@ const DATA = [
   ["Rules of engagement define how soldiers may act in combat.","交戰守則規範了士兵在戰鬥中可以採取的行動方式。"],
   ["The post received high engagement with thousands of likes.","這則貼文獲得了很高的互動，累積了數千個讚。"]
  ]},
- {w:"Consumer", s:[
+ {w:"Consumer", pos:"n.", zh:"消費者", s:[
   ["Consumers today care more about quality than price.","現今的消費者比起價格更在意品質。"],
   ["The new law protects consumers from unfair practices.","這項新法保護消費者免受不公平行為的侵害。"],
   ["China is a huge consumer of raw materials.","中國是原物料的巨大消費國。"],
@@ -279,7 +287,7 @@ const DATA = [
   ["Companies collect data to understand consumer behavior.","企業蒐集資料以了解消費者行為。"],
   ["The polar bear is at the top of the food chain as a consumer.","北極熊身為消費者，位於食物鏈的頂端。"]
  ]},
- {w:"Productive", s:[
+ {w:"Productive", pos:"adj.", zh:"多產的；富有成效的", s:[
   ["I had a very productive morning and finished all my tasks.","我度過了一個非常有生產力的早晨，完成了所有的工作。"],
   ["We need to make better use of our productive time.","我們需要更善用自己有效率的時間。"],
   ["The meeting was productive and we reached several decisions.","這場會議很有成效，我們達成了好幾項決定。"],
@@ -291,7 +299,7 @@ const DATA = [
   ["Working long hours does not always make you productive.","長時間工作並不總是能讓你更有生產力。"],
   ["These years were the most productive period of his career.","這幾年是他職業生涯中最多產的時期。"]
  ]},
- {w:"Convince", s:[
+ {w:"Convince", pos:"v.", zh:"使信服；說服", s:[
   ["She tried to convince me to change my mind.","她試圖說服我改變主意。"],
   ["It took hours to convince him that the plan would work.","花了好幾個小時才使他相信這個計畫行得通。"],
   ["The evidence was enough to convince the jury.","這些證據足以說服陪審團。"],
@@ -303,7 +311,7 @@ const DATA = [
   ["The salesman convinced them to buy the more expensive model.","業務員說服他們購買了較貴的型號。"],
   ["We need solid facts to convince the investors.","我們需要確鑿的事實來說服投資者。"]
  ]},
- {w:"Currently", s:[
+ {w:"Currently", pos:"adv.", zh:"目前；現在", s:[
   ["She is currently working on a new project.","她目前正在進行一個新專案。"],
   ["The store is currently closed for renovation.","這家店目前因整修而暫停營業。"],
   ["We currently have no openings, but please apply again later.","我們目前沒有職缺，但請日後再次應徵。"],
@@ -315,7 +323,7 @@ const DATA = [
   ["There are currently no flights available to that city.","目前沒有飛往那座城市的可搭班機。"],
   ["She is currently the youngest member of the team.","她目前是隊上最年輕的成員。"]
  ]},
- {w:"Fad", s:[
+ {w:"Fad", pos:"n.", zh:"一時的流行；風潮", s:[
   ["The diet turned out to be just another passing fad.","這種飲食法結果只是又一個短暫的流行風潮。"],
   ["Fashion fads come and go very quickly.","時尚潮流來得快，去得也快。"],
   ["Many people worry that the trend is just a fad.","許多人擔心這股趨勢只是一時的風尚。"],
@@ -327,7 +335,7 @@ const DATA = [
   ["Some health fads are not supported by real science.","有些健康風潮並沒有真正的科學根據。"],
   ["Bubble tea was once a fad, but now it's everywhere.","珍珠奶茶曾經是一股流行，但如今已隨處可見。"]
  ]},
- {w:"Inspiration", s:[
+ {w:"Inspiration", pos:"n.", zh:"靈感；啟發；鼓舞人心的人事物", s:[
   ["The beautiful scenery was a great inspiration for her paintings.","美麗的風景是她畫作的一大靈感來源。"],
   ["He found inspiration in the works of famous writers.","他從名作家的作品中找到了靈感。"],
   ["Her courage was an inspiration to everyone around her.","她的勇氣激勵了她身邊的每一個人。"],
@@ -339,7 +347,7 @@ const DATA = [
   ["Sometimes a short walk is all you need for inspiration.","有時候，一段短短的散步就是你找到靈感所需的一切。"],
   ["The young athlete became an inspiration to millions.","這位年輕的運動員成了數百萬人的激勵榜樣。"]
  ]},
- {w:"Persuasion", s:[
+ {w:"Persuasion", pos:"n.", zh:"說服；說服力；信念", s:[
   ["It took a lot of persuasion to get him to agree.","費了好一番說服才讓他點頭同意。"],
   ["Her powers of persuasion are truly impressive.","她的說服能力著實令人印象深刻。"],
   ["After much persuasion, they finally changed their plans.","經過多番勸說，他們終於改變了計畫。"],
@@ -351,7 +359,7 @@ const DATA = [
   ["She needed little persuasion to join the trip.","幾乎不用怎麼勸，她就願意加入這趟旅行。"],
   ["Skillful persuasion is more effective than shouting.","巧妙的說服比大吼大叫更有效。"]
  ]},
- {w:"Satisfaction", s:[
+ {w:"Satisfaction", pos:"n.", zh:"滿意；滿足；令人滿意之事", s:[
   ["She smiled with satisfaction at the finished work.","她看著完成的作品，滿意地微笑。"],
   ["Customer satisfaction is our top priority.","顧客滿意度是我們的首要之務。"],
   ["He felt a deep sense of satisfaction after passing the exam.","通過考試後，他感到一股深深的滿足感。"],
@@ -363,7 +371,7 @@ const DATA = [
   ["His main satisfaction comes from teaching young children.","他主要的滿足感來自教導幼童。"],
   ["They finally settled the matter to their mutual satisfaction.","他們終於把這件事解決到雙方都滿意的地步。"]
  ]},
- {w:"Characteristic", s:[
+ {w:"Characteristic", pos:"n. / adj.", zh:"特徵；特色；獨特的", s:[
   ["Kindness is her most striking characteristic.","善良是她最鮮明的特質。"],
   ["Each region has its own characteristic style of cooking.","每個地區都有其獨特的烹飪風格。"],
   ["He replied with characteristic honesty.","他以一貫的誠實作了回答。"],
@@ -375,7 +383,7 @@ const DATA = [
   ["She showed characteristic calm during the emergency.","在緊急情況下，她展現了一貫的沉著。"],
   ["The building's characteristic dome can be seen from afar.","這棟建築獨具特色的圓頂從遠處就能看見。"]
  ]},
- {w:"Expiration", s:[
+ {w:"Expiration", pos:"n.", zh:"（期限）屆滿；到期；呼氣", s:[
   ["Always check the expiration date before eating food.","吃食物之前一定要檢查有效期限。"],
   ["The milk is past its expiration date.","這瓶牛奶已經過了保存期限。"],
   ["Your membership will end upon the expiration of the contract.","你的會員資格將在合約到期時終止。"],
@@ -387,7 +395,7 @@ const DATA = [
   ["After the expiration of the warranty, repairs are not free.","保固期滿後，維修就不再免費。"],
   ["The software stopped working after the expiration of the license.","授權到期後，這款軟體便無法使用了。"]
  ]},
- {w:"Frequently", s:[
+ {w:"Frequently", pos:"adv.", zh:"經常地；頻繁地", s:[
   ["She frequently travels abroad for work.","她經常為了工作出國。"],
   ["This question is asked frequently by new students.","這個問題經常被新生問到。"],
   ["The buses run frequently during rush hour.","公車在尖峰時段班次頻繁。"],
@@ -399,7 +407,7 @@ const DATA = [
   ["She frequently visits her grandparents in the countryside.","她經常去鄉下探望她的祖父母。"],
   ["The topic comes up frequently in our discussions.","這個話題在我們的討論中經常出現。"]
  ]},
- {w:"Imply", s:[
+ {w:"Imply", pos:"v.", zh:"暗示；意味著", s:[
   ["Are you trying to imply that I made a mistake?","你是想暗示我犯了錯嗎？"],
   ["His silence seemed to imply agreement.","他的沉默似乎意味著同意。"],
   ["I didn't mean to imply that you were lying.","我並不是想暗指你在說謊。"],
@@ -411,7 +419,7 @@ const DATA = [
   ["The results imply a strong link between the two factors.","這些結果顯示這兩個因素之間有著強烈的關聯。"],
   ["A promise implies a duty to keep it.","一個承諾意味著有履行它的義務。"]
  ]},
- {w:"Reputation", s:[
+ {w:"Reputation", pos:"n.", zh:"名聲；聲譽", s:[
   ["The restaurant has an excellent reputation for its seafood.","這家餐廳以其海鮮享有極佳的聲譽。"],
   ["It takes years to build a good reputation but only moments to lose it.","建立好名聲需要多年，而毀掉它只需片刻。"],
   ["He has a reputation for being honest and fair.","他以誠實公正著稱。"],
@@ -423,7 +431,7 @@ const DATA = [
   ["A single mistake can ruin a lifetime's reputation.","一個錯誤就可能毀掉一輩子的名聲。"],
   ["The hotel lived up to its reputation for great service.","這家飯店不負其優質服務的美名。"]
  ]},
- {w:"Require", s:[
+ {w:"Require", pos:"v.", zh:"需要；要求；規定", s:[
   ["This job requires a lot of patience.","這份工作需要很大的耐心。"],
   ["All passengers are required to wear seat belts.","所有乘客都必須繫安全帶。"],
   ["The recipe requires three eggs and a cup of flour.","這道食譜需要三顆蛋和一杯麵粉。"],
@@ -435,7 +443,7 @@ const DATA = [
   ["Guests are required to check out by noon.","房客須於中午前辦理退房。"],
   ["Learning a language requires regular practice.","學習一門語言需要規律的練習。"]
  ]},
- {w:"Variety", s:[
+ {w:"Variety", pos:"n.", zh:"多樣性；種類；品種", s:[
   ["The store offers a wide variety of products.","這家店提供琳瑯滿目的各式商品。"],
   ["We grow several varieties of tomatoes in our garden.","我們在花園裡種了好幾個品種的番茄。"],
   ["A balanced diet should include a variety of foods.","均衡的飲食應該包含多樣化的食物。"],
@@ -447,7 +455,7 @@ const DATA = [
   ["This is a hardy variety of rose that survives cold winters.","這是一種能挺過寒冬的耐寒玫瑰品種。"],
   ["They chose this hotel for the variety of its facilities.","他們選擇這家飯店是因為它設施多樣。"]
  ]},
- {w:"Coverage", s:[
+ {w:"Coverage", pos:"n.", zh:"報導；（保險）理賠範圍；涵蓋範圍；收訊", s:[
   ["The news coverage of the event was extensive.","媒體對這起事件的報導十分廣泛。"],
   ["Does your insurance offer full coverage for accidents?","你的保險有提供意外的全額理賠嗎？"],
   ["The phone has poor network coverage in this area.","這支手機在這個地區的網路收訊很差。"],
@@ -459,7 +467,7 @@ const DATA = [
   ["Wide media coverage helped raise public awareness.","廣泛的媒體報導有助於提高大眾的意識。"],
   ["The policy's coverage does not include flood damage.","這份保單的理賠範圍不包含水災損失。"]
  ]},
- {w:"Warranty", s:[
+ {w:"Warranty", pos:"n.", zh:"保固；保用期；擔保", s:[
   ["The laptop comes with a two-year warranty.","這台筆電附有兩年的保固。"],
   ["Repairs are free while the product is under warranty.","產品在保固期內維修是免費的。"],
   ["Keep your receipt to claim the warranty.","保留你的收據以便申請保固。"],
@@ -471,7 +479,7 @@ const DATA = [
   ["A good warranty gives customers peace of mind.","良好的保固能讓顧客安心。"],
   ["The manufacturer honored the warranty and replaced the part.","製造商履行了保固並更換了零件。"]
  ]},
- {w:"Address", s:[
+ {w:"Address", pos:"n. / v.", zh:"地址；致詞／處理；向…講話；稱呼", s:[
   ["Please write your name and address on the form.","請在表格上寫下你的姓名和地址。"],
   ["We need to address this problem immediately.","我們需要立即處理這個問題。"],
   ["The president will address the nation tonight.","總統今晚將向全國發表談話。"],
@@ -483,7 +491,7 @@ const DATA = [
   ["They changed their address after moving to a new city.","他們搬到新城市後更改了地址。"],
   ["The company must address customer complaints quickly.","公司必須迅速處理顧客的投訴。"]
  ]},
- {w:"Demonstrate", s:[
+ {w:"Demonstrate", pos:"v.", zh:"示範；證明；展現；示威抗議", s:[
   ["Let me demonstrate how the machine works.","讓我示範這台機器如何運作。"],
   ["The results clearly demonstrate the benefits of exercise.","這些結果清楚地證明了運動的益處。"],
   ["She demonstrated great courage during the crisis.","她在危機中展現了極大的勇氣。"],
@@ -495,7 +503,7 @@ const DATA = [
   ["The salesperson demonstrated the product's features.","銷售員展示了這項產品的功能。"],
   ["His actions demonstrate how much he cares.","他的行為表明了他有多在乎。"]
  ]},
- {w:"Evaluate", s:[
+ {w:"Evaluate", pos:"v.", zh:"評估；評量；審核", s:[
   ["The teacher will evaluate each student's progress.","老師會評估每位學生的進步情況。"],
   ["We need to evaluate the risks before making a decision.","在做決定之前，我們需要評估風險。"],
   ["It's hard to evaluate the damage caused by the storm.","很難評估這場風暴造成的損害。"],
@@ -536,6 +544,8 @@ DATA.forEach((item,i)=>{
   let html=`<div class="word-head">
       <span class="num">${num}</span>
       <span class="term">${item.w}</span>
+      <span class="term-pos">${item.pos||''}</span>
+      <span class="term-zh">${item.zh||''}</span>
       <button class="say-word" title="聽單字發音" data-say="${item.w.replace(/"/g,'&quot;')}">🔊</button>
     </div><ol class="sentences">`;
   item.s.forEach((pair,j)=>{
