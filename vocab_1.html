@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單字彙整檔 · Vocabulary Set 01</title>
+<style>
+  :root{
+    --ink:#1c2432;
+    --paper:#faf7f0;
+    --card:#ffffff;
+    --line:#e4ddcf;
+    --accent:#2f6f5e;
+    --accent-soft:#e7f0ec;
+    --gold:#b4842a;
+    --muted:#6b7280;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Georgia","Noto Serif TC",serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 80px;}
+
+  header{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:20px;margin-bottom:8px;
+  }
+  .eyebrow{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin-bottom:10px;
+  }
+  h1{
+    font-size:clamp(28px,6vw,40px);
+    font-weight:700;letter-spacing:-.5px;line-height:1.15;
+  }
+  .sub{
+    margin-top:8px;color:var(--muted);
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;
+  }
+
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+    margin:22px 0 30px;
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;
+  }
+  .btn{
+    border:1px solid var(--line);background:var(--card);
+    padding:8px 14px;border-radius:999px;cursor:pointer;
+    color:var(--ink);font-size:13px;transition:.15s;
+  }
+  .btn:hover{border-color:var(--accent);color:var(--accent);}
+  .rate{display:flex;align-items:center;gap:8px;color:var(--muted);}
+  .rate input{accent-color:var(--accent);}
+
+  .word{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;margin-bottom:20px;overflow:hidden;
+  }
+  .word-head{
+    display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding:16px 20px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#fff, #fcfaf4);
+  }
+  .num{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:12px;font-weight:700;color:var(--gold);
+    letter-spacing:.1em;
+  }
+  .term{font-size:24px;font-weight:700;letter-spacing:-.3px;}
+  .say-word{
+    margin-left:auto;border:none;background:var(--accent-soft);
+    color:var(--accent);width:38px;height:38px;border-radius:50%;
+    cursor:pointer;font-size:16px;display:grid;place-items:center;
+    transition:.15s;
+  }
+  .say-word:hover{background:var(--accent);color:#fff;}
+
+  ol.sentences{list-style:none;}
+  .s{
+    padding:14px 20px;border-bottom:1px dashed var(--line);
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .s:last-child{border-bottom:none;}
+  .s-idx{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:12px;color:var(--muted);min-width:20px;padding-top:4px;
+  }
+  .s-body{flex:1;}
+  .en{
+    cursor:pointer;font-size:17px;
+    display:flex;gap:8px;align-items:flex-start;
+  }
+  .en .txt{flex:1;}
+  .en .chev{color:var(--accent);font-size:13px;transition:.2s;padding-top:4px;}
+  .en.open .chev{transform:rotate(90deg);}
+  .zh{
+    display:none;margin-top:8px;padding:10px 12px;
+    background:var(--accent-soft);border-radius:8px;
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+    font-size:15px;color:#26463c;
+  }
+  .zh.show{display:block;}
+  .say-s{
+    border:none;background:transparent;cursor:pointer;
+    color:var(--muted);font-size:15px;padding:2px 4px;transition:.15s;
+  }
+  .say-s:hover{color:var(--accent);}
+
+  footer{
+    margin-top:40px;text-align:center;color:var(--muted);
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;
+  }
+  .hint{
+    background:#fff8e8;border:1px solid #f0e2bd;border-radius:10px;
+    padding:12px 16px;font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:13px;color:#7a6320;margin-bottom:26px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Vocabulary · Set 01</div>
+    <h1>英文單字彙整檔</h1>
+    <div class="sub">30 個單字 · 每字 10 句例句 · 點句子看翻譯，點 🔊 聽發音</div>
+  </header>
+
+  <div class="toolbar">
+    <button class="btn" id="expandAll">展開全部翻譯</button>
+    <button class="btn" id="collapseAll">收合全部翻譯</button>
+    <label class="rate">語速
+      <input type="range" id="rate" min="0.6" max="1.1" step="0.05" value="0.9">
+    </label>
+  </div>
+
+  <div class="hint">🔊 發音使用瀏覽器內建語音功能，請開啟音量。若無聲音，請確認裝置未靜音，或改用 Chrome / Safari。</div>
+
+  <div id="list"></div>
+
+  <footer>製作於 Claude · 學習單字系列 · 累積滿 30 字自動生成</footer>
+</div>
+
+<script>
+const DATA = [
+ {w:"Assurance", s:[
+  ["The salesman gave his assurance that the product would last for years.","業務員保證這項產品可以使用很多年。"],
+  ["Her calm assurance during the crisis reassured everyone in the room.","她在危機中沉著的自信讓房間裡的每個人都安心下來。"],
+  ["We need written assurance before we sign the contract.","在簽合約之前，我們需要書面保證。"],
+  ["He spoke with the assurance of someone who had done this a hundred times.","他說話時帶著一種做過上百次的篤定與自信。"],
+  ["The government offered assurance that the water was safe to drink.","政府保證這些水可以安全飲用。"],
+  ["Life assurance policies pay out a sum of money when the policyholder dies.","壽險保單會在保單持有人身故時給付一筆金額。"],
+  ["I can give you my full assurance that your data will remain confidential.","我可以向你完全保證，你的資料將會保密。"],
+  ["There is no assurance that prices will stay low next year.","無法保證明年的價格會維持在低檔。"],
+  ["Quality assurance is a vital step before any product reaches the market.","品質保證是任何產品上市前的重要環節。"],
+  ["With quiet assurance, she stepped onto the stage and began to speak.","她帶著沉靜的自信走上舞台，開始發言。"]
+ ]},
+ {w:"Abide by", s:[
+  ["All players must abide by the rules of the game.","所有球員都必須遵守比賽規則。"],
+  ["If you join the club, you agree to abide by its policies.","如果你加入這個俱樂部，你就同意遵守它的規定。"],
+  ["She promised to abide by the terms of the agreement.","她承諾會遵守協議的條款。"],
+  ["Citizens are expected to abide by the law.","公民被期望要守法。"],
+  ["We may not like the decision, but we have to abide by it.","我們或許不喜歡這個決定，但我們必須服從它。"],
+  ["Companies must abide by strict safety regulations.","公司必須遵守嚴格的安全規範。"],
+  ["He gave his word, and a gentleman always abides by his word.","他承諾了，而紳士總是信守自己的諾言。"],
+  ["Members who fail to abide by the code will be removed.","未能遵守規範的成員將會被除名。"],
+  ["The two countries agreed to abide by the peace treaty.","兩國同意遵守這項和平條約。"],
+  ["You must abide by the referee's final decision.","你必須服從裁判的最終判決。"]
+ ]},
+ {w:"Determine", s:[
+  ["Scientists are trying to determine the cause of the disease.","科學家正試圖查明這種疾病的病因。"],
+  ["Your attitude will determine how far you go in life.","你的態度將決定你在人生中能走多遠。"],
+  ["We need more data to determine the best course of action.","我們需要更多資料才能判定最佳的行動方案。"],
+  ["The judge will determine whether he is guilty or not.","法官將裁定他是否有罪。"],
+  ["She was determined to finish the race no matter what.","她下定決心無論如何都要跑完這場比賽。"],
+  ["The results of the test will determine your final grade.","這次測驗的結果將決定你的期末成績。"],
+  ["It is hard to determine exactly when the fire started.","很難確切判定這場火災是何時開始的。"],
+  ["Genetics can partly determine a person's height.","基因在一定程度上決定一個人的身高。"],
+  ["They met to determine the date of the next meeting.","他們碰面以敲定下次會議的日期。"],
+  ["A quick test can determine whether the water is safe.","一項快速檢測就能判定這些水是否安全。"]
+ ]},
+ {w:"Engage", s:[
+  ["Good teachers know how to engage their students.","好老師懂得如何吸引學生投入。"],
+  ["The company hopes to engage more customers through social media.","這家公司希望透過社群媒體吸引更多顧客。"],
+  ["She was fully engaged in the conversation.","她全神貫注地投入這場對話。"],
+  ["They decided to engage a lawyer to handle the case.","他們決定聘請一位律師處理這個案子。"],
+  ["The two armies engaged in battle at dawn.","兩軍在黎明時分交戰。"],
+  ["He tried to engage her in a discussion about politics.","他試圖引她一起討論政治。"],
+  ["Please engage the parking brake before leaving the car.","離開車子前請拉上手煞車。"],
+  ["The film failed to engage the audience's interest.","這部電影未能引起觀眾的興趣。"],
+  ["We want to engage with the local community more actively.","我們想更積極地與當地社區互動。"],
+  ["The gears engage smoothly when you shift up.","當你升檔時，齒輪會順暢地咬合。"]
+ ]},
+ {w:"Establish", s:[
+  ["The company was established over a hundred years ago.","這家公司創立於一百多年前。"],
+  ["We need to establish clear rules from the start.","我們一開始就需要訂立明確的規則。"],
+  ["It took years for her to establish herself as a writer.","她花了好幾年才在作家界站穩腳步。"],
+  ["The police are trying to establish the facts of the case.","警方正試圖查明這起案件的事實。"],
+  ["They worked hard to establish a good relationship with clients.","他們努力與客戶建立良好的關係。"],
+  ["The two nations established diplomatic ties in 1979.","這兩個國家於 1979 年建立了外交關係。"],
+  ["First, we must establish whether the rumor is true.","首先，我們必須確認這則謠言是否屬實。"],
+  ["The charity was established to help homeless children.","這個慈善機構的成立是為了幫助無家可歸的兒童。"],
+  ["He quickly established a reputation for honesty.","他很快就建立起誠實的名聲。"],
+  ["Scientists have established a clear link between smoking and cancer.","科學家已確立了吸菸與癌症之間的明確關聯。"]
+ ]},
+ {w:"Obligate", s:[
+  ["The contract obligates the company to deliver goods on time.","這份合約使公司有義務準時交貨。"],
+  ["You are not obligated to answer any of these questions.","你沒有義務回答這些問題中的任何一個。"],
+  ["The law obligates drivers to wear seat belts.","法律規定駕駛人有義務繫安全帶。"],
+  ["I felt obligated to help her after all she had done for me.","在她為我做了這麼多之後，我覺得有義務幫她。"],
+  ["Signing this form obligates you to pay the full amount.","簽署這份表格使你有義務支付全額。"],
+  ["Parents are legally obligated to care for their children.","父母在法律上有義務照顧自己的子女。"],
+  ["He didn't want to feel obligated to anyone.","他不想對任何人有虧欠感。"],
+  ["The agreement obligates both parties to keep the information secret.","這份協議使雙方都有義務保守這項資訊。"],
+  ["She was obligated by her promise to attend the meeting.","她因自己的承諾而有義務出席這場會議。"],
+  ["Membership does not obligate you to attend every event.","成為會員並不強制你出席每一場活動。"]
+ ]},
+ {w:"Obligation", s:[
+  ["You have no obligation to buy anything today.","你今天沒有義務購買任何東西。"],
+  ["Paying taxes is a legal obligation for all citizens.","繳稅是所有公民的法律義務。"],
+  ["She felt a strong sense of obligation to her family.","她對家人懷有強烈的責任感。"],
+  ["The company failed to meet its financial obligations.","這家公司未能履行其財務義務。"],
+  ["I helped him out of obligation, not friendship.","我幫他是出於義務，而非友誼。"],
+  ["Signing the contract creates a binding obligation.","簽署合約會產生具約束力的義務。"],
+  ["We have a moral obligation to protect the environment.","我們有道德上的義務去保護環境。"],
+  ["He fulfilled all his obligations before leaving the job.","他在離職前履行了所有的職責。"],
+  ["Under no obligation, you may cancel the service at any time.","在沒有任何義務的情況下，你可以隨時取消這項服務。"],
+  ["Their contract sets out the rights and obligations of both sides.","他們的合約載明了雙方的權利與義務。"]
+ ]},
+ {w:"Provision", s:[
+  ["The contract includes a provision for early termination.","這份合約包含一項提前終止的條款。"],
+  ["The government is responsible for the provision of public services.","政府負責提供公共服務。"],
+  ["They made provision for their children's future.","他們為孩子的未來做了準備。"],
+  ["Under this provision, employees are entitled to paid leave.","根據這項條款，員工有權享有帶薪假。"],
+  ["The soldiers ran low on provisions during the long march.","士兵們在長途行軍中糧食短缺。"],
+  ["We must make adequate provision for emergencies.","我們必須為緊急情況做好充分的準備。"],
+  ["The new law has a special provision for small businesses.","這項新法針對小型企業設有特別條款。"],
+  ["The ship carried enough provisions for six months.","這艘船載有足夠使用六個月的補給品。"],
+  ["There is no provision in the budget for extra staff.","預算中沒有編列增聘人員的款項。"],
+  ["The agreement was signed with the provision that it could be reviewed yearly.","這項協議簽訂時附帶一項條件：可以每年檢討一次。"]
+ ]},
+ {w:"Specific", s:[
+  ["Can you be more specific about what you need?","你能更具體地說明你需要什麼嗎？"],
+  ["Each department has its own specific responsibilities.","每個部門都有各自特定的職責。"],
+  ["The doctor gave me specific instructions for taking the medicine.","醫生給了我服藥的明確指示。"],
+  ["This tool is designed for one specific purpose.","這個工具是為了一個特定用途而設計的。"],
+  ["Please give me a specific example to support your point.","請給我一個具體的例子來支持你的論點。"],
+  ["The rules apply to this specific situation only.","這些規則僅適用於這個特定的情況。"],
+  ["She has a very specific taste in music.","她對音樂有非常獨特的品味。"],
+  ["We need specific data before making a decision.","在做決定之前，我們需要具體的數據。"],
+  ["Is there a specific date you have in mind?","你心裡有沒有一個確切的日期？"],
+  ["The disease affects one specific part of the brain.","這種疾病會影響大腦的某個特定部位。"]
+ ]},
+ {w:"Engagement", s:[
+  ["They announced their engagement at the family dinner.","他們在家庭聚餐上宣布了訂婚的消息。"],
+  ["The company measures customer engagement on social media.","這家公司會衡量顧客在社群媒體上的參與度。"],
+  ["I'm sorry, but I have a prior engagement that evening.","很抱歉，那天晚上我已經有約在先。"],
+  ["Student engagement is key to effective learning.","學生的投入是有效學習的關鍵。"],
+  ["The soldiers prepared for engagement with the enemy.","士兵們準備與敵人交戰。"],
+  ["She wore a beautiful diamond engagement ring.","她戴著一枚美麗的鑽石訂婚戒指。"],
+  ["His busy schedule was full of speaking engagements.","他忙碌的行程排滿了演講邀約。"],
+  ["The teacher used games to increase engagement in class.","這位老師用遊戲來提高課堂上的參與度。"],
+  ["Rules of engagement define how soldiers may act in combat.","交戰守則規範了士兵在戰鬥中可以採取的行動方式。"],
+  ["The post received high engagement with thousands of likes.","這則貼文獲得了很高的互動，累積了數千個讚。"]
+ ]},
+ {w:"Consumer", s:[
+  ["Consumers today care more about quality than price.","現今的消費者比起價格更在意品質。"],
+  ["The new law protects consumers from unfair practices.","這項新法保護消費者免受不公平行為的侵害。"],
+  ["China is a huge consumer of raw materials.","中國是原物料的巨大消費國。"],
+  ["Consumer confidence rose after the good economic news.","在利多的經濟消息之後，消費者信心上升了。"],
+  ["The company surveyed consumers about their shopping habits.","這家公司針對消費者的購物習慣進行了調查。"],
+  ["Rising prices have reduced consumer spending.","物價上漲已使消費者支出減少。"],
+  ["This product is aimed at younger consumers.","這項產品的目標客群是較年輕的消費者。"],
+  ["Consumer demand for electric cars keeps growing.","消費者對電動車的需求持續成長。"],
+  ["Companies collect data to understand consumer behavior.","企業蒐集資料以了解消費者行為。"],
+  ["The polar bear is at the top of the food chain as a consumer.","北極熊身為消費者，位於食物鏈的頂端。"]
+ ]},
+ {w:"Productive", s:[
+  ["I had a very productive morning and finished all my tasks.","我度過了一個非常有生產力的早晨，完成了所有的工作。"],
+  ["We need to make better use of our productive time.","我們需要更善用自己有效率的時間。"],
+  ["The meeting was productive and we reached several decisions.","這場會議很有成效，我們達成了好幾項決定。"],
+  ["Rich soil makes the land highly productive.","肥沃的土壤使這片土地產量豐富。"],
+  ["A good night's sleep helps you feel more productive.","一夜好眠能幫助你感到更有效率。"],
+  ["Their partnership proved to be very productive.","他們的合作證明是非常富有成果的。"],
+  ["The factory is now more productive than ever before.","這家工廠現在的產能比以往任何時候都高。"],
+  ["She turned a difficult situation into a productive discussion.","她把一個棘手的局面轉化成一場富有建設性的討論。"],
+  ["Working long hours does not always make you productive.","長時間工作並不總是能讓你更有生產力。"],
+  ["These years were the most productive period of his career.","這幾年是他職業生涯中最多產的時期。"]
+ ]},
+ {w:"Convince", s:[
+  ["She tried to convince me to change my mind.","她試圖說服我改變主意。"],
+  ["It took hours to convince him that the plan would work.","花了好幾個小時才使他相信這個計畫行得通。"],
+  ["The evidence was enough to convince the jury.","這些證據足以說服陪審團。"],
+  ["I'm not fully convinced by his argument.","我並不完全被他的論點說服。"],
+  ["He convinced his parents to let him study abroad.","他說服了父母讓他出國留學。"],
+  ["Nothing you say will convince her otherwise.","你說什麼都無法讓她改變想法。"],
+  ["Her performance convinced everyone of her talent.","她的表演讓每個人都相信了她的才華。"],
+  ["I managed to convince myself that everything would be fine.","我設法讓自己相信一切都會沒事。"],
+  ["The salesman convinced them to buy the more expensive model.","業務員說服他們購買了較貴的型號。"],
+  ["We need solid facts to convince the investors.","我們需要確鑿的事實來說服投資者。"]
+ ]},
+ {w:"Currently", s:[
+  ["She is currently working on a new project.","她目前正在進行一個新專案。"],
+  ["The store is currently closed for renovation.","這家店目前因整修而暫停營業。"],
+  ["We currently have no openings, but please apply again later.","我們目前沒有職缺，但請日後再次應徵。"],
+  ["He is currently living in Japan.","他目前住在日本。"],
+  ["The company currently employs over five hundred people.","這家公司目前雇用了五百多名員工。"],
+  ["Prices are currently lower than they were last year.","目前的價格比去年還要低。"],
+  ["I'm currently reading a book about ancient history.","我目前正在讀一本關於古代歷史的書。"],
+  ["The system is currently down for maintenance.","系統目前因維護而暫停運作。"],
+  ["There are currently no flights available to that city.","目前沒有飛往那座城市的可搭班機。"],
+  ["She is currently the youngest member of the team.","她目前是隊上最年輕的成員。"]
+ ]},
+ {w:"Fad", s:[
+  ["The diet turned out to be just another passing fad.","這種飲食法結果只是又一個短暫的流行風潮。"],
+  ["Fashion fads come and go very quickly.","時尚潮流來得快，去得也快。"],
+  ["Many people worry that the trend is just a fad.","許多人擔心這股趨勢只是一時的風尚。"],
+  ["The toy became a huge fad among children last year.","這款玩具去年在孩子們之間掀起了一股熱潮。"],
+  ["He never follows the latest fads.","他從不追隨最新的流行風潮。"],
+  ["What seems trendy today may be a forgotten fad tomorrow.","今天看似時髦的東西，明天可能就成了被遺忘的風潮。"],
+  ["Investing in fads can be very risky.","投資於一時流行的事物可能非常有風險。"],
+  ["The fad for these sneakers faded within a few months.","這款球鞋的熱潮在幾個月內就退燒了。"],
+  ["Some health fads are not supported by real science.","有些健康風潮並沒有真正的科學根據。"],
+  ["Bubble tea was once a fad, but now it's everywhere.","珍珠奶茶曾經是一股流行，但如今已隨處可見。"]
+ ]},
+ {w:"Inspiration", s:[
+  ["The beautiful scenery was a great inspiration for her paintings.","美麗的風景是她畫作的一大靈感來源。"],
+  ["He found inspiration in the works of famous writers.","他從名作家的作品中找到了靈感。"],
+  ["Her courage was an inspiration to everyone around her.","她的勇氣激勵了她身邊的每一個人。"],
+  ["The idea came to me in a sudden flash of inspiration.","這個點子是在我靈光一閃時想到的。"],
+  ["Where do you get your inspiration from?","你的靈感是從哪裡來的？"],
+  ["His grandmother was the inspiration behind the novel.","他的祖母是這本小說背後的靈感人物。"],
+  ["Music is a constant source of inspiration for me.","音樂對我來說是源源不絕的靈感泉源。"],
+  ["She draws inspiration from nature and everyday life.","她從大自然和日常生活中汲取靈感。"],
+  ["Sometimes a short walk is all you need for inspiration.","有時候，一段短短的散步就是你找到靈感所需的一切。"],
+  ["The young athlete became an inspiration to millions.","這位年輕的運動員成了數百萬人的激勵榜樣。"]
+ ]},
+ {w:"Persuasion", s:[
+  ["It took a lot of persuasion to get him to agree.","費了好一番說服才讓他點頭同意。"],
+  ["Her powers of persuasion are truly impressive.","她的說服能力著實令人印象深刻。"],
+  ["After much persuasion, they finally changed their plans.","經過多番勸說，他們終於改變了計畫。"],
+  ["Good advertising relies on the art of persuasion.","好的廣告仰賴說服的藝術。"],
+  ["No amount of persuasion could make her stay.","再怎麼勸說也無法讓她留下來。"],
+  ["He used gentle persuasion rather than force.","他採用溫和的勸說而非強迫。"],
+  ["The lawyer's persuasion convinced the jury.","律師的說服力打動了陪審團。"],
+  ["People of every political persuasion attended the meeting.","各種政治立場的人都出席了這場會議。"],
+  ["She needed little persuasion to join the trip.","幾乎不用怎麼勸，她就願意加入這趟旅行。"],
+  ["Skillful persuasion is more effective than shouting.","巧妙的說服比大吼大叫更有效。"]
+ ]},
+ {w:"Satisfaction", s:[
+  ["She smiled with satisfaction at the finished work.","她看著完成的作品，滿意地微笑。"],
+  ["Customer satisfaction is our top priority.","顧客滿意度是我們的首要之務。"],
+  ["He felt a deep sense of satisfaction after passing the exam.","通過考試後，他感到一股深深的滿足感。"],
+  ["There is great satisfaction in helping others.","幫助他人有著莫大的滿足感。"],
+  ["The meal was cooked to everyone's satisfaction.","這頓飯做得讓每個人都滿意。"],
+  ["Nothing gives me more satisfaction than a job well done.","沒有什麼比把工作做好更讓我有成就感。"],
+  ["The company guarantees satisfaction or your money back.","這家公司保證讓你滿意，否則退款。"],
+  ["She completed the puzzle with a sigh of satisfaction.","她拼完了拼圖，滿足地嘆了一口氣。"],
+  ["His main satisfaction comes from teaching young children.","他主要的滿足感來自教導幼童。"],
+  ["They finally settled the matter to their mutual satisfaction.","他們終於把這件事解決到雙方都滿意的地步。"]
+ ]},
+ {w:"Characteristic", s:[
+  ["Kindness is her most striking characteristic.","善良是她最鮮明的特質。"],
+  ["Each region has its own characteristic style of cooking.","每個地區都有其獨特的烹飪風格。"],
+  ["He replied with characteristic honesty.","他以一貫的誠實作了回答。"],
+  ["The bird has a characteristic red spot on its wing.","這種鳥的翅膀上有一個獨具特色的紅點。"],
+  ["Patience is a common characteristic of good teachers.","耐心是好老師常見的一項特質。"],
+  ["The soup has a characteristic smell of garlic.","這道湯有一股獨特的大蒜味。"],
+  ["These symptoms are characteristic of the flu.","這些症狀是流感的典型特徵。"],
+  ["Curiosity is a defining characteristic of children.","好奇心是孩子們的一項決定性特質。"],
+  ["She showed characteristic calm during the emergency.","在緊急情況下，她展現了一貫的沉著。"],
+  ["The building's characteristic dome can be seen from afar.","這棟建築獨具特色的圓頂從遠處就能看見。"]
+ ]},
+ {w:"Expiration", s:[
+  ["Always check the expiration date before eating food.","吃食物之前一定要檢查有效期限。"],
+  ["The milk is past its expiration date.","這瓶牛奶已經過了保存期限。"],
+  ["Your membership will end upon the expiration of the contract.","你的會員資格將在合約到期時終止。"],
+  ["The coupon is no longer valid after its expiration.","優惠券過期後便不再有效。"],
+  ["Please renew your passport before its expiration.","請在你的護照到期前辦理更新。"],
+  ["The medicine loses its effect after the expiration date.","這款藥物在有效期限後會失去效用。"],
+  ["The expiration of the lease means we must move out.","租約到期意味著我們必須搬走。"],
+  ["Check the expiration on your credit card carefully.","仔細查看你信用卡上的有效期限。"],
+  ["After the expiration of the warranty, repairs are not free.","保固期滿後，維修就不再免費。"],
+  ["The software stopped working after the expiration of the license.","授權到期後，這款軟體便無法使用了。"]
+ ]},
+ {w:"Frequently", s:[
+  ["She frequently travels abroad for work.","她經常為了工作出國。"],
+  ["This question is asked frequently by new students.","這個問題經常被新生問到。"],
+  ["The buses run frequently during rush hour.","公車在尖峰時段班次頻繁。"],
+  ["He frequently forgets where he put his keys.","他經常忘記自己把鑰匙放在哪裡。"],
+  ["These two words are frequently confused.","這兩個字經常被混淆。"],
+  ["We frequently eat out on weekends.","我們週末經常外出用餐。"],
+  ["The website is updated frequently with new content.","這個網站頻繁地更新新內容。"],
+  ["Symptoms appear more frequently in cold weather.","症狀在寒冷的天氣裡出現得更頻繁。"],
+  ["She frequently visits her grandparents in the countryside.","她經常去鄉下探望她的祖父母。"],
+  ["The topic comes up frequently in our discussions.","這個話題在我們的討論中經常出現。"]
+ ]},
+ {w:"Imply", s:[
+  ["Are you trying to imply that I made a mistake?","你是想暗示我犯了錯嗎？"],
+  ["His silence seemed to imply agreement.","他的沉默似乎意味著同意。"],
+  ["I didn't mean to imply that you were lying.","我並不是想暗指你在說謊。"],
+  ["Higher prices often imply better quality.","較高的價格往往意味著較好的品質。"],
+  ["The report implies that changes are needed.","這份報告暗示有做出改變的必要。"],
+  ["Her tone implied that she was not happy.","她的語氣透露出她並不開心。"],
+  ["The word \"cheap\" can imply poor quality.","「便宜」這個詞可能暗示品質不佳。"],
+  ["What exactly are you implying by that remark?","你那句話到底是什麼意思？"],
+  ["The results imply a strong link between the two factors.","這些結果顯示這兩個因素之間有著強烈的關聯。"],
+  ["A promise implies a duty to keep it.","一個承諾意味著有履行它的義務。"]
+ ]},
+ {w:"Reputation", s:[
+  ["The restaurant has an excellent reputation for its seafood.","這家餐廳以其海鮮享有極佳的聲譽。"],
+  ["It takes years to build a good reputation but only moments to lose it.","建立好名聲需要多年，而毀掉它只需片刻。"],
+  ["He has a reputation for being honest and fair.","他以誠實公正著稱。"],
+  ["The scandal damaged the company's reputation.","這起醜聞損害了公司的聲譽。"],
+  ["She earned a reputation as a talented pianist.","她贏得了才華洋溢的鋼琴家的名聲。"],
+  ["The school has a strong reputation for academic excellence.","這所學校以卓越的學術表現享有盛名。"],
+  ["His reputation goes before him wherever he goes.","無論他走到哪裡，他的名聲總是先傳到。"],
+  ["They worked hard to protect their brand's reputation.","他們努力維護自家品牌的聲譽。"],
+  ["A single mistake can ruin a lifetime's reputation.","一個錯誤就可能毀掉一輩子的名聲。"],
+  ["The hotel lived up to its reputation for great service.","這家飯店不負其優質服務的美名。"]
+ ]},
+ {w:"Require", s:[
+  ["This job requires a lot of patience.","這份工作需要很大的耐心。"],
+  ["All passengers are required to wear seat belts.","所有乘客都必須繫安全帶。"],
+  ["The recipe requires three eggs and a cup of flour.","這道食譜需要三顆蛋和一杯麵粉。"],
+  ["Do you require any further assistance?","你還需要任何進一步的協助嗎？"],
+  ["The law requires companies to pay a minimum wage.","法律要求公司支付最低工資。"],
+  ["Success requires hard work and dedication.","成功需要努力與投入。"],
+  ["Please provide any documents that may be required.","請提供任何可能需要的文件。"],
+  ["The plants require plenty of sunlight to grow.","這些植物需要充足的陽光才能生長。"],
+  ["Guests are required to check out by noon.","房客須於中午前辦理退房。"],
+  ["Learning a language requires regular practice.","學習一門語言需要規律的練習。"]
+ ]},
+ {w:"Variety", s:[
+  ["The store offers a wide variety of products.","這家店提供琳瑯滿目的各式商品。"],
+  ["We grow several varieties of tomatoes in our garden.","我們在花園裡種了好幾個品種的番茄。"],
+  ["A balanced diet should include a variety of foods.","均衡的飲食應該包含多樣化的食物。"],
+  ["Variety is the spice of life.","變化是生活的調味料。（多變才有趣味。）"],
+  ["The magazine covers a variety of topics.","這本雜誌涵蓋了各式各樣的主題。"],
+  ["She enjoys the variety that her job offers.","她很享受工作帶來的多樣性。"],
+  ["There is a great variety of wildlife in the forest.","這座森林裡有種類繁多的野生動物。"],
+  ["The show features a variety of musical styles.","這場表演呈現了多種音樂風格。"],
+  ["This is a hardy variety of rose that survives cold winters.","這是一種能挺過寒冬的耐寒玫瑰品種。"],
+  ["They chose this hotel for the variety of its facilities.","他們選擇這家飯店是因為它設施多樣。"]
+ ]},
+ {w:"Coverage", s:[
+  ["The news coverage of the event was extensive.","媒體對這起事件的報導十分廣泛。"],
+  ["Does your insurance offer full coverage for accidents?","你的保險有提供意外的全額理賠嗎？"],
+  ["The phone has poor network coverage in this area.","這支手機在這個地區的網路收訊很差。"],
+  ["The magazine gave the story front-page coverage.","這本雜誌以頭版報導了這則新聞。"],
+  ["Our health plan provides coverage for dental care.","我們的健保方案涵蓋牙科照護。"],
+  ["The game received live coverage on television.","這場比賽在電視上獲得了實況轉播。"],
+  ["There is good mobile coverage across the whole city.","整座城市的行動通訊涵蓋範圍都很好。"],
+  ["The report offers thorough coverage of the topic.","這份報告對該主題做了詳盡的探討。"],
+  ["Wide media coverage helped raise public awareness.","廣泛的媒體報導有助於提高大眾的意識。"],
+  ["The policy's coverage does not include flood damage.","這份保單的理賠範圍不包含水災損失。"]
+ ]},
+ {w:"Warranty", s:[
+  ["The laptop comes with a two-year warranty.","這台筆電附有兩年的保固。"],
+  ["Repairs are free while the product is under warranty.","產品在保固期內維修是免費的。"],
+  ["Keep your receipt to claim the warranty.","保留你的收據以便申請保固。"],
+  ["The warranty does not cover accidental damage.","這項保固不涵蓋意外造成的損壞。"],
+  ["My phone's warranty expires next month.","我手機的保固下個月到期。"],
+  ["You can extend the warranty for an extra fee.","你可以額外付費延長保固。"],
+  ["The car still has six months left on its warranty.","這輛車的保固還剩六個月。"],
+  ["They refused to repair it because the warranty had run out.","他們拒絕維修，因為保固已經失效了。"],
+  ["A good warranty gives customers peace of mind.","良好的保固能讓顧客安心。"],
+  ["The manufacturer honored the warranty and replaced the part.","製造商履行了保固並更換了零件。"]
+ ]},
+ {w:"Address", s:[
+  ["Please write your name and address on the form.","請在表格上寫下你的姓名和地址。"],
+  ["We need to address this problem immediately.","我們需要立即處理這個問題。"],
+  ["The president will address the nation tonight.","總統今晚將向全國發表談話。"],
+  ["What is your email address?","你的電子郵件地址是什麼？"],
+  ["She stood up to address the audience.","她站起來向觀眾致詞。"],
+  ["The report fails to address the real issue.","這份報告未能觸及真正的問題。"],
+  ["He always addresses his teacher politely.","他總是禮貌地稱呼他的老師。"],
+  ["Let me address your concerns one by one.","讓我逐一回應你的疑慮。"],
+  ["They changed their address after moving to a new city.","他們搬到新城市後更改了地址。"],
+  ["The company must address customer complaints quickly.","公司必須迅速處理顧客的投訴。"]
+ ]},
+ {w:"Demonstrate", s:[
+  ["Let me demonstrate how the machine works.","讓我示範這台機器如何運作。"],
+  ["The results clearly demonstrate the benefits of exercise.","這些結果清楚地證明了運動的益處。"],
+  ["She demonstrated great courage during the crisis.","她在危機中展現了極大的勇氣。"],
+  ["The teacher demonstrated the experiment to the class.","老師向全班示範了這個實驗。"],
+  ["Thousands gathered to demonstrate against the new law.","數千人聚集起來抗議這項新法。"],
+  ["He demonstrated his skill by fixing the car in minutes.","他在幾分鐘內修好了車，展現了他的技術。"],
+  ["The study demonstrates a clear link between diet and health.","這項研究證明了飲食與健康之間有明確的關聯。"],
+  ["You must demonstrate that you can do the job.","你必須證明自己能勝任這份工作。"],
+  ["The salesperson demonstrated the product's features.","銷售員展示了這項產品的功能。"],
+  ["His actions demonstrate how much he cares.","他的行為表明了他有多在乎。"]
+ ]},
+ {w:"Evaluate", s:[
+  ["The teacher will evaluate each student's progress.","老師會評估每位學生的進步情況。"],
+  ["We need to evaluate the risks before making a decision.","在做決定之前，我們需要評估風險。"],
+  ["It's hard to evaluate the damage caused by the storm.","很難評估這場風暴造成的損害。"],
+  ["Experts were asked to evaluate the new policy.","專家們被要求評估這項新政策。"],
+  ["Please evaluate your own performance honestly.","請誠實地評量你自己的表現。"],
+  ["The doctor will evaluate your condition tomorrow.","醫生明天會評估你的病況。"],
+  ["We must evaluate whether the plan is worth the cost.","我們必須評估這個計畫是否值得付出這樣的成本。"],
+  ["The committee evaluated all the applications carefully.","委員會仔細審核了所有的申請。"],
+  ["It takes time to evaluate the results of the study.","評估這項研究的結果需要時間。"],
+  ["Learning to evaluate information is a vital skill.","學會評估資訊是一項至關重要的能力。"]
+ ]}
+];
+
+/* ---- speech ---- */
+let voice=null;
+function pickVoice(){
+  const vs=speechSynthesis.getVoices();
+  voice=vs.find(v=>/en-US/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null;
+}
+pickVoice();
+if(speechSynthesis.onvoiceschanged!==undefined){speechSynthesis.onvoiceschanged=pickVoice;}
+function say(text){
+  if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音功能');return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';
+  if(voice)u.voice=voice;
+  u.rate=parseFloat(document.getElementById('rate').value);
+  speechSynthesis.speak(u);
+}
+
+/* ---- build ---- */
+const list=document.getElementById('list');
+DATA.forEach((item,i)=>{
+  const card=document.createElement('div');
+  card.className='word';
+  const num=String(i+1).padStart(2,'0');
+  let html=`<div class="word-head">
+      <span class="num">${num}</span>
+      <span class="term">${item.w}</span>
+      <button class="say-word" title="聽單字發音" data-say="${item.w.replace(/"/g,'&quot;')}">🔊</button>
+    </div><ol class="sentences">`;
+  item.s.forEach((pair,j)=>{
+    const en=pair[0], zh=pair[1];
+    html+=`<li class="s">
+      <span class="s-idx">${j+1}</span>
+      <div class="s-body">
+        <div class="en"><span class="chev">▶</span><span class="txt">${en}</span>
+          <button class="say-s" title="聽句子發音" data-say="${en.replace(/"/g,'&quot;')}">🔊</button></div>
+        <div class="zh">${zh}</div>
+      </div>
+    </li>`;
+  });
+  html+=`</ol>`;
+  card.innerHTML=html;
+  list.appendChild(card);
+});
+
+/* ---- events ---- */
+list.addEventListener('click',e=>{
+  const sayBtn=e.target.closest('[data-say]');
+  if(sayBtn){e.stopPropagation();say(sayBtn.getAttribute('data-say'));return;}
+  const en=e.target.closest('.en');
+  if(en){
+    en.classList.toggle('open');
+    en.parentElement.querySelector('.zh').classList.toggle('show');
+  }
+});
+document.getElementById('expandAll').onclick=()=>{
+  document.querySelectorAll('.en').forEach(el=>el.classList.add('open'));
+  document.querySelectorAll('.zh').forEach(el=>el.classList.add('show'));
+};
+document.getElementById('collapseAll').onclick=()=>{
+  document.querySelectorAll('.en').forEach(el=>el.classList.remove('open'));
+  document.querySelectorAll('.zh').forEach(el=>el.classList.remove('show'));
+};
+</script>
+</body>
+</html>
