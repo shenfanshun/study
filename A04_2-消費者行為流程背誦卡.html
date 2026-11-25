@@ -1,0 +1,1232 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="臺灣菸酒 A04 消費者行為背誦卡。依七站行銷流程整理 Ch1–Ch14，標示民國 110–114 年考點。">
+<title>消費者行為背誦卡｜台酒 A04</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f1f6f3; --surface: #fff; --ink: #20312b; --muted: #4f655a;
+    --accent: #195641; --accent-soft: #e8f3ec; --line: #cbdcd1; --exam: #98550e;
+    --heading: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 var(--heading); }
+  main { max-width: 1120px; padding: 30px 22px 56px; margin: auto; }
+  h1, h2, h3, p, ol { margin: 0; }
+  a { color: var(--accent); text-underline-offset: .18em; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+    outline: 3px solid #177962; outline-offset: 3px;
+  }
+  .hero { padding: 29px clamp(18px, 5vw, 44px); background: #154a39; color: #fff; border-radius: 16px; }
+  .course { color: #c5e8d5; font-size: .86rem; font-weight: 750; letter-spacing: .08em; }
+  h1 { margin-block: 3px 5px; font-size: clamp(1.75rem, 4.3vw, 2.7rem); line-height: 1.28; }
+  .hero .intro { color: #e1f1e8; }
+  .flow { margin-block: 18px; }
+  .flow ol { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; }
+  .flow a { display: flex; min-height: 46px; align-items: center; justify-content: center; padding: 7px 6px;
+    border: 1px solid var(--line); background: var(--surface); border-radius: 8px; text-align: center;
+    font-size: .93rem; font-weight: 700; text-decoration: none; }
+  .flow a:hover { background: var(--accent-soft); }
+  .tools { padding: 14px 17px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  .fields { display: flex; flex-wrap: wrap; align-items: end; gap: 11px 16px; }
+  .field { display: grid; gap: 3px; color: var(--muted); font-size: .84rem; font-weight: 700; }
+  .field.search { flex: 1 1 225px; }
+  .field.chapter { flex: 0 1 208px; }
+  input, select, button { font: inherit; color: var(--ink); }
+  input[type="search"], select { width: 100%; min-height: 42px; border: 1px solid #97b3a4; border-radius: 7px; background: white; padding: 5px 9px; font-size: .96rem; }
+  .toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 42px; font-size: .93rem; cursor: pointer; }
+  input[type="checkbox"] { accent-color: var(--accent); width: 17px; height: 17px; flex: none; }
+  button { border: 1px solid #91ad9e; border-radius: 7px; min-height: 36px; padding: 3px 9px; background: white; cursor: pointer; }
+  button:hover { background: var(--accent-soft); }
+  .tools-foot { border-top: 1px solid var(--line); margin-top: 11px; padding-top: 9px; display: flex; gap: 9px 14px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+  .tools-foot p, .scope { font-size: .88rem; color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 7px; font-size: .86rem; }
+  .scope { margin: 10px 1px 0; }
+  .stage { margin-top: 26px; scroll-margin-top: 12px; }
+  .stage-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 13px; padding: 2px 0 7px; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
+  .stage-head h2 { font-size: 1.55rem; color: #173e31; }
+  .stage-head p { color: var(--muted); font-size: .9rem; }
+  .groups { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; }
+  .groups:has(> .group[hidden]) { grid-template-columns: minmax(0, 1fr); }
+  .group h3 { color: var(--accent); font-size: .93rem; margin: 0 0 6px 1px; }
+  .card { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); margin: 0 0 7px; }
+  .card[open] { border-color: #94b3a2; }
+  .card summary { min-height: 47px; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center;
+    cursor: pointer; padding: 8px 11px; border-radius: 8px; font-weight: 700; line-height: 1.45; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  .card summary:hover, .card[open] summary { background: var(--accent-soft); }
+  .card[open] summary { border-end-start-radius: 0; border-end-end-radius: 0; }
+  .title { overflow-wrap: anywhere; }
+  .exam-year { color: var(--exam); margin-inline-start: .23em; font-size: .68em; font-weight: 800; line-height: 0; vertical-align: super; white-space: nowrap; }
+  .source { color: var(--muted); font-size: .72rem; font-weight: 650; white-space: nowrap; }
+  .indicator::before { content: "+"; }
+  .indicator { display: inline-grid; place-items: center; height: 20px; width: 20px; color: var(--accent); font-size: 1.08rem; line-height: 1; }
+  .card[open] .indicator::before { content: "−"; }
+  .card.is-review .indicator { background: #d7e9dc; border-radius: 50%; }
+  .answer { padding: 12px 13px 10px; }
+  .answer ul { margin: 0; padding-inline-start: 1.35em; }
+  .answer li+li { margin-top: .17em; }
+  .answer-foot { margin-top: 10px; padding-top: 7px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap;
+    gap: 5px 9px; justify-content: flex-end; align-items: center; font-size: .84rem; }
+  .answer-foot:has(> button[hidden]):not(:has(.past)) { display: none; }
+  .answer-foot .past { margin-inline-end: auto; color: var(--exam); }
+  .answer-foot .past a { color: inherit; }
+  .answer-foot button[aria-pressed="true"] { color: var(--accent); border-color: #579578; background: var(--accent-soft); font-weight: 700; }
+  .empty { margin-top: 20px; padding: 14px; background: white; border: 1px solid var(--line); border-radius: 8px; }
+  footer { margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .references { display: flex; flex-wrap: wrap; gap: 5px 14px; margin-top: 8px; font-size: .92rem; }
+  footer summary { cursor: pointer; font-weight: 700; }
+  @media (max-width: 760px) {
+    .flow ol { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .groups { grid-template-columns: minmax(0, 1fr); gap: 7px; }
+  }
+  @media (max-width: 440px) {
+    main { padding-inline: 12px; }
+    .hero { padding-inline: 16px; }
+    .fields .chapter { flex: 1 1 100%; }
+    .fields { gap: 4px 12px; }
+    .card summary { gap: 5px; padding-inline: 8px; }
+  }
+  @media print {
+    body, .hero, .card[open] summary { background: white; color: black; }
+    .hero .course, .hero .intro { color: black; }
+    main { max-width: none; padding: 0; }
+    .tools, .flow, .indicator, .answer-foot button, footer { display: none !important; }
+    .groups { display: block; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main id="top">
+  <header class="hero">
+    <p class="course">臺灣菸酒 115 年行銷企劃 A04</p>
+    <h1>消費者行為背誦卡</h1>
+    <p class="intro">先想定義、項目或順序，再點開卡片核對。</p>
+  </header>
+  <nav class="flow" aria-label="七站行銷流程"><ol><li><a href="#stage-1">發想前</a></li><li><a href="#stage-2">發想立案</a></li><li><a href="#stage-3">生產製造</a></li><li><a href="#stage-4">行銷推廣</a></li><li><a href="#stage-5">正式販售</a></li><li><a href="#stage-6">售後服務</a></li><li><a href="#stage-7">研究改善</a></li></ol></nav>
+  <section class="tools" id="tools" aria-label="背誦卡篩選" hidden>
+    <div class="fields">
+      <label class="field search">搜尋背誦卡<input type="search" id="query" placeholder="例如：知覺、PZB、114"></label>
+      <label class="field chapter">來源章節<select id="chapter"><option value="">全部章節</option><option value="1">Ch1 緒論</option><option value="2">Ch2 消費者行為研究</option><option value="3">Ch3 消費者與市場區隔</option><option value="4">Ch4 消費者服務</option><option value="5">Ch5 消費者抱怨</option><option value="6">Ch6 參考群體</option><option value="7">Ch7 消費者動機與需求</option><option value="8">Ch8 消費者知覺</option><option value="9">Ch9 消費者學習與記憶</option><option value="10">Ch10 消費者態度</option><option value="11">Ch11 消費者人格</option><option value="12">Ch12 消費者決策</option><option value="13">Ch13 消費者與產品創新</option><option value="14">Ch14 消費者與廣告及行銷手法</option><option value="外">考題補充</option></select></label>
+      <label class="toggle"><input type="checkbox" id="exam-only">只看歷屆考點</label>
+      <label class="toggle" id="review-control"><input type="checkbox" id="review-only">只看待複習</label>
+    </div>
+    <div class="tools-foot">
+      <p id="count" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="actions"><button type="button" id="collapse">收合全部答案</button><button type="button" id="reset">清除篩選</button></div>
+    </div>
+  </section>
+  <p class="scope">題尾的 <sup class="exam-year">*年份</sup> 代表民國 110–114 年臺灣菸酒「行銷管理」申論題直接考過。展開可看題次。</p>
+  <p class="empty" id="empty" hidden>沒有符合的卡片。可以縮短關鍵字或清除篩選。</p>
+  <div id="stages">
+    <section class="stage" id="stage-1" aria-labelledby="stage-title-1">
+      <header class="stage-head"><h2 id="stage-title-1">發想前</h2><p>了解需求、動機與參考群體</p></header>
+      <div class="groups">
+        <section class="group" aria-labelledby="group-1-T">
+          <h3 id="group-1-T">專有名詞</h3>
+          <details class="card" data-title="消費者行為" data-chapters="1">
+            <summary><span class="title">消費者行為</span><span class="source">Ch1</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>個人或群體為滿足需求，選擇、購買、使用與處置產品或服務時的決策與行動。涵蓋購前、購買與購後。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="生活型態與 AIO" data-chapters="2">
+            <summary><span class="title">生活型態與 AIO</span><span class="source">Ch2</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>生活型態是人如何過日子。AIO 分為活動（Activities，例如每週運動）、興趣（Interests，例如留意飲料成分）、意見（Opinions，例如願為低糖多付一點）。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="信念、價值、態度與自我概念" data-chapters="2,10,11">
+            <summary><span class="title">信念、價值、態度與自我概念</span><span class="source">Ch2 · Ch10 · Ch11</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>信念是對某事的看法（我相信這款茶零糖）；價值是長期重視的事（我重視健康）；態度是對特定對象較持久的評價（我喜歡這款茶）；自我概念是對自己的看法（我覺得自己重視健康）。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費動機與優勢動機" data-chapters="7">
+            <summary><span class="title">消費動機與優勢動機</span><span class="source">Ch7</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>消費動機是驅使消費者朝目標行動的內在力量。多種動機同時存在時，當下影響最大的叫優勢動機。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="人格特質、自我概念與虛擬自我" data-chapters="11">
+            <summary><span class="title">人格特質、自我概念與虛擬自我</span><span class="source">Ch11</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>人格特質是在不同情境中相對穩定的行為傾向。自我概念是對自身的看法。虛擬自我是個人在網路或虛擬場域呈現的角色。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="參考群體" data-chapters="6">
+            <summary><span class="title">參考群體</span><span class="source">Ch6</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>個人形成價值觀、態度或行為時，用來比較、參考或認同的個人或群體。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="綠色消費者" data-chapters="14">
+            <summary><span class="title">綠色消費者</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>在意消費對環境與永續的影響，可能留意標籤、減少不必要消費，也可能願為符合環境價值的產品支付溢價。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+        <section class="group" aria-labelledby="group-1-C">
+          <h3 id="group-1-C">類別／步驟</h3>
+          <details class="card" data-title="消費者行為的四個特質" data-chapters="1">
+            <summary><span class="title">消費者行為的四個特質</span><span class="source">Ch1</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>動機性：內在需求與外在刺激驅動行動。</li><li>系統性：涵蓋相連的購前、購買與購後過程。</li><li>複雜性：受多種因素影響，偏好因人而異。</li><li>可引導性：資訊及行銷刺激可影響選擇。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="影響消費者行為的四大因素（Kotler）" data-chapters="1,2">
+            <summary><span class="title">影響消費者行為的四大因素（Kotler）</span><span class="source">Ch1 · Ch2</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>文化：文化、次文化、社會階層。</li><li>社會：參考群體、家庭、角色與地位。</li><li>個人：年齡與生命週期、職業、經濟狀況、生活型態、人格與自我概念。</li><li>心理：動機、知覺、學習、信念與態度。</li><li>摘要另有三分法可比較：消費者自身、所購產品或服務、社會環境與情境。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者的三種資源" data-chapters="1">
+            <summary><span class="title">消費者的三種資源</span><span class="source">Ch1</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>經濟知識：知道怎麼選、在哪買、如何使用。</li><li>經濟時間：工作、非自由處置與休閒時間。</li><li>經濟資源：收入、財產與可取得的信用或貸款。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者行為模式要問哪七個問題？" data-chapters="2">
+            <summary><span class="title">消費者行為模式要問哪七個問題？</span><span class="source">Ch2</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>誰買（Who）</li><li>買什麼（What）</li><li>為何買（Why）</li><li>誰參與（With whom）</li><li>如何買（How）</li><li>何時買（When）</li><li>何處買（Where）。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費動機的種類與三個功能" data-chapters="7">
+            <summary><span class="title">消費動機的種類與三個功能</span><span class="source">Ch7</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>種類：生理性（如口渴、飢餓）、心理性（如成就、親和、權力）。</li><li>功能：激勵啟動行為、指向選定目標、維持與調整行動。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="馬斯洛需要層級理論｜五層由低到高" data-chapters="2,7" data-exam="113-Q1">
+            <summary><span class="title">馬斯洛需要層級理論｜五層由低到高<sup class="exam-year" aria-label="民國 113 年考過">*113</sup></span><span class="source">Ch2 · Ch7</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 生理：食物與飲水。</li><li>② 安全：免於威脅、生活穩定，例如投保。</li><li>③ 社會：愛與歸屬，例如與朋友聚餐。</li><li>④ 尊重（摘要稱自我需求）：肯定、自尊與地位，例如取得專業證照。</li><li>⑤ 自我實現：發揮潛能，例如完成個人創作。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2025/10/2-0003-%E3%80%90%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86%E3%80%91-%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C4%E9%A1%8C-A01A02.pdf" target="_blank" rel="noopener">113 年第 1 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="莫瑞的兩類需求" data-chapters="7">
+            <summary><span class="title">莫瑞的兩類需求</span><span class="source">Ch7</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>生理性需求（摘要列 12 種），如水、食物與自我保護。</li><li>心理性需求（摘要列 28 種），摘要以學習任務、人際關係說明。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="赫茲伯格雙因素理論" data-chapters="7">
+            <summary><span class="title">赫茲伯格雙因素理論</span><span class="source">Ch7</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>激勵因素（如成就、認可、工作本身）可提升滿意與動機。</li><li>保健因素（如薪資、政策、工作條件）不足容易帶來不滿，改善可減少不滿。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="麥克利蘭的三種需求" data-chapters="7">
+            <summary><span class="title">麥克利蘭的三種需求</span><span class="source">Ch7</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>成就：達成有挑戰性的目標。</li><li>親和／歸屬：建立友善的人際關係。</li><li>權力：影響或控制他人與環境。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="人格特質的三種主要理論" data-chapters="11">
+            <summary><span class="title">人格特質的三種主要理論</span><span class="source">Ch11</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>心理分析：本我、自我、超我。</li><li>社會心理：摘要列服從型、侵略型、孤立型。</li><li>特徵理論：從可測量且相對穩定的特質理解個人差異。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="佛洛伊德的人格三構面" data-chapters="11">
+            <summary><span class="title">佛洛伊德的人格三構面</span><span class="source">Ch11</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>本我：依原始慾望與享樂原則行動。</li><li>自我：依現實原則協調本我、超我與環境。</li><li>超我：內化的道德、規範與理想。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="參考群體如何分類？" data-chapters="2,6">
+            <summary><span class="title">參考群體如何分類？</span><span class="source">Ch2 · Ch6</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>會員群體：主要群體（家庭、密友，互動熟悉頻繁）、次要群體（工會、聯誼會，互動較少）。</li><li>非會員參考群體：仰慕群體（想接近）、斥拒群體（想避免認同）。</li><li>摘要另列虛擬群體，辨識重點是在網路互動，是否為會員視參與情況而定。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="參考群體的三種影響（Blackwell）" data-chapters="6">
+            <summary><span class="title">參考群體的三種影響（Blackwell）</span><span class="source">Ch6</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>資訊型：採用群體的專業或經驗。</li><li>規範型：為獲得認同、獎賞或避免排斥而配合。</li><li>價值表現型：透過產品或品牌表達我認同誰、我想成為誰。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="參考群體的五種社會權力（French &amp; Raven）" data-chapters="6">
+            <summary><span class="title">參考群體的五種社會權力（French &amp; Raven）</span><span class="source">Ch6</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>專業權：靠知識與技能。</li><li>認同權：靠仰慕與認同。</li><li>獎賞權：可提供回報。</li><li>懲罰權：可施加不利後果。</li><li>合法權：來自群體承認的角色、規範或地位。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="參考群體的四種影響途徑" data-chapters="6,11">
+            <summary><span class="title">參考群體的四種影響途徑</span><span class="source">Ch6 · Ch11</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>社會化：學到習慣、價值與動機。</li><li>自我概念：透過互動調整對自己的看法。</li><li>社會比較：在缺乏客觀標準時，比照他人來評估自己。</li><li>遵從：為配合群體而調整態度或行為。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="哪些因素會改變參考群體的影響力？" data-chapters="6">
+            <summary><span class="title">哪些因素會改變參考群體的影響力？</span><span class="source">Ch6</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>產品：公開使用或屬非必需品時，通常較容易受影響。</li><li>團體：專業、聲望及與產品的相關性。</li><li>個人：認同高、從眾性高，或產品經驗和決策信心低時，較易受影響。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+    <section class="stage" id="stage-2" aria-labelledby="stage-title-2">
+      <header class="stage-head"><h2 id="stage-title-2">發想立案</h2><p>選擇目標客群、定位與品牌</p></header>
+      <div class="groups">
+        <section class="group" aria-labelledby="group-2-T">
+          <h3 id="group-2-T">專有名詞</h3>
+          <details class="card" data-title="異質市場" data-chapters="3" data-exam="112-Q1a">
+            <summary><span class="title">異質市場<sup class="exam-year" aria-label="民國 112 年考過">*112</sup></span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>整體市場的顧客在需求、偏好或購買反應上有明顯差異，可再劃分成內部較相似的群體。例：同是買飲料，有人重視零糖，有人重視價格。</p>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/08/%E5%B0%881-%E3%80%90W0301-W0306%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C-%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88.pdf" target="_blank" rel="noopener">112 年第 1 題（一）</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="STP｜市場區隔、目標市場、產品定位" data-chapters="3">
+            <summary><span class="title">STP｜市場區隔、目標市場、產品定位</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>區隔（S）辨識不同客群，選擇（T）決定優先服務哪些區隔，定位（P）在目標客群心中建立相對於競品的位置。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="家族品牌與個別品牌" data-chapters="12" data-exam="110-Q3">
+            <summary><span class="title">家族品牌與個別品牌<sup class="exam-year" aria-label="民國 110 年考過">*110</sup></span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>家族品牌：多項產品共用同一品牌，可共享知名度與推廣資源，單一品項出問題可能波及全系列。</li><li>個別品牌：產品採不同品牌，可分別定位、隔離部分聲譽風險，品牌建立費用較高。</li><li>民生食品定位相近時，可採家族品牌共享信任；客群或定位差距大時，可考慮個別品牌並分開經營聲譽。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/09/%E5%B0%881-%E3%80%90S6201-S6205%E3%80%81S6206%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C%E3%80%88%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88%E3%80%89V1.pdf" target="_blank" rel="noopener">110 年第 3 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="配銷商品牌／通路自有品牌" data-chapters="12" data-exam="112-Q4">
+            <summary><span class="title">配銷商品牌／通路自有品牌<sup class="exam-year" aria-label="民國 112 年考過">*112</sup></span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>由零售商、批發商或其他通路商掌控的品牌，生產可委由代工廠。發展原因可由掌握貨架與顧客接觸點、建立通路差異、提高毛利及增加議價能力來說明。</p>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/08/%E5%B0%881-%E3%80%90W0301-W0306%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C-%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88.pdf" target="_blank" rel="noopener">112 年第 4 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="品牌延伸與多重品牌" data-chapters="12">
+            <summary><span class="title">品牌延伸與多重品牌</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>品牌延伸是沿用成功的品牌名稱推出其他產品，如茶飲品牌跨到冰品。多重品牌是同一家公司經營多個品牌，如用兩個品牌分別服務高價與平價咖啡市場。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+        <section class="group" aria-labelledby="group-2-C">
+          <h3 id="group-2-C">類別／步驟</h3>
+          <details class="card" data-title="消費者市場的四種區隔變數" data-chapters="3" data-exam="111-Q2a">
+            <summary><span class="title">消費者市場的四種區隔變數<sup class="exam-year" aria-label="民國 111 年考過">*111</sup></span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>地理：例如都會與鄉鎮。</li><li>人口統計：例如年齡、收入。</li><li>心理：例如生活型態、人格、社會階層。</li><li>行為：例如使用率、使用者狀況、忠誠度、追尋利益。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://svc.tabf.org.tw/_File/Download/112ttl01/HistoryPaper/10179374503.pdf" target="_blank" rel="noopener">111 年第 2 題（一）</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="有效市場區隔的四個條件（依摘要）" data-chapters="3">
+            <summary><span class="title">有效市場區隔的四個條件（依摘要）</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>可衡量：能估客群大小或購買力。</li><li>足量：規模或獲利足以服務。</li><li>可接近：通路與傳播能接觸這群人。</li><li>可行動：企業能設計並執行方案。部分教材另列可區別性，可確認課本版本。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="選擇目標市場時應考慮哪些因素？" data-chapters="3" data-exam="111-Q2b">
+            <summary><span class="title">選擇目標市場時應考慮哪些因素？<sup class="exam-year" aria-label="民國 111 年考過">*111</sup></span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>區隔規模與成長：市場大小、成長與獲利是否合適。</li><li>區隔結構吸引力：競爭者、替代品、買賣雙方議價力量等。</li><li>企業目標與資源：是否符合長期目標，是否具備能力。</li><li>這是評估區隔，接下來才決定市場涵蓋策略。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://svc.tabf.org.tw/_File/Download/112ttl01/HistoryPaper/10179374503.pdf" target="_blank" rel="noopener">111 年第 2 題（二）</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="三種目標市場策略與差異" data-chapters="3" data-exam="112-Q1b">
+            <summary><span class="title">三種目標市場策略與差異<sup class="exam-year" aria-label="民國 112 年考過">*112</sup></span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>無差異行銷：一套行銷組合服務整體市場。</li><li>差異化行銷：對多個區隔各設不同的行銷組合。</li><li>集中行銷：資源集中於一個或少數區隔，經營利基。</li><li>例：同一無糖茶打全市場／不同口味對應不同客群／專攻健身族。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/08/%E5%B0%881-%E3%80%90W0301-W0306%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C-%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88.pdf" target="_blank" rel="noopener">112 年第 1 題（二）</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="選擇市場涵蓋策略的五個考量" data-chapters="3">
+            <summary><span class="title">選擇市場涵蓋策略的五個考量</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>公司資源、產品同質性、產品生命週期階段、市場需求同質性、競爭者行銷策略。</li><li>例：資源有限時，可先集中在一個利基市場。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="產品定位的三個要素" data-chapters="3">
+            <summary><span class="title">產品定位的三個要素</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 目標消費者。</li><li>② 產品的重要屬性或利益。</li><li>③ 競爭對手。</li><li>例：對重視控糖的上班族，強調比常見甜茶更適合日常搭餐的無糖選擇。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="產品定位的六種切入方式" data-chapters="3">
+            <summary><span class="title">產品定位的六種切入方式</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>重要特色、利益／解決問題、使用時機、使用者、對抗競爭者、不同產品類別。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="產品定位的六個步驟" data-chapters="3">
+            <summary><span class="title">產品定位的六個步驟</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 了解品牌現有定位。</li><li>② 決定希望建立的定位。</li><li>③ 找出建立該定位的方法。</li><li>④ 檢查企業資源。</li><li>⑤ 長期維持一致。</li><li>⑥ 讓行銷組合支持定位。</li><li>權衡時看競品定位、顧客偏好及所選市場區隔。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="品牌的常見識別要素與建立理由" data-chapters="12">
+            <summary><span class="title">品牌的常見識別要素與建立理由</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>識別：品牌名稱是可稱呼的部分，品牌標誌是可辨識的圖形或符號，商標是可受法律保護的識別標識。</li><li>建立理由：辨識來源、保護品牌識別、建立忠誠、區隔市場、傳達產品特色。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+    <section class="stage" id="stage-3" aria-labelledby="stage-title-3">
+      <header class="stage-head"><h2 id="stage-title-3">生產製造</h2><p>規劃產品、試用與創新採用</p></header>
+      <div class="groups">
+        <section class="group" aria-labelledby="group-3-T">
+          <h3 id="group-3-T">專有名詞</h3>
+          <details class="card" data-title="創新、擴散與採用" data-chapters="13">
+            <summary><span class="title">創新、擴散與採用</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>創新指被使用者視為新的產品、做法或想法。擴散指創新在社會系統內隨時間傳播。採用指個人或組織決定正式使用。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="大量市場途徑與重度使用者目標行銷" data-chapters="13">
+            <summary><span class="title">大量市場途徑與重度使用者目標行銷</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>全面推新品觸及廣，但可能將經費花在低潛力客群上。重度使用者目標行銷先找使用頻率高、可能願意試用的對象，以提高資源集中度。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="產品生命週期（PLC）" data-chapters="13">
+            <summary><span class="title">產品生命週期（PLC）</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>描述產品上市至退出市場的銷售、利潤與競爭型態變化。題目常要求依四個階段比較市場狀況及策略。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="衰退期的收割與撤資" data-chapters="13">
+            <summary><span class="title">衰退期的收割與撤資</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>收割是削減成本或投入，盡量保留剩餘現金流；撤資是退出市場、停售或出售業務。決策前先確認產品確實轉弱。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+        <section class="group" aria-labelledby="group-3-C">
+          <h3 id="group-3-C">類別／步驟</h3>
+          <details class="card" data-title="消費者採用新品的五階段｜排序" data-chapters="13">
+            <summary><span class="title">消費者採用新品的五階段｜排序</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 知曉有新品。</li><li>② 產生興趣並找資料。</li><li>③ 評價是否適合。</li><li>④ 小規模試用。</li><li>⑤ 決定正式或持續使用。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="創新採用者的五大類｜排序" data-chapters="13">
+            <summary><span class="title">創新採用者的五大類｜排序</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>創新者（願冒險）→ 早期採納者（常扮演意見領袖）→ 早期大眾（審慎評估）→ 晚期大眾（多數採用後才跟進）→ 落後者（較依賴傳統）。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="影響新品採用率的五種產品特徵" data-chapters="13">
+            <summary><span class="title">影響新品採用率的五種產品特徵</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>相對優勢：比替代方案好多少。</li><li>相容性／配合性：是否符合現有習慣與價值。</li><li>複雜性：學習與使用的難度。</li><li>可試用性／可分性：能否先小規模體驗。</li><li>可觀察性／溝通性：成效是否容易被看見或描述。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="較易採用創新品的人格特質" data-chapters="11">
+            <summary><span class="title">較易採用創新品的人格特質</span><span class="source">Ch11</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>創新性高、教條主義低、內在導向強、追求獨特性強、喜歡多變與新奇。</li><li>例如樂於試新口味、能接受和既有偏好不同的資訊。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="產品生命週期四階段｜市場狀況與策略" data-chapters="13" data-exam="112-Q2">
+            <summary><span class="title">產品生命週期四階段｜市場狀況與策略<sup class="exam-year" aria-label="民國 112 年考過">*112</sup></span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 導入：銷售慢、推廣與配銷成本高；重點是告知、鼓勵試用、建立通路。</li><li>② 成長：銷售增加、對手加入；改善產品、擴充市場與通路、建立偏好。</li><li>③ 成熟：成長趨緩、競爭激烈；修正市場、改良產品、調整行銷組合。</li><li>④ 衰退：銷售下滑；辨識弱勢產品，評估收割、撤資或集中資源。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/08/%E5%B0%881-%E3%80%90W0301-W0306%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C-%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88.pdf" target="_blank" rel="noopener">112 年第 2 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="產品生命週期可分析哪三個層次？" data-chapters="13">
+            <summary><span class="title">產品生命週期可分析哪三個層次？</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>產品類別通常較長，例如包裝茶飲。</li><li>產品型式通常較貼近典型曲線，例如某一種配方或劑型。</li><li>個別品牌受競爭與經營影響，可能較短或反覆波動。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="導入期的四種策略｜價格 × 促銷" data-chapters="13">
+            <summary><span class="title">導入期的四種策略｜價格 × 促銷</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>快速掠取：高價、高促銷。</li><li>緩慢掠取：高價、低促銷。</li><li>快速滲透：低價、高促銷。</li><li>緩慢滲透：低價、低促銷。</li><li>掠取先看高價，滲透先看低價；快慢看促銷強弱。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="成長期與成熟期的策略要點" data-chapters="13">
+            <summary><span class="title">成長期與成熟期的策略要點</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>成長期：改善品質、增加特色或新形式、開發新區隔與通路、廣告轉向品牌偏好、適時降價。</li><li>成熟期：市場修正（找新客或提高用量）、產品改良（品質、特性、式樣）、調整行銷組合。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+    <section class="stage" id="stage-4" aria-labelledby="stage-title-4">
+      <header class="stage-head"><h2 id="stage-title-4">行銷推廣</h2><p>運用知覺、學習與態度設計訊息</p></header>
+      <div class="groups">
+        <section class="group" aria-labelledby="group-4-T">
+          <h3 id="group-4-T">專有名詞</h3>
+          <details class="card" data-title="知覺" data-chapters="8">
+            <summary><span class="title">知覺</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>個人選擇、組織、解釋感官接收到的資訊，形成有意義的印象。同一則廣告，不同人可能看到不同重點。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="絕對門檻、差異門檻與潛意識知覺" data-chapters="8">
+            <summary><span class="title">絕對門檻、差異門檻與潛意識知覺</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>絕對門檻是可偵測到刺激的最低強度；差異門檻是能察覺兩個刺激不同的最小差距；潛意識知覺指刺激低於自覺辨識程度時，仍可能被處理。</li><li>例：剛聽得到聲音是絕對門檻，剛聽出音量變大是差異門檻。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="意見領袖" data-chapters="6">
+            <summary><span class="title">意見領袖</span><span class="source">Ch6</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>在特定群體中因知識、經驗或信任而影響他人。常見作用是示範行為、整理與傳遞資訊、提供使用或購買意見。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者學習" data-chapters="9">
+            <summary><span class="title">消費者學習</span><span class="source">Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>經驗或觀察使消費者的知識或行為傾向產生相對持久的改變，例如試喝後開始偏好某種口味。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="帕夫洛夫古典制約｜五個縮寫" data-chapters="9">
+            <summary><span class="title">帕夫洛夫古典制約｜五個縮寫</span><span class="source">Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>配對前：肉粉是非制約刺激（US），自然流口水是非制約反應（UR）；鈴聲是中性刺激（NS）。</li><li>反覆配對後：鈴聲成為制約刺激（CS），由鈴聲引發的流口水成為制約反應（CR）。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="順向干擾與逆向干擾" data-chapters="9">
+            <summary><span class="title">順向干擾與逆向干擾</span><span class="source">Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>順向干擾：舊資料干擾新學習，例如舊密碼妨礙記住新密碼。逆向干擾：新資料妨礙提取舊資料，例如改了密碼後想不起舊的。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者態度與涉入程度" data-chapters="10">
+            <summary><span class="title">消費者態度與涉入程度</span><span class="source">Ch10</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>態度是對特定對象經學習而來、相對持久的評價和反應傾向。涉入程度指購買對個人的重要性與相關性，常表現在願意花多少心力搜尋與評估。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="Fishbein 多重屬性態度模式" data-chapters="10">
+            <summary><span class="title">Fishbein 多重屬性態度模式</span><span class="source">Ch10</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>整體態度是各項「信念強度 × 屬性評價」的總和。很相信某茶含糖量高，且把高糖評為負面，會拉低整體評價。</li><li>可增加有利信念、強化信念、改善屬性評價，或讓有利屬性更醒目。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="社會判斷理論" data-chapters="10">
+            <summary><span class="title">社會判斷理論</span><span class="source">Ch10</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>個人用原有態度當作錨點，比較並判斷新訊息。與原立場接近的訊息較可能被接受或同化，差距大的訊息較容易被拒絕。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="廣告" data-chapters="14">
+            <summary><span class="title">廣告</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>由可辨識的贊助者付費，以非人員方式呈現、傳播或推廣產品、服務與理念。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="飢餓行銷與稀少性" data-chapters="14">
+            <summary><span class="title">飢餓行銷與稀少性</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>運用限量、限時等可得性線索，使消費者更重視機會並加快決策。例：明確公告某款禮盒的真實限量批次。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="病毒式、資料庫與客製化行銷" data-chapters="14">
+            <summary><span class="title">病毒式、資料庫與客製化行銷</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>病毒式：藉由人際分享或轉傳擴散訊息。</li><li>資料庫：運用顧客資料辨識客群並規劃溝通。</li><li>客製化：按顧客需求或行為提供相應內容、產品或方案。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="埋伏行銷／伏擊行銷" data-chapters="14">
+            <summary><span class="title">埋伏行銷／伏擊行銷</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>利用重大活動的關注度，主動讓品牌與活動產生聯想，以取得曝光。例：在大型賽事同期投放有賽事元素的品牌廣告。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+        <section class="group" aria-labelledby="group-4-C">
+          <h3 id="group-4-C">類別／步驟</h3>
+          <details class="card" data-title="知覺的三階段與三組影響因素" data-chapters="8">
+            <summary><span class="title">知覺的三階段與三組影響因素</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>階段：展露（刺激接觸感官）→ 注意（投入認知資源）→ 理解（解釋意義）。</li><li>因素：刺激特性（音量、色彩）、刺激脈絡（出現背景）、消費者特性（需求、動機、經驗）。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="四種選擇性機制｜暴露、注意、扭曲、記憶" data-chapters="2,8">
+            <summary><span class="title">四種選擇性機制｜暴露、注意、扭曲、記憶</span><span class="source">Ch2 · Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>選擇性暴露：接不接觸。</li><li>選擇性注意：接觸後注意哪裡。</li><li>選擇性扭曲：用原有想法解讀。</li><li>選擇性記憶：留下哪些資訊。</li><li>例：略過廣告／只看零糖／把茶味濃解讀成苦／隔天只記得零糖。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="完形心理學的四個組織原則" data-chapters="8">
+            <summary><span class="title">完形心理學的四個組織原則</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>封閉性：腦中補齊殘缺圖形。</li><li>相似性：形狀、顏色相似就容易歸為一組。</li><li>接近性：位置靠近容易成組。</li><li>連續性：視線沿同方向延伸。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="古典制約、操作制約與觀察學習如何分辨？" data-chapters="2,9">
+            <summary><span class="title">古典制約、操作制約與觀察學習如何分辨？</span><span class="source">Ch2 · Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>古典制約：刺激與刺激的聯結，例如品牌與愉快聚餐反覆配對。</li><li>操作制約：行為與後果的聯結，例如買茶得點數而增加回購。</li><li>觀察學習：觀察他人行為及結果而學會，例如看同事如何預訂取餐。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="古典制約的三個相關概念" data-chapters="9">
+            <summary><span class="title">古典制約的三個相關概念</span><span class="source">Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>重複：品牌與情境多次配對。</li><li>刺激類化：對相似刺激產生類似反應，例如原品牌好感延伸至相似包裝新品。</li><li>刺激區辨：能辨別相似刺激，例如認出特有標誌。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="操作制約的四種結果" data-chapters="2,9">
+            <summary><span class="title">操作制約的四種結果</span><span class="source">Ch2 · Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>正增強：增加所欲刺激，行為增加，例如回購送點數。</li><li>負增強：移除不欲刺激，行為增加，例如預訂免排隊。</li><li>懲罰：使目標行為減少，例如加收未取貨費讓未取貨減少。</li><li>消弱／消除：原有增強停止，行為逐漸減少。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="增強時程有哪些？" data-chapters="9">
+            <summary><span class="title">增強時程有哪些？</span><span class="source">Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>連續：每次都增強。</li><li>固定時距：如每隔七天後首次開 App 可領券。</li><li>變動時距：放券間隔不定。</li><li>固定比率：如每買五杯給券。</li><li>變動比率：如每次消費有抽中機會，得獎所需購買次數不定。</li><li>看時間是時距，看次數是比率。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="Bandura 觀察學習四階段｜排序" data-chapters="2,9">
+            <summary><span class="title">Bandura 觀察學習四階段｜排序</span><span class="source">Ch2 · Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 注意：留意示範。</li><li>② 保持：把做法記住。</li><li>③ 再生：有能力重現。</li><li>④ 動機：有理由去做，例如為了省時間而實際預訂。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="三種記憶系統" data-chapters="9">
+            <summary><span class="title">三種記憶系統</span><span class="source">Ch9</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>感官記憶：很短地保留感官印象。</li><li>短期記憶：暫時保留、處理目前使用的少量資訊。</li><li>長期記憶：較持久地儲存知識與經驗。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="態度的 ABC 三成分" data-chapters="2,10">
+            <summary><span class="title">態度的 ABC 三成分</span><span class="source">Ch2 · Ch10</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>A 情感（Affect）：我喜不喜歡？</li><li>B 行為／行為意向（Behavior）：我想不想買或怎麼做？</li><li>C 認知（Cognition）：我知道或相信什麼？</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="改變態度的三種策略與涉入因素" data-chapters="10">
+            <summary><span class="title">改變態度的三種策略與涉入因素</span><span class="source">Ch10</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>改變情感：用形象、音樂或反覆接觸建立好感。</li><li>改變行為：提供試用或樣品促成第一步。</li><li>改變認知：用具體產品證據修正信念。</li><li>影響涉入的因素：價格、經驗、興趣、風險、情境、社會外顯性。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="計畫行為理論（TPB）｜三個前因" data-chapters="10">
+            <summary><span class="title">計畫行為理論（TPB）｜三個前因</span><span class="source">Ch10</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>對行為的態度（值不值得做）、主觀規範（重要他人是否支持）、知覺行為控制（覺得自己能否做到）共同影響行為意圖。意圖與實際可控條件有助於解釋行為是否發生。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="推敲可能性模型（ELM）的兩條路徑" data-chapters="10">
+            <summary><span class="title">推敲可能性模型（ELM）的兩條路徑</span><span class="source">Ch10</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>中央路徑：有動機與能力時仔細看論點，例如比較成分與實測。</li><li>邊陲路徑：較少深入處理時依賴線索，例如代言人、音樂或熟悉的品牌。</li><li>涉入通常影響路徑，也要看受眾是否有能力處理訊息。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="廣告功能有哪些？（依摘要）" data-chapters="14">
+            <summary><span class="title">廣告功能有哪些？（依摘要）</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>告知：讓顧客知道新產品或新功能。</li><li>說服：建立偏好與購買理由。</li><li>提醒：讓既有品牌保持在記憶中。</li><li>摘要另列「生產性」，可依該講義理解為透過表現方式塑造想像。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="推廣組合的四種類別與差異" data-chapters="14,外" data-exam="111-Q1">
+            <summary><span class="title">推廣組合的四種類別與差異<sup class="exam-year" aria-label="民國 111 年考過">*111</sup></span><span class="source">Ch14 · 考題補充</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>廣告：付費的非人員傳播。</li><li>人員銷售：人員與顧客互動、說明並協商。</li><li>銷售促進：用短期誘因刺激購買，如試用或折價。</li><li>公共關係：與相關公眾建立關係與信任，例如媒體溝通。</li><li>依既有行銷摘要的四類整理。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://svc.tabf.org.tw/_File/Download/112ttl01/HistoryPaper/10179374503.pdf" target="_blank" rel="noopener">111 年第 1 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="三種促銷工具與經銷商促銷的用途" data-chapters="外" data-exam="110-Q2">
+            <summary><span class="title">三種促銷工具與經銷商促銷的用途<sup class="exam-year" aria-label="民國 110 年考過">*110</sup></span><span class="source">考題補充</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>消費者：用折價券、樣品、集點等刺激購買。</li><li>經銷商：用進貨折讓、陳列津貼、銷售獎勵等爭取上架及陳列，鼓勵通路備貨與主動推薦。</li><li>企業與銷售人員：用商展、業務競賽等開發商機及獎勵推銷。</li><li>這是行銷管理考題補充。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/09/%E5%B0%881-%E3%80%90S6201-S6205%E3%80%81S6206%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C%E3%80%88%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88%E3%80%89V1.pdf" target="_blank" rel="noopener">110 年第 2 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="置入行銷可以出現在哪些地方？" data-chapters="14">
+            <summary><span class="title">置入行銷可以出現在哪些地方？</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>畫面：產品或標誌入鏡。</li><li>台詞：角色說出品牌名。</li><li>情節：產品成為故事的一部分。</li><li>還可依視覺／聽覺的顯著程度區分，同一置入可同時跨類。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="網路行銷的三個目標與雙方優缺點" data-chapters="14">
+            <summary><span class="title">網路行銷的三個目標與雙方優缺點</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>目標：吸引新顧客、留住舊顧客、提高重訪。</li><li>消費者：省時間與地點限制、方便比價；也要考量安全、無法實看、交付與退換貨。</li><li>企業：擴大市場、降低部分通路成本、改善溝通；也面臨資訊競爭、遠端互動及交易信任問題。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+    <section class="stage" id="stage-5" aria-labelledby="stage-title-5">
+      <header class="stage-head"><h2 id="stage-title-5">正式販售</h2><p>理解顧客怎麼搜尋、比較與購買</p></header>
+      <div class="groups">
+        <section class="group" aria-labelledby="group-5-T">
+          <h3 id="group-5-T">專有名詞</h3>
+          <details class="card" data-title="知覺風險" data-chapters="8">
+            <summary><span class="title">知覺風險</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>消費者預期購買結果可能不確定或帶來損失時，主觀感受到的風險。可用試用、明確保固、評價與完整資訊降低風險。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="喚起集合（Evoked Set）" data-chapters="12">
+            <summary><span class="title">喚起集合（Evoked Set）</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>消費者認識並願意認真納入購買比較的品牌。例：想買無糖茶時腦中先想到三個可能會買的品牌，這三個就是喚起集合。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+        <section class="group" aria-labelledby="group-5-C">
+          <h3 id="group-5-C">類別／步驟</h3>
+          <details class="card" data-title="六種知覺風險" data-chapters="8">
+            <summary><span class="title">六種知覺風險</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>財務：花錢卻不值得。</li><li>績效／功能：商品無法達到要求。</li><li>身體：使用可能受傷。</li><li>心理：與自我形象不符、產生負面情緒。</li><li>社會：不被他人認同。</li><li>時間：搜尋、等待、退換等耗時。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="三種動機衝突" data-chapters="8">
+            <summary><span class="title">三種動機衝突</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>雙趨：兩個選項都想要，須取其一。</li><li>雙避：兩個都想避開，須取其一。</li><li>趨避：同一選項同時有好處與代價，例如想買但覺得太貴。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="心理定價的四種方式（依摘要）" data-chapters="8">
+            <summary><span class="title">心理定價的四種方式（依摘要）</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>畸零定價：例如 1,000 元改為 999 元。</li><li>習慣性定價：符合顧客長期習慣的價位。</li><li>名望定價：用較高價格傳達地位或高品質形象。</li><li>知覺價值定價：以顧客感受到的價值為定價基礎。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="按購買目標明確程度如何分類？" data-chapters="1">
+            <summary><span class="title">按購買目標明確程度如何分類？</span><span class="source">Ch1</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>全確定：品項或品牌已很明確。</li><li>半確定：有大致目標但尚需挑選。</li><li>不確定：缺少明確選購目標，資訊或推薦容易影響決定。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="按購買態度與要求可分哪七類？" data-chapters="1">
+            <summary><span class="title">按購買態度與要求可分哪七類？</span><span class="source">Ch1</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>習慣型、理智型、價格型、衝動型、感情型、疑慮型、隨意型。</li><li>例如價格型著重折扣或比價，理智型著重有目的地評估資料。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="購買現場的五種情感反應（依摘要）" data-chapters="1">
+            <summary><span class="title">購買現場的五種情感反應（依摘要）</span><span class="source">Ch1</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>沉默型、溫順型、健談型、反抗型、激動型。這一組看當下互動表現。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="五種購買角色" data-chapters="12">
+            <summary><span class="title">五種購買角色</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>發起者提出需求，影響者提供意見，決定者拍板，購買者實際執行購買，使用者實際使用。同一人可以兼任多個角色。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="四種購買行為｜涉入 × 品牌差異" data-chapters="1,12">
+            <summary><span class="title">四種購買行為｜涉入 × 品牌差異</span><span class="source">Ch1 · Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>高涉入、差異大：複雜購買（仔細比較筆電）。</li><li>高涉入、差異小：降低失調的購買（選相近的床墊）。</li><li>低涉入、差異大：尋求多樣化（嘗試不同口味零食）。</li><li>低涉入、差異小：習慣性購買（順手買常用的鹽）。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="三種購買決策｜名義型、有限型、擴展型" data-chapters="1,12" data-exam="112-Q3b">
+            <summary><span class="title">三種購買決策｜名義型、有限型、擴展型<sup class="exam-year" aria-label="民國 112 年考過">*112</sup></span><span class="source">Ch1 · Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>名義／例行型：低涉入，依習慣或品牌忠誠，幾乎不搜尋。</li><li>有限型：用少量資訊比較有限選項。</li><li>擴展／廣泛型：高涉入，大量搜尋並比較多個方案。</li><li>可用買常用茶飲、比較兩款新飲料、選購房屋舉例。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/08/%E5%B0%881-%E3%80%90W0301-W0306%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C-%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88.pdf" target="_blank" rel="noopener">112 年第 3 題（二）</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="四種消費者決策觀點" data-chapters="12">
+            <summary><span class="title">四種消費者決策觀點</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>經濟：假定理性而完整比較。</li><li>被動：較受行銷刺激、促銷與銷售手法左右。</li><li>認知：搜尋資訊，在限制下理性決策。</li><li>情緒：重視當下感受與情感。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者購買決策五階段｜排序與例子" data-chapters="1,12" data-exam="112-Q3a,113-Q4">
+            <summary><span class="title">消費者購買決策五階段｜排序與例子<sup class="exam-year" aria-label="民國 112 年考過">*112</sup><sup class="exam-year" aria-label="民國 113 年考過">*113</sup></span><span class="source">Ch1 · Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 需求確認：舊鞋磨損，想到換鞋。</li><li>② 資訊搜尋：問朋友、看評測、到店試穿。</li><li>③ 方案評估：比較價格、舒適度與耐用性。</li><li>④ 購買決策：選款式、店家與時間，仍可能受他人態度或突然缺貨影響。</li><li>⑤ 購後行為：評估滿意度、決定回購、分享、退換或處置。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/08/%E5%B0%881-%E3%80%90W0301-W0306%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C-%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88.pdf" target="_blank" rel="noopener">112 年第 3 題（一）</a>、<a href="https://ttl.mcu.edu.tw/wp-content/uploads/2025/10/2-0003-%E3%80%90%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86%E3%80%91-%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C4%E9%A1%8C-A01A02.pdf" target="_blank" rel="noopener">113 年第 4 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者資訊的四個主要來源" data-chapters="12" data-exam="114-Q1">
+            <summary><span class="title">消費者資訊的四個主要來源<sup class="exam-year" aria-label="民國 114 年考過">*114</sup></span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>個人來源：家人、朋友、鄰居的建議。</li><li>商業來源：廣告、銷售人員、官網、展示與包裝。</li><li>公共來源：新聞媒體、第三方評鑑機構。</li><li>經驗來源：檢視、試用與實際使用產品。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://chatgpt.com/library?file_id=libfile_eb6831309ebc8191a346b59421e3df87&amp;account_id=personal" target="_blank" rel="noopener">114 年第 1 題</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="五種消費者決策法則" data-chapters="12">
+            <summary><span class="title">五種消費者決策法則</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>補償性：強項可彌補弱項，綜合比較。</li><li>連結式：每項都過各自最低門檻。</li><li>非連結式：至少一項達到要求即可列入。</li><li>依序比較：先選最重要屬性上最佳的，平手再比次要屬性。</li><li>逐項剔除：依重要順序設定門檻，逐關淘汰不合格者。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者認識的品牌有哪些集合？" data-chapters="12">
+            <summary><span class="title">消費者認識的品牌有哪些集合？</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>未知集合：消費者不知道的品牌。</li><li>知曉集合可分喚起集合（會認真考慮）、惰性集合（沒有明顯好惡，可能留作備選）、嫌惡集合（排除或避開）。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="影響購買決策的兩個干擾因素" data-chapters="12">
+            <summary><span class="title">影響購買決策的兩個干擾因素</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>他人態度：原本想買，親友意見改變選擇。</li><li>非預期情境：例如缺貨、折扣提前結束或預算突然減少。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者情境的三種類型與五項特質" data-chapters="12">
+            <summary><span class="title">消費者情境的三種類型與五項特質</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>類型：溝通、購買、使用。</li><li>特質：實體環境（燈光、天候）、社會環境（人潮、同伴）、時間性（趕不趕）、任務（自用或送禮）、事前狀態（心情、疲倦程度）。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+    <section class="stage" id="stage-6" aria-labelledby="stage-title-6">
+      <header class="stage-head"><h2 id="stage-title-6">售後服務</h2><p>提升滿意度、處理抱怨與補救</p></header>
+      <div class="groups">
+        <section class="group" aria-labelledby="group-6-T">
+          <h3 id="group-6-T">專有名詞</h3>
+          <details class="card" data-title="SERVQUAL 與 PZB 服務品質缺口模型" data-chapters="4">
+            <summary><span class="title">SERVQUAL 與 PZB 服務品質缺口模型</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>SERVQUAL 用五個構面衡量服務品質；PZB 缺口模型用五個落差診斷問題發生在哪個環節。可用「顧客評什麼」和「問題出在哪」來分辨。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="期待不一致理論與購後滿意" data-chapters="4,12">
+            <summary><span class="title">期待不一致理論與購後滿意</span><span class="source">Ch4 · Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>績效超出期待是正向不一致，通常提高滿意；符合期待是一致；低於期待是負向不一致，容易不滿。可管理事前期待、改善服務績效並提供回饋管道。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="知覺品質、知覺價值與顧客滿意" data-chapters="4">
+            <summary><span class="title">知覺品質、知覺價值與顧客滿意</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>知覺品質是顧客對表現好壞的判斷；知覺價值衡量所得利益與付出；顧客滿意是把體驗和原先期待放在一起的整體評價。滿意可能進一步影響留存和績效。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="公平理論" data-chapters="4">
+            <summary><span class="title">公平理論</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>顧客會比較自己與他人的「所得相對於付出」比例。例：相同房型及條件，朋友少付費又多一份早餐，自己可能感到不公平。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="全面品質管理（TQM）" data-chapters="4">
+            <summary><span class="title">全面品質管理（TQM）</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>以顧客需求為中心，由各部門持續改善品質。包含重視內部顧客、與供應商協作、衡量滿意度並處理抱怨。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="顧客需求 DHD 與顧客關係管理（CRM）" data-chapters="5">
+            <summary><span class="title">顧客需求 DHD 與顧客關係管理（CRM）</span><span class="source">Ch5</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>DHD：需求（Demand）、期望（Hope）、夢想／理想（Dream）。</li><li>CRM：持續整理顧客資訊及互動，解決問題並經營長期關係，如追蹤退換貨是否真正結案。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="服務補救" data-chapters="5">
+            <summary><span class="title">服務補救</span><span class="source">Ch5</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>服務失誤後，企業透過回應、修正、道歉或適當補償來改善顧客體驗並重建信任。</li><li>摘要三個重點：服務保證、妥善回應失誤、鼓勵顧客再次光臨。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="購後認知失調" data-chapters="12">
+            <summary><span class="title">購後認知失調</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>購買後因選擇與原信念或其他選項的優點產生衝突，而感到不安。業者可提供使用指引、保固、清楚的退換貨管道與購後溝通。</li><li>例：買完高價商品後，因看到其他品牌的優點而懷疑自己的決定。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+        <section class="group" aria-labelledby="group-6-C">
+          <h3 id="group-6-C">類別／步驟</h3>
+          <details class="card" data-title="服務的四種特性" data-chapters="4">
+            <summary><span class="title">服務的四種特性</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>無形性：購前難以檢查服務結果。</li><li>不可分割性：提供與接受通常同時發生。</li><li>異質性：人、時間、地點改變，品質可能不同。</li><li>易逝性：未使用的服務產能無法留到以後，例如當天未售出的客房。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="SERVQUAL 的五個構面" data-chapters="4">
+            <summary><span class="title">SERVQUAL 的五個構面</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>有形性：設備、環境、人員外觀。</li><li>可靠性：準確履行承諾。</li><li>反應性：有意願迅速幫忙。</li><li>保證性：以專業和禮貌建立信心。</li><li>關懷性：提供個別照顧與同理。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="PZB 模型的五個服務缺口" data-chapters="4">
+            <summary><span class="title">PZB 模型的五個服務缺口</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>① 顧客期望 ↔ 管理者對顧客期望的認知。</li><li>② 管理者認知 ↔ 服務品質規格。</li><li>③ 品質規格 ↔ 實際服務傳遞。</li><li>④ 實際傳遞 ↔ 對外承諾。</li><li>⑤ 顧客期望 ↔ 顧客感受到的服務。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="服務決策與顧客服務部門的工作" data-chapters="4">
+            <summary><span class="title">服務決策與顧客服務部門的工作</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>三種決策：服務組合（提供什麼）、服務水準（做到何種程度）、服務型式（如何提供、怎麼收費）。</li><li>部門五項工作：抱怨及調整、信用服務、保養維護、技術指導、資訊提供。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="顧客抱怨的五種原因" data-chapters="5">
+            <summary><span class="title">顧客抱怨的五種原因</span><span class="source">Ch5</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>對產品或服務內容不滿、對服務人員不滿、顧客本身原因、不理解作業方式、不認同規章制度。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="消費者不滿後可能有哪些反應？" data-chapters="5">
+            <summary><span class="title">消費者不滿後可能有哪些反應？</span><span class="source">Ch5</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>直接／公開反應：向企業抱怨、要求賠償。</li><li>私下反應：停止購買或抵制、向親友轉述不愉快經驗。</li><li>第三方反應：向消費者組織、相關機關等提出申訴。</li><li>各類反應可能同時發生。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="客訴處理的五項原則" data-chapters="5">
+            <summary><span class="title">客訴處理的五項原則</span><span class="source">Ch5</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>正視抱怨並展現誠意、傾聽與記錄、授權第一線及時處理、設定回覆預期、回饋相關部門並改善。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="防止客訴重演的四項準則" data-chapters="5">
+            <summary><span class="title">防止客訴重演的四項準則</span><span class="source">Ch5</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>找出失誤 → 主動矯正 → 依情況道歉與賠償 → 檢討改進。</li><li>處理後可告知顧客改善進度，並將案例用於員工訓練。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="購後行為要觀察哪三個面向？" data-chapters="12">
+            <summary><span class="title">購後行為要觀察哪三個面向？</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>滿意度：比較期望與感受到的績效。</li><li>後續行為：回購、推薦、抱怨或退貨。</li><li>使用與處置：實際怎麼用、是否出現新用途、何時如何處置。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+    <section class="stage" id="stage-7" aria-labelledby="stage-title-7">
+      <header class="stage-head"><h2 id="stage-title-7">研究改善</h2><p>衡量顧客反應，回饋下一輪決策</p></header>
+      <div class="groups">
+        <section class="group" aria-labelledby="group-7-T">
+          <h3 id="group-7-T">專有名詞</h3>
+          <details class="card" data-title="品牌忠誠的兩個面向" data-chapters="3">
+            <summary><span class="title">品牌忠誠的兩個面向</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>同時觀察顧客偏好有多強、是否重複購買。經常購買可能源於便利；高度偏好也可能因價格或通路限制而未形成回購。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="初級資料與次級資料" data-chapters="外" data-exam="113-Q2a">
+            <summary><span class="title">初級資料與次級資料<sup class="exam-year" aria-label="民國 113 年考過">*113</sup></span><span class="source">考題補充</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>初級資料是為目前問題新蒐集的，例如本次試飲問卷。次級資料是先前已蒐集、現拿來使用的，例如既有銷售紀錄。</li><li>這是行銷管理考題補充。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2025/10/2-0003-%E3%80%90%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86%E3%80%91-%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C4%E9%A1%8C-A01A02.pdf" target="_blank" rel="noopener">113 年第 2 題（一）</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="點閱率（CTR）與轉換率" data-chapters="14">
+            <summary><span class="title">點閱率（CTR）與轉換率</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>CTR＝點擊次數 ÷ 曝光次數。</li><li>轉換率＝完成目標的次數 ÷ 所定義的基準量。本講義以「點廣告後完成下單 ÷ 廣告點擊」為例。</li><li>檢視成效也可搭配造訪次數及停留時間。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+        <section class="group" aria-labelledby="group-7-C">
+          <h3 id="group-7-C">類別／步驟</h3>
+          <details class="card" data-title="品牌忠誠度的四種型態" data-chapters="3">
+            <summary><span class="title">品牌忠誠度的四種型態</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>低偏好、低重購：無忠誠。</li><li>低偏好、高重購：惰性／虛假忠誠。</li><li>高偏好、低重購：渴望／潛在忠誠。</li><li>高偏好、高重購：高度／真正忠誠。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="衡量品牌忠誠的五個線索" data-chapters="3">
+            <summary><span class="title">衡量品牌忠誠的五個線索</span><span class="source">Ch3</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <p>購買次數與頻率、挑選投入的時間、對品牌價格變動的敏感度、對競爭品的態度、對品牌品質的態度。</p>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="顧客滿意的 13 個衡量面向（依摘要）" data-chapters="4">
+            <summary><span class="title">顧客滿意的 13 個衡量面向（依摘要）</span><span class="source">Ch4</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>顧客期望、知覺品質、知覺價值、顧客滿意、顧客抱怨、顧客忠誠、顧客對話、顧客印象、抱怨處理、物價指數、情感認同、計量認同、產業滿意驅動因子。</li><li>記憶時可分成「期待與評價」「忠誠與互動」「認同與產業指標」三組。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="歸因理論的三種判斷線索" data-chapters="8">
+            <summary><span class="title">歸因理論的三種判斷線索</span><span class="source">Ch8</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>區別性：同一個人遇到其他產品是否也有此反應？</li><li>共識性：其他人遇到同一產品是否也如此？</li><li>一致性：同一個人在不同時間遇到同一產品，反應是否相同？</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="研究消費者行為的兩種視角（依摘要）" data-chapters="2">
+            <summary><span class="title">研究消費者行為的兩種視角（依摘要）</span><span class="source">Ch2</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>整體方法：觀察行銷與環境刺激如何進入購買者的意識並影響反應。</li><li>管理方法：從企業決策出發，研究誰買、買什麼、為何買、如何買、何時買、在哪買。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="市場調查的三種資料蒐集方法" data-chapters="外" data-exam="113-Q2b">
+            <summary><span class="title">市場調查的三種資料蒐集方法<sup class="exam-year" aria-label="民國 113 年考過">*113</sup></span><span class="source">考題補充</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>問卷調查訪談法：直接詢問知識、偏好或意見。</li><li>觀察法：記錄實際行為，例如貨架前停留。</li><li>實驗法：操弄條件並比較結果，例如用兩組不同包裝測試選購差異。</li><li>這是行銷管理考題補充。</li></ul>
+              <div class="answer-foot"><p class="past">考過題次 <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2025/10/2-0003-%E3%80%90%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86%E3%80%91-%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C4%E9%A1%8C-A01A02.pdf" target="_blank" rel="noopener">113 年第 2 題（二）</a></p><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="研究購買決策過程的四種方法" data-chapters="12">
+            <summary><span class="title">研究購買決策過程的四種方法</span><span class="source">Ch12</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>內省法：研究人員想自己會怎麼買。</li><li>回顧法：問已購買者當時怎麼買。</li><li>展望法：問準備買的人預計怎麼買。</li><li>規範法：問理想上應該怎麼買。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="網路資訊行為的六項衡量指標" data-chapters="14">
+            <summary><span class="title">網路資訊行為的六項衡量指標</span><span class="source">Ch14</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>寬度：造訪多少類網站。</li><li>長度：每一類平均造訪幾個網站。</li><li>深度：單站瀏覽多少頁。</li><li>另三項是停留時間、搜尋引擎使用比率、造訪網站關聯性。</li><li>寬度看類型、長度看站數、深度看頁面。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+          <details class="card" data-title="市場演進與新進廠商的三種定位" data-chapters="13">
+            <summary><span class="title">市場演進與新進廠商的三種定位</span><span class="source">Ch13</span><span class="indicator" aria-hidden="true"></span></summary>
+            <div class="answer">
+              <ul><li>市場由萌芽（潛在需求）進入成長（競爭者進入），再到成熟（主要客群已有供應者），也可能出現把不同需求放進同一產品的市場結合。</li><li>新進者可選單一利基、大量市場或多重利基策略。</li></ul>
+              <div class="answer-foot"><button type="button" class="review" aria-pressed="false" hidden>標為待複習</button></div>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+  </div>
+  <footer>
+    <details>
+      <summary>章節摘要與歷屆考題來源</summary>
+      <div class="references">
+        <a href="https://chatgpt.com/library?file_id=libfile_39ca92c841dc8191a8bcd9f788bbbb01&amp;account_id=personal" target="_blank" rel="noopener">Ch1 緒論</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_05ba6cde16e4819184d232a61467f34b&amp;account_id=personal" target="_blank" rel="noopener">Ch2 消費者行為研究</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_1eb1897f46048191a308e36ff20d6471&amp;account_id=personal" target="_blank" rel="noopener">Ch3 消費者與市場區隔</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_9c45b10013788191823635a3c2d682d3&amp;account_id=personal" target="_blank" rel="noopener">Ch4 消費者服務</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_aa2f7fdbea988191b00fef934dd3e91a&amp;account_id=personal" target="_blank" rel="noopener">Ch5 消費者抱怨</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_8498edaa74fc81918fde166de7adf44e&amp;account_id=personal" target="_blank" rel="noopener">Ch6 參考群體</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_c11b841c1348819187192fba706832b8&amp;account_id=personal" target="_blank" rel="noopener">Ch7 消費者動機與需求</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_f815e8eab42881918e91759635c89930&amp;account_id=personal" target="_blank" rel="noopener">Ch8 消費者知覺</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_6401dcf97d5c819180403a1b6680e3d8&amp;account_id=personal" target="_blank" rel="noopener">Ch9 消費者學習與記憶</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_c94f8ac8fddc8191829d19cb5a8d9b72&amp;account_id=personal" target="_blank" rel="noopener">Ch10 消費者態度</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_5353b987fbb881919da246f5cfb96d91&amp;account_id=personal" target="_blank" rel="noopener">Ch11 消費者人格</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_e882fe119d4c8191aad21040d0bdb6df&amp;account_id=personal" target="_blank" rel="noopener">Ch12 消費者決策</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_9d82e196392481918e29638675d1c3b8&amp;account_id=personal" target="_blank" rel="noopener">Ch13 消費者與產品創新</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_14136a7b078081919d4ea9813c3a0880&amp;account_id=personal" target="_blank" rel="noopener">Ch14 消費者與廣告及行銷手法</a>
+        <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/09/%E5%B0%881-%E3%80%90S6201-S6205%E3%80%81S6206%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C%E3%80%88%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88%E3%80%89V1.pdf" target="_blank" rel="noopener">110 年試題</a>
+        <a href="https://svc.tabf.org.tw/_File/Download/112ttl01/HistoryPaper/10179374503.pdf" target="_blank" rel="noopener">111 年試題</a>
+        <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2024/08/%E5%B0%881-%E3%80%90W0301-W0306%E3%80%91%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86-%E9%9D%9E%E9%81%B8%E9%A1%8C4%E9%A1%8C-%E8%A9%A6%E9%A1%8C%E7%89%88%E5%85%AC%E5%91%8A%E7%89%88.pdf" target="_blank" rel="noopener">112 年試題</a>
+        <a href="https://ttl.mcu.edu.tw/wp-content/uploads/2025/10/2-0003-%E3%80%90%E8%A1%8C%E9%8A%B7%E7%AE%A1%E7%90%86%E3%80%91-%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C4%E9%A1%8C-A01A02.pdf" target="_blank" rel="noopener">113 年試題</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_eb6831309ebc8191a346b59421e3df87&amp;account_id=personal" target="_blank" rel="noopener">114 年考題整理</a>
+        <a href="https://chatgpt.com/library?file_id=libfile_b906e984fc648191975cfbeeb4ebc78f&amp;account_id=personal" target="_blank" rel="noopener">行銷流程背誦卡</a>
+      </div>
+    </details>
+    <p class="scope"><a href="#top">回頁首</a></p>
+  </footer>
+</main>
+<script>
+(() => {
+  'use strict';
+  const stages = [...document.querySelectorAll('.stage')];
+  const cardElements = [...document.querySelectorAll('.card')];
+  const groups = [...document.querySelectorAll('.group')];
+  const query = document.getElementById('query');
+  const chapter = document.getElementById('chapter');
+  const examOnly = document.getElementById('exam-only');
+  const reviewOnly = document.getElementById('review-only');
+  const count = document.getElementById('count');
+  const empty = document.getElementById('empty');
+  const reviewControls = document.getElementById('review-control');
+  const storageKey = 'ttl-a04-consumer-behavior-review-v1';
+  const canSave = (() => {
+    try { return Boolean(window.localStorage); }
+    catch { return false; }
+  })();
+  let selection = [];
+  if (canSave) {
+    try {
+      const stored = JSON.parse(localStorage.getItem(storageKey));
+      if (Array.isArray(stored)) selection = stored.filter(id => typeof id === 'string');
+    } catch {}
+  }
+  const normalize = text => text.normalize('NFKC').toLocaleLowerCase('zh-Hant-TW');
+  const cards = cardElements.map(element => ({
+    element,
+    id: element.dataset.title,
+    chapters: element.dataset.chapters.split(','),
+    hasExam: element.hasAttribute('data-exam'),
+    button: element.querySelector('.review'),
+    searchText: normalize(element.textContent)
+  }));
+
+  const review = new Set(cards.filter(card => selection.includes(card.id)).map(card => card.id));
+
+  function applyFilters() {
+    const words = normalize(query.value).trim().split(/\s+/).filter(Boolean);
+    let visible = 0;
+    for (const card of cards) {
+      const show = (!chapter.value || card.chapters.includes(chapter.value))
+        && (!examOnly.checked || card.hasExam)
+        && (!reviewOnly.checked || review.has(card.id))
+        && words.every(word => card.searchText.includes(word));
+      card.element.hidden = !show;
+      if (!show) card.element.open = false;
+      if (show) visible++;
+    }
+    for (const group of groups) group.hidden = !group.querySelector('.card:not([hidden])');
+    for (const stage of stages) stage.hidden = !stage.querySelector('.card:not([hidden])');
+    empty.hidden = visible !== 0;
+    count.textContent = '顯示 ' + visible + '／' + cards.length + ' 張 · 待複習 ' + review.size + ' 張';
+  }
+
+  function updateReview(card) {
+    const marked = review.has(card.id);
+    card.element.classList.toggle('is-review', marked);
+    card.button.setAttribute('aria-pressed', String(marked));
+    card.button.textContent = marked ? '取消待複習' : '標為待複習';
+    card.button.setAttribute('aria-label', card.button.textContent + '：' + card.id);
+  }
+
+  // Use the title without its year badges as the stable review key.
+  for (const card of cards) {
+    if (!card.button) continue;
+    card.button.hidden = false;
+    updateReview(card);
+    card.button.addEventListener('click', () => {
+      if (review.has(card.id)) review.delete(card.id);
+      else review.add(card.id);
+      if (canSave) {
+        try { localStorage.setItem(storageKey, JSON.stringify([...review])); }
+        catch {}
+      }
+      updateReview(card);
+      applyFilters();
+      if (card.element.hidden) reviewOnly.focus();
+    });
+  }
+
+  function clearFilters() {
+    query.value = '';
+    chapter.value = '';
+    examOnly.checked = false;
+    reviewOnly.checked = false;
+    applyFilters();
+  }
+
+  query.addEventListener('input', applyFilters);
+  for (const control of [chapter, examOnly, reviewOnly]) control.addEventListener('change', applyFilters);
+  document.getElementById('collapse').addEventListener('click', () => {
+    for (const card of cards) card.element.open = false;
+  });
+  document.getElementById('reset').addEventListener('click', () => {
+    clearFilters();
+    query.focus();
+  });
+  for (const link of document.querySelectorAll('.flow a')) {
+    link.addEventListener('click', () => {
+      if (document.getElementById(link.hash.slice(1)).hidden) clearFilters();
+    });
+  }
+  reviewControls.title = canSave ? '在同一瀏覽器保留標記' : '標記會保留到此頁關閉為止';
+  applyFilters();
+  document.getElementById('tools').hidden = false;
+})();
+</script>
+</body>
+</html>
